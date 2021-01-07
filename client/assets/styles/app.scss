@@ -1,0 +1,19 @@
+@import '_variables.scss';
+
+html {
+}
+
+body {
+  background-color: $bg-white;
+  font-family: $font-family-verdana;
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+h1 {
+  color: $font-color;
+}
+
+#mismatchedPassword {
+  color: red;
+}
