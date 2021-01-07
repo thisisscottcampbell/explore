@@ -149,7 +149,7 @@ const NewTripDrawer = (props) => {
                 </Text>
                 <Stack m={2}>
                   <GooglePlacesAutocomplete
-                    apiKey="AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8"
+                    apiKey="AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo"
                     onPlaceSelected={(data, details = null) => {
                       console.log(data, details);
                     }}
