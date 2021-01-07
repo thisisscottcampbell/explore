@@ -47,7 +47,7 @@ app.use('/api/activity', routeActivity);
  */
 app.get('/imagefetch/:url', (req, res) => {
   fetch(
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.url}&fields=photos&key=AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8`
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.url}&fields=photos&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
   )
     .then((response) => response.json())
     .then((body) => res.json(body));

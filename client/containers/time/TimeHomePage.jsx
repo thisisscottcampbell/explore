@@ -23,7 +23,7 @@ class TimeHomePage extends Component {
         let photos = [];
         for (let i = 0; i < results.length; i++) {
           photos.push(
-            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=${results[i].photo_reference}&key=AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8`
+            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=${results[i].photo_reference}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
           );
         }
 
