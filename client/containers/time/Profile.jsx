@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 
-const Profile = () => {
+const Profile = ({allTrips}) => {
   return <div>Test</div>;
 };
 

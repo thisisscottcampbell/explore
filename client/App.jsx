@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
 import HomePage from './containers/HomePage';
-import Profile from './constainers/time/Profile';
+import Profile from './containers/time/Profile';
 import TimeHomePage from './containers/time/TimeHomePage';
 import PrivateRoute from './privateRoute';
 import NotFound from './containers/404';
@@ -114,7 +114,11 @@ class App extends Component {
             handleFetchYelp={this.handleFetchYelp}
             handleAddedActivity={this.handleAddedActivity}
           />
-          <PrivateRoute path='/time/profile/:userid' component={Profile} />
+          <PrivateRoute
+            path='/time/profile/:userid'
+            component={Profile}
+            allTrips={this.state.trips}
+          />
           {/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
           <PrivateRoute path='*' component={NotFound} />
         </Switch>
