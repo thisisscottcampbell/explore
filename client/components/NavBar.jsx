@@ -54,7 +54,7 @@ export default function NavBar() {
   return (
     <>
       <Box border='1px' borderColor='teal.100' background='teal.50'>
-        <Grid templateColumns='repeat(3, 1fr)'>
+        <Grid templateColumns='repeat(2, 1fr)'>
           <GridItem colSpan={2} m={2}>
             <Link to={{ pathname: '/time/home' }}>
               <Button colorScheme='teal' variant='outline'>
@@ -65,6 +65,24 @@ export default function NavBar() {
               </Button>
             </Link>
           </GridItem>
+          <GridItem>
+                <Text align='center' m={5} fontSize='sm' fontWeight={600}>
+                  <Button
+                    m={2}
+                    // fontSize={{ base: '15px', md: '18px', lg: '20px' }}
+                    // align="right"
+                    iconSpacing={0}
+                    colorScheme='red'
+                    variant='solid'
+                    // borderRadius="full"
+                    boxShadow='base'
+                    // verticalAlign="right"
+                    onClick={goToProfile}
+                  >
+                    Profile
+                  </Button>
+                </Text>
+              </GridItem>
           <GridItem>
             {/* <Menu>
               <MenuButton
@@ -92,24 +110,7 @@ export default function NavBar() {
                   Logged in as {auth.user.userName}
                 </Text>
               </GridItem>
-              <GridItem>
-                <Text align='center' m={5} fontSize='sm' fontWeight={600}>
-                  <Button
-                    m={2}
-                    // fontSize={{ base: '15px', md: '18px', lg: '20px' }}
-                    // align="right"
-                    iconSpacing={0}
-                    colorScheme='red'
-                    variant='solid'
-                    // borderRadius="full"
-                    boxShadow='base'
-                    // verticalAlign="right"
-                    onClick={goToProfile}
-                  >
-                    Profile
-                  </Button>
-                </Text>
-              </GridItem>
+              
               <GridItem>
                 <Button
                   m={2}

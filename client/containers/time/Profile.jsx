@@ -1,9 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
+import ProfileHeader from '../../components/profile/ProfileHeader';
 
-const Profile = ({allTrips}) => {
-  return <div>Test</div>;
+import {
+  Box,
+  Button,
+  Text,
+  Image,
+  Grid,
+  GridItem,
+  Link,
+  Badge,
+  Center,
+  Flex,
+} from "@chakra-ui/react";
+
+const Profile = ({ allTrips }) => {
+  return (
+    <>
+      <NavBar />
+      <Box>
+        <ProfileHeader />
+      </Box>
+      <Footer />
+    </>
+  );
 };
-
 export default Profile;
