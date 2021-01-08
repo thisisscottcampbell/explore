@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import ProfileHeader from '../../components/profile/ProfileHeader';
@@ -17,16 +17,21 @@ import {
 } from '@chakra-ui/react';
 
 const trips = {
-  'Inspiration': ["1"],
-  'Upcoming': ["2"],
-  'Past': ["3"]
-}
+  Inspiration: ['1'],
+  Upcoming: ['2'],
+  Past: ['3'],
+};
 
-const Profile = ({ allTrips }) => {
-
+const Profile = ({ allTrips, handleFetchState }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
-  console.log('curr tab', currentTab);
+  useEffect(() => {
+    handleFetchState();    
+  },[])
+
+   
+
+  console.log('all trips FROM PROFILE PAGE', allTrips);
 
   const menuItems = Object.keys(trips);
 
@@ -34,17 +39,17 @@ const Profile = ({ allTrips }) => {
     <>
       <NavBar />
       <Box>
-        <ProfileHeader currentTab={currentTab} setCurrentTab={setCurrentTab} menuItems={menuItems}/>
+        <ProfileHeader
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          menuItems={menuItems}
+        />
         <>
-        {
-          menuItems.map((el, index) => {
-            const style = {display: index === currentTab ? 'block': 'none'}
-            return (
-          
-              <p style={style}>{el}</p>
-            )
-          })
-        }</>
+          {menuItems.map((el, index) => {
+            const style = { display: index === currentTab ? 'block' : 'none' };
+            return <p style={style}>{el}</p>;
+          })}
+        </>
       </Box>
       <Footer />
     </>

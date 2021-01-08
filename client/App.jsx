@@ -91,6 +91,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div id='app' className='main-container'>
         <Switch>
@@ -118,6 +119,7 @@ class App extends Component {
             path='/time/profile/:userid'
             component={Profile}
             allTrips={this.state.trips}
+            handleFetchState={this.handleFetchState}
           />
           {/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
           <PrivateRoute path='*' component={NotFound} />
