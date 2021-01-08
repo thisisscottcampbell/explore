@@ -20,7 +20,7 @@ const center = {
 
 export default function MapComponent(props) {
 	// console.log('props in MapComponent: ', props);
-
+	console.log('LAT AND LNG!!!', props.lat, props.lng);
 	// const {
 	//     id,
 	//     image_url,

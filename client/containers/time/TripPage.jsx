@@ -23,6 +23,7 @@ import SavedActivities from '../../components/SavedActivities';
 import MapComponent from '../../components/MapComponent';
 
 class TripPage extends Component {
+	//should just be able to simply declare state = {...}
 	constructor(props) {
 		super(props);
 
@@ -31,6 +32,8 @@ class TripPage extends Component {
 				activities: [],
 			},
 			tripId: props.location.state.param,
+			lat: null,
+			lng: null,
 		};
 		this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
 		this.addActivityHandler = this.addActivityHandler.bind(this);
@@ -58,7 +61,19 @@ class TripPage extends Component {
 
 				this.setState({ trip: newTrip });
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => console.log('i am tripId error', err));
+
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.props.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
+		)
+			.then((result) => result.json())
+			.then((result) => {
+				const lat = result.results[0].geometry.location.lat;
+				const lng = result.results[0].geometry.location.lng;
+				this.setState({ lat: lat });
+				this.setState({ lng: lng });
+			})
+			.catch((err) => console.log('i am lat/lng error', err));
 	}
 
 	handleSearchedActivities = (location, category) => {
@@ -173,10 +188,16 @@ class TripPage extends Component {
 						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
 							Map Component
 						</Heading>
-						{this.state.trip.activities.length > 0 && (
-							//PASSS LAT AND LNG TO MAPCOMPONENT
-							<MapComponent trip={this.state.trip} />
-						)}
+						{this.state.trip.activities.length > 0 &&
+							this.state.lng &&
+							this.state.lat && (
+								//PASSS LAT AND LNG TO MAPCOMPONENT
+								<MapComponent
+									trip={this.state.trip}
+									lat={this.state.lat}
+									lng={this.state.lng}
+								/>
+							)}
 					</GridItem>
 					<GridItem colSpan={3}>
 						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
