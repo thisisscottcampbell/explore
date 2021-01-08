@@ -52,6 +52,7 @@ tripController.createTrip = async (req, res, next) => {
 
     if (trip.rowCount) {
       res.locals.trip = trip.rows[0];
+      console.log(res.locals.trip)
       next();
     }
   } catch (error) {

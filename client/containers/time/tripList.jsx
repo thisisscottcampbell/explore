@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useAuth } from '../../useAuth';
+
 import {
   createStandaloneToast,
   useDisclosure,
@@ -26,6 +28,9 @@ import {
 import TripPlanned from '../../components/tripComponent';
 
 const TripListContainer = ({ trips, deleteTripHandler, message }) => {
+  const auth = useAuth();
+  console.log(auth.user)
+  const userId = auth.user.Id;
   const toast = createStandaloneToast();
   // if(!message) {
   //   toast({
@@ -64,12 +69,13 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
               tripEndFrontEnd,
               place_id,
               datesKnown,
+              creator_id,
             }) => (
               <>
                 <Grid key={`trip_grid_${id}`}>
                   <GridItem>
                     <Text textAlign="center" color="gray.800" fontSize="2xl">
-                      {tripName}
+                      {tripName} Created By: { creator_id } Logged In As: {userId} 
                     </Text>
                   </GridItem>
                   <GridItem>
@@ -81,6 +87,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
                         tripEndFrontEnd,
                         place_id,
                         datesKnown,
+                        creator_id,
                       }}
                     />
                   </GridItem>
@@ -94,7 +101,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
                         }}
                       >
                         <Button type="button" m={2} colorScheme="blue">
-                          Explore {location}
+                          Explore {location} 
                         </Button>
                       </Link>
                       {/* </Button>  */}

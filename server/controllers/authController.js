@@ -9,7 +9,7 @@ authController.authenticate = (req, res, next) => {
         log: `authController.authenticate: ${err}`,
         status: 401,
         message: {
-          err: 'Unathorized',
+          err: 'Unauthorized',
         },
       });
     }
@@ -28,7 +28,7 @@ authController.authenticate = (req, res, next) => {
           log: `authController.authenticate: ${err}`,
           status: 401,
           message: {
-            err: 'Unathorized',
+            err: 'Unauthorized',
           },
         });
       }

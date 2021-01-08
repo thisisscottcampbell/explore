@@ -16,10 +16,10 @@ import {
 import NavBar from "../../components/NavBar";
 import TripPageIntroText from "../../components/tripPageIntroText";
 import Footer from "../../components/Footer";
-// import Activity from '../../components/activityComponent';
 import ActivitiesList from "./Activities/ActivityList";
 import ActivitySearch from "../../components/ActivitySearch";
 import SavedActivities from "../../components/SavedActivities";
+
 class TripPage extends Component {
   constructor(props) {
     super(props);
@@ -30,14 +30,9 @@ class TripPage extends Component {
       },
       tripId: props.location.state.param,
     };
-    this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
-    this.addActivityHandler = this.addActivityHandler.bind(this);
-    this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
   }
 
   componentDidMount() {
-    // const { tripId } = this.props.match.params
-    // console.log('Get url params', tripId);
 
     fetch(`/api/trips/${this.state.tripId}`)
       .then((result) => result.json())
@@ -52,7 +47,7 @@ class TripPage extends Component {
         newTrip.datesKnown = result.trip.dates_known;
         newTrip.id = result.trip.id;
         newTrip.activities = result.activities;
-        newTrip.creator_id = result.trip.member_id;
+        newTrip.member_id = result.trip.member_id;
 
         this.setState({ trip: newTrip });
       })
@@ -128,37 +123,10 @@ class TripPage extends Component {
         activity.imageUrl = data.activity.image_url;
         trip.activities.push(data.activity);
         this.setState({ trip });
-        console.log(data.activity);
-
-        // const trip = [...this.state.trip];
-        // trip.activities.push(data.activity);
-        // this.props.handleNewTrip(trips);
       })
       .catch((error) => console.log(error));
   };
-  deleteActivityHandler = (event, id) => {
-    fetch(`/api/activity/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) return res.json();
-        return res.json().then((data) => {
-          throw data;
-        });
-      })
-      .then((data) => {
-        const activities = this.state.trip.activities.filter(
-          (el) => el.id !== id
-        );
-        this.setState({ trip: { ...this.state.trip, activities } });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+
   render() {
     return (
       <>
@@ -174,29 +142,13 @@ class TripPage extends Component {
             <Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
               {this.state.trip.activities.map((savedActivity) => (
                 <SavedActivities
-                  deleteActivityHandler={this.deleteActivityHandler}
                   activity={savedActivity}
                 />
               ))}
             </Grid>
           </GridItem>
-          <GridItem colSpan={3} m={30} padding={10} bg="gray.100">
-            <ActivitySearch
-              trip={this.state.trip}
-              handleSearchedActivities={this.handleSearchedActivities}
-            />
-          </GridItem>
-          <GridItem colSpan={3}>
-            {this.state.trip.searchedActivities && (
-              <ActivitiesList
-                addActivityHandler={this.addActivityHandler}
-                trip={this.state.trip}
-              />
-            )}
-          </GridItem>
         </Grid>
         <Footer />
-        {/* <Button onClick={this.handleShowState}>Show State</Button> */}
       </>
     );
   }

@@ -9,6 +9,7 @@ import PrivateRoute from './privateRoute';
 import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
 import TripPage from './containers/time/TripPage';
+import TripPageNonEdit from './containers/time/TripPageNonEdit';
 import ActivityList from './containers/time/Activities/ActivityList';
 
 class App extends Component { 
@@ -16,7 +17,7 @@ class App extends Component {
     super(props);
     this.state = {
       trips : [], 
-      message : '',
+      message: '',
     }
   }
 
@@ -52,6 +53,7 @@ t
         newTrip.locationphotos = trip.locationphotos
         newTrip.datesKnown = trip.dates_known
         newTrip.id = trip.id
+        newTrip.creator_id = trip.member_id
         emptyTrip.push(newTrip);
       });
       this.handleStateUpdate(emptyTrip);
@@ -89,7 +91,6 @@ t
   }
 
 
-
   render() {
   return(
   <div id="app" className="main-container">
@@ -104,7 +105,7 @@ t
         handleDelete = {this.handleDelete}
         handleFetchState = {this.handleFetchState} />
       {/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
-      <PrivateRoute path="/time/trip/:tripId" component={TripPage}  
+      <PrivateRoute path="/time/trip/:tripId" component={TripPageNonEdit}  
         handleFetchYelp = {this.handleFetchYelp}
         handleAddedActivity = {this.handleAddedActivity}
       />
