@@ -20,6 +20,8 @@ import Footer from "../../components/Footer";
 import ActivitiesList from "./Activities/ActivityList";
 import ActivitySearch from "../../components/ActivitySearch";
 import SavedActivities from "../../components/SavedActivities";
+import MapComponent from "../../components/MapComponent";
+
 class TripPage extends Component {
   constructor(props) {
     super(props);
@@ -168,7 +170,13 @@ class TripPage extends Component {
           </GridItem>
           <GridItem colSpan={3}>
             <Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
-              Saved Activities
+              Map Component
+            </Heading>
+            {this.state.trip.activities.length > 0 &&<MapComponent trip={this.state.trip} />}
+          </GridItem>
+          <GridItem colSpan={3}>
+            <Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
+              Saved Activity
             </Heading>
             <Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
               {this.state.trip.activities.map((savedActivity) => (

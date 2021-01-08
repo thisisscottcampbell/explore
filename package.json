@@ -27,6 +27,8 @@
     "@chakra-ui/react": "^1.0.3",
     "@emotion/react": "^11.1.2",
     "@emotion/styled": "^11.0.0",
+    "@googlemaps/js-api-loader": "^1.11.1",
+    "@react-google-maps/api": "^2.1.0",
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
