@@ -13,11 +13,6 @@ const mapContainerStyle = {
 	height: '100vh',
 };
 
-const center = {
-	lat: 43.653225,
-	lng: -79.383186,
-};
-
 export default function MapComponent(props) {
 	// console.log('props in MapComponent: ', props);
 	console.log('LAT AND LNG!!!', props.lat, props.lng);
@@ -36,7 +31,10 @@ export default function MapComponent(props) {
 	// console.log('activities: ', props.trip.activities);
 	// console.log('latitude: ', props.trip.activities[0].latitude);
 	// console.log('longitude: ', props.trip.activities[0].longitude);
-
+	const center = {
+		lat: props.lat,
+		lng: props.lng,
+	};
 	const { isLoaded, loadError } = useLoadScript({
 		googleMapsApiKey: 'AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo',
 		libraries,
