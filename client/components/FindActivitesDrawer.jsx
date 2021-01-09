@@ -1,5 +1,6 @@
 import React from 'react';
 import ActivitySearch from './ActivitySearch';
+import ActivityList from '../containers/time/Activities/ActivityList';
 import {
 	useDisclosure,
 	Drawer,
@@ -22,7 +23,11 @@ import {
 } from '@chakra-ui/react';
 import { RiAddCircleFill } from 'react-icons/ri';
 
-const FindActivitiesDrawer = ({ trip, handleSearchedActivities }) => {
+const FindActivitiesDrawer = ({
+	trip,
+	handleSearchedActivities,
+	addActivityHandler,
+}) => {
 	//[inputOrSelect, setSearch] = [];
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef();
@@ -63,6 +68,12 @@ const FindActivitiesDrawer = ({ trip, handleSearchedActivities }) => {
 									handleSearchedActivities={handleSearchedActivities}
 								/>
 							</FormControl>
+							<GridItem colSpan={3}>
+								<ActivityList
+									addActivityHandler={addActivityHandler}
+									trip={trip}
+								/>
+							</GridItem>
 						</DrawerBody>
 					</DrawerContent>
 				</DrawerOverlay>

@@ -26,7 +26,7 @@ import NavBar from '../../components/NavBar';
 import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 // import Activity from '../../components/activityComponent';
-import ActivitiesList from './Activities/ActivityList';
+//import ActivityList from './Activities/ActivityList';
 import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 // import ActivitySearch from '../../components/ActivitySearch';
 import SavedActivities from '../../components/SavedActivities';
@@ -197,13 +197,10 @@ class TripPage extends Component {
 					<GridItem colSpan={3}>
 						<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
 							<FindActivitesDrawer
+								addActivityHandler={this.addActivityHandler}
 								handleSearchedActivities={this.handleSearchedActivities}
 								trip={this.state.trip}
 							/>
-							{/* <ActivitySearch
-							trip={this.state.trip}
-							handleSearchedActivities={this.handleSearchedActivities}
-						/> */}
 						</GridItem>
 						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
 							Map Component
@@ -228,14 +225,6 @@ class TripPage extends Component {
 								/>
 							))}
 						</Grid>
-					</GridItem>
-					<GridItem colSpan={3}>
-						{this.state.trip.searchedActivities && (
-							<ActivitiesList
-								addActivityHandler={this.addActivityHandler}
-								trip={this.state.trip}
-							/>
-						)}
 					</GridItem>
 				</Grid>
 				<Footer />
