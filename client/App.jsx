@@ -8,7 +8,7 @@ import TimeHomePage from './containers/time/TimeHomePage';
 import PrivateRoute from './privateRoute';
 import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
-import { useAuth } from './useAuth';
+
 import TripPage from './containers/time/TripPage';
 import TripPageNonEdit from './containers/time/TripPageNonEdit';
 import ActivityList from './containers/time/Activities/ActivityList';
@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trips : [], 
+      trips: [], 
       message: '',
     }
   }
@@ -108,7 +108,7 @@ t
         handleDelete = {this.handleDelete}
         handleFetchState = {this.handleFetchState} />
       {/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
-      <PrivateRoute path="/time/trip/:creator_id/:tripId"  exact component={TripPage}  
+      <PrivateRoute path="/time/trip/:creator_id/:tripId"  component={TripPage}  
         handleFetchYelp = {this.handleFetchYelp}
         handleAddedActivity = {this.handleAddedActivity}
       />

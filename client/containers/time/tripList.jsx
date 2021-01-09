@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../useAuth';
 import {
   createStandaloneToast,
   useDisclosure,
@@ -26,9 +25,6 @@ import {
 import TripPlanned from '../../components/tripComponent';
 
 const TripListContainer = ({ trips, deleteTripHandler, message }) => {
-  const auth = useAuth();
-  console.log(auth.user)
-  const userId = auth.user.Id;
   const toast = createStandaloneToast();
 
   return (
