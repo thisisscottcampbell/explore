@@ -1,15 +1,24 @@
 import React, { useState, useEffect, Component } from 'react';
 
 import {
+	useDisclosure,
+	Drawer,
+	DrawerBody,
+	DrawerHeader,
+	DrawerOverlay,
+	DrawerContent,
+	DrawerCloseButton,
+	Heading,
 	Flex,
 	Button,
+	FormControl,
+	Stack,
+	Text,
 	Box,
 	Grid,
 	GridItem,
-	VStack,
-	StackDivider,
-	Text,
-	Heading,
+	Select,
+	Input,
 } from '@chakra-ui/react';
 
 // import "@babel/polyfill";
@@ -18,7 +27,8 @@ import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 // import Activity from '../../components/activityComponent';
 import ActivitiesList from './Activities/ActivityList';
-import ActivitySearch from '../../components/ActivitySearch';
+import SearchDrawer from '../../components/SearchDrawer';
+// import ActivitySearch from '../../components/ActivitySearch';
 import SavedActivities from '../../components/SavedActivities';
 import Map from '../../components/Map';
 
@@ -185,6 +195,16 @@ class TripPage extends Component {
 						<TripPageIntroText trip={this.state.trip} />
 					</GridItem>
 					<GridItem colSpan={3}>
+						<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
+							<SearchDrawer
+								handleSearchedActivities={this.handleSearchedActivities}
+								trip={this.state.trip}
+							/>
+							{/* <ActivitySearch
+							trip={this.state.trip}
+							handleSearchedActivities={this.handleSearchedActivities}
+						/> */}
+						</GridItem>
 						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
 							Map Component
 						</Heading>
@@ -208,12 +228,6 @@ class TripPage extends Component {
 								/>
 							))}
 						</Grid>
-					</GridItem>
-					<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
-						<ActivitySearch
-							trip={this.state.trip}
-							handleSearchedActivities={this.handleSearchedActivities}
-						/>
 					</GridItem>
 					<GridItem colSpan={3}>
 						{this.state.trip.searchedActivities && (
