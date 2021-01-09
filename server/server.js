@@ -53,8 +53,6 @@ app.get('/imagefetch/:url', (req, res) => {
     .then((body) => res.json(body));
 });
 
-app.use('/api/activity', routeActivity);
-
 /**
  * Production app at localhost:3000.
  * serve all files from dist folder.
@@ -88,7 +86,7 @@ app.use((err, req, res, next) => {
   };
 
   const errObj = Object.assign(defaultError, err);
-  console.log('SEREVER ERROR:', errObj.log);
+  console.log('SERVER ERROR:', errObj.log);
   return res.status(errObj.status).json(errObj.message);
 });
 

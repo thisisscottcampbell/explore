@@ -8,6 +8,7 @@ import TimeHomePage from './containers/time/TimeHomePage';
 import PrivateRoute from './privateRoute';
 import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
+
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
 
@@ -15,8 +16,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trips : [], 
-      message : '',
+      trips: [], 
+      message: '',
     }
   }
 
@@ -42,19 +43,22 @@ t
     .then((result) => {
       const {trips} = result;
       const emptyTrip =[];
-      trips.forEach(trip => {
-        const newTrip = {}
-        newTrip.location = trip.destination
-        newTrip.tripName = trip.title
-        newTrip.place_id = trip.place_id
-        newTrip.tripStartFrontEnd = trip.start_date
-        newTrip.tripEndFrontEnd = trip.end_date
-        newTrip.locationphotos = trip.locationphotos
-        newTrip.datesKnown = trip.dates_known
-        newTrip.id = trip.id
-        emptyTrip.push(newTrip);
-      });
-      this.handleStateUpdate(emptyTrip);
+      if(trips.length !== 0) {
+        trips.forEach(trip => {
+          const newTrip = {}
+          newTrip.location = trip.destination
+          newTrip.tripName = trip.title
+          newTrip.place_id = trip.place_id
+          newTrip.tripStartFrontEnd = trip.start_date
+          newTrip.tripEndFrontEnd = trip.end_date
+          newTrip.locationphotos = trip.locationphotos
+          newTrip.datesKnown = trip.dates_known
+          newTrip.id = trip.id
+          newTrip.creator_id = trip.member_id
+          emptyTrip.push(newTrip);
+        });
+        this.handleStateUpdate(emptyTrip);
+      }
   })
   .catch((error) => {
     console.error('Error:', error);
@@ -89,7 +93,6 @@ t
   }
 
 
-
   render() {
   return(
   <div id="app" className="main-container">
@@ -104,7 +107,7 @@ t
         handleDelete = {this.handleDelete}
         handleFetchState = {this.handleFetchState} />
       {/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
-      <PrivateRoute path="/time/trip/:tripId" component={TripPage}  
+      <PrivateRoute path="/time/trip/:creator_id/:tripId"  component={TripPage}  
         handleFetchYelp = {this.handleFetchYelp}
         handleAddedActivity = {this.handleAddedActivity}
       />
