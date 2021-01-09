@@ -1,3 +1,4 @@
+const { transitionParser } = require('@chakra-ui/react');
 const Pool = require('../model/database.js');
 
 const tripController = {};
@@ -67,17 +68,42 @@ tripController.createTrip = async (req, res, next) => {
 
 tripController.getTrips = async (req, res, next) => {
   const memberId = req.session.passport.user;
+  console.log('req query', req.query);
+  let query = '';
+  if (req.query.type === 'all') {
+    // query = 'SELECT * FROM trip WHERE member_id = $1';
+    query =
+      'SELECT trip.id,title,destination,start_date,end_date,member_id,place_id,dates_known,locationphotos FROM trip where member_id=$1 UNION SELECT trip.id,title,destination,start_date,end_date,member_id,place_id,dates_known,locationphotos FROM trip JOIN member ON member.id=$1 AND trip.id=ANY(saved_trips)';
+  } else {
+    query = 'SELECT * FROM trip WHERE member_id = $1';
+  }
 
   try {
-    const query = 'SELECT * FROM trip WHERE member_id = $1';
     const trips = await Pool.query(query, [memberId]);
 
-    const { rowCount, rows } = trips;
+    const { rows } = trips;
+    // if all
+    if (req.query.type === 'all') {
+      const currentDate = new Date();
 
-    if (rowCount) {
+      res.locals.pastTrips = rows.filter((trip) => {
+        const tripEndDate = new Date(trip.end_date);
+        return tripEndDate < currentDate;
+      });
+      res.locals.savedTrips = rows.filter((trip) => {
+        return trip.member_id !== memberId;
+      });
+      // trips is upcomingTrips
+      res.locals.trips = rows.filter((trip) => {
+        const tripEndDate = new Date(trip.end_date);
+        return tripEndDate >= currentDate;
+      });
+    } else {
       res.locals.trips = rows;
-      next();
     }
+    console.log('PAST TRIPS: ', res.locals.pastTrips);
+    console.log('SAVED TRIPS: ', res.locals.savedTrips);
+    next();
   } catch (error) {
     return next({
       log: `tripController.getTrips: ${error}`,

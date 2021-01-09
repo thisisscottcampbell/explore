@@ -19,7 +19,7 @@ route.get(
   authController.isAuthenticated,
   tripController.getTrips,
   (req, res) => {
-    res.status(200).json({ trips: res.locals.trips });
+    res.status(200).json({ trips: res.locals.trips, savedTrips: res.locals.savedTrips, pastTrips: res.locals.pastTrips });
   }
 );
 

@@ -26,7 +26,7 @@ const Profile = ({ allTrips, handleFetchState }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
-    handleFetchState();    
+    handleFetchState("all");   // 'all' 'upcoming' 'past' 
   },[])
 
    

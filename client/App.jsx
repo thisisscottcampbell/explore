@@ -16,7 +16,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trips: [],
+      trips: [],  // upcoming
+      savedTrips: [],
+      pastTrips: [],
       message: '',
     };
   }
@@ -39,8 +41,9 @@ class App extends Component {
     );
   };
   t;
-  handleFetchState = () => {
-    fetch('/api/trips/')
+  handleFetchState = (whichTrips) => { 
+    // whichTrips: upcoming/past/inspiration/all
+    fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
       .then((response) => response.json())
       .then((result) => {
         const { trips } = result;
@@ -55,9 +58,13 @@ class App extends Component {
           newTrip.locationphotos = trip.locationphotos;
           newTrip.datesKnown = trip.dates_known;
           newTrip.id = trip.id;
+
           emptyTrip.push(newTrip);
         });
-        this.handleStateUpdate(emptyTrip);
+
+        this.setState({ trips: emptyTrip });
+
+        //this.handleStateUpdate(emptyTrip);
       })
       .catch((error) => {
         console.error('Error:', error);
