@@ -29,6 +29,7 @@ class TripPage extends Component {
         activities: [],
       },
       tripId: props.location.state.param,
+      creator_id: props.computedMatch.params.creator_id,
     };
     this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
     this.addActivityHandler = this.addActivityHandler.bind(this);
@@ -38,8 +39,10 @@ class TripPage extends Component {
   componentDidMount() {
     // const { tripId } = this.props.match.params
     // console.log('Get url params', tripId);
+    // console.log(this.state)
+    // console.log(this.props)
 
-    fetch(`/api/trips/${creator_id}/${this.state.tripId}`)
+    fetch(`/api/trips/${this.state.creator_id}/${this.state.tripId}`)
       .then((result) => result.json())
       .then((result) => {
         const newTrip = {};

@@ -68,6 +68,7 @@ tripController.createTrip = async (req, res, next) => {
 
 tripController.getTrips = async (req, res, next) => {
   const memberId = req.session.passport.user;
+  console.log(memberId)
 
   try {
     const query = 'SELECT * FROM trip WHERE member_id = $1';
