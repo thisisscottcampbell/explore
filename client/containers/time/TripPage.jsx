@@ -27,7 +27,7 @@ import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 // import Activity from '../../components/activityComponent';
 import ActivitiesList from './Activities/ActivityList';
-import SearchDrawer from '../../components/SearchDrawer';
+import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 // import ActivitySearch from '../../components/ActivitySearch';
 import SavedActivities from '../../components/SavedActivities';
 import Map from '../../components/Map';
@@ -196,7 +196,7 @@ class TripPage extends Component {
 					</GridItem>
 					<GridItem colSpan={3}>
 						<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
-							<SearchDrawer
+							<FindActivitesDrawer
 								handleSearchedActivities={this.handleSearchedActivities}
 								trip={this.state.trip}
 							/>

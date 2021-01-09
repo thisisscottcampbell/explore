@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import { RiAddCircleFill } from 'react-icons/ri';
 
-const SearchDrawer = ({ trip, handleSearchedActivities }) => {
+const FindActivitiesDrawer = ({ trip, handleSearchedActivities }) => {
 	//[inputOrSelect, setSearch] = [];
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef();
@@ -71,4 +71,4 @@ const SearchDrawer = ({ trip, handleSearchedActivities }) => {
 	);
 };
 
-export default SearchDrawer;
+export default FindActivitiesDrawer;
