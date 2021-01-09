@@ -23,18 +23,18 @@ route.get(
   }
 );
 
-route.get(
-  '/:id',
-  authController.isAuthenticated,
-  tripController.getTrip,
-  activityController.getActivities,
-  (req, res) => {
-    res.status(200).json({ trip: res.locals.trip, activities: res.locals.activities });
-  }
-);
+// route.get(
+//   '/:id',
+//   authController.isAuthenticated,
+//   tripController.getTrip,
+//   activityController.getActivities,
+//   (req, res) => {
+//     res.status(200).json({ trip: res.locals.trip, activities: res.locals.activities });
+//   }
+// );
 
 route.get(
-  ':member_id/:id',
+  '/:member_id/:id',
   authController.isAuthenticated,
   tripController.getTrip,
   activityController.getActivities,

@@ -29,12 +29,14 @@ class TripPage extends Component {
         activities: [],
       },
       tripId: props.location.state.param,
+      creator_id: props.computedMatch.params.creator_id,
     };
   }
 
   componentDidMount() {
-
-    fetch(`/api/trips/${this.state.tripId}`)
+    console.log(this.state)
+    console.log(this.props)
+    fetch(`/api/trips/${this.state.creator_id}/${this.state.tripId}`)
       .then((result) => result.json())
       .then((result) => {
         const newTrip = {};
@@ -48,6 +50,7 @@ class TripPage extends Component {
         newTrip.id = result.trip.id;
         newTrip.activities = result.activities;
         newTrip.member_id = result.trip.member_id;
+        newTrip.session_id = result.trip.sessionId;
 
         this.setState({ trip: newTrip });
       })

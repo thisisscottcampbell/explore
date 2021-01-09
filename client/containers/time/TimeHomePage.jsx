@@ -11,6 +11,8 @@ class TimeHomePage extends Component {
   }
 
   handleNewTrip = (tripName, location, datesKnown, tripStart, tripEnd) => {
+    console.log(location)
+
     fetch("/imagefetch/" + location.value.place_id, {
       method: "GET",
       headers: {

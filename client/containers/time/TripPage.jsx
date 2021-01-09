@@ -39,7 +39,7 @@ class TripPage extends Component {
     // const { tripId } = this.props.match.params
     // console.log('Get url params', tripId);
 
-    fetch(`/api/trips/${this.state.tripId}`)
+    fetch(`/api/trips/${creator_id}/${this.state.tripId}`)
       .then((result) => result.json())
       .then((result) => {
         const newTrip = {};
