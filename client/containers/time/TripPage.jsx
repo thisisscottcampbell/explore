@@ -45,7 +45,6 @@ class TripPage extends Component {
 			lat: null,
 			lng: null,
 		};
-		this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
 		this.addActivityHandler = this.addActivityHandler.bind(this);
 		this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
 	}
@@ -85,39 +84,6 @@ class TripPage extends Component {
 			})
 			.catch((err) => console.log('i am lat/lng error', err));
 	}
-
-	handleSearchedActivities = (location, category) => {
-		fetch('/api/yelp/', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				categories: category,
-				location: location,
-			}),
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-
-				return response.json().then((err) => {
-					throw err;
-				});
-			})
-			.then((result) => {
-				console.log('result', result);
-				let trip = { ...this.state.trip };
-				let newActivites = result.result;
-				trip.searchedActivities = newActivites;
-				this.setState({ trip });
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
-	};
 	addActivityHandler = (
 		event,
 		name,
@@ -198,7 +164,6 @@ class TripPage extends Component {
 						<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
 							<FindActivitesDrawer
 								addActivityHandler={this.addActivityHandler}
-								handleSearchedActivities={this.handleSearchedActivities}
 								trip={this.state.trip}
 							/>
 						</GridItem>

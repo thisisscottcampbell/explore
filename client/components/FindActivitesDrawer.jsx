@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ActivitySearch from './ActivitySearch';
 import ActivityList from '../containers/time/Activities/ActivityList';
 import {
@@ -29,8 +29,43 @@ const FindActivitiesDrawer = ({
 	addActivityHandler,
 }) => {
 	//[inputOrSelect, setSearch] = [];
+
+	console.log('TRIP IN FAD', trip);
+
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef();
+
+	const [searchResults, setSearchResults] = useState([]);
+
+	const findActivities = (location, category) => {
+		fetch('/api/yelp/', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				categories: category,
+				location: location,
+			}),
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+
+				return response.json().then((err) => {
+					throw err;
+				});
+			})
+			.then((result) => {
+				console.log('result', result);
+				setSearchResults([...result.result]);
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	};
 
 	return (
 		<>
@@ -63,16 +98,15 @@ const FindActivitiesDrawer = ({
 							<FormControl>
 								<FormLabel>Know What You're Looking For?</FormLabel>
 								<input />
-								<ActivitySearch
-									trip={trip}
-									handleSearchedActivities={handleSearchedActivities}
-								/>
+								<ActivitySearch trip={trip} findActivities={findActivities} />
 							</FormControl>
 							<GridItem colSpan={3}>
-								<ActivityList
-									addActivityHandler={addActivityHandler}
-									trip={trip}
-								/>
+								{searchResults && (
+									<ActivityList
+										addActivityHandler={addActivityHandler}
+										searchResults={searchResults}
+									/>
+								)}
 							</GridItem>
 						</DrawerBody>
 					</DrawerContent>
