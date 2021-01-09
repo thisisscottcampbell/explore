@@ -38,6 +38,7 @@ class TripPage extends Component {
 		this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
 		this.addActivityHandler = this.addActivityHandler.bind(this);
 		this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
+		this.handleSearchedActivitiesByTerm = this.handleSearchedActivitiesByTerm.bind(this);
 	}
 
 	componentDidMount() {
@@ -108,6 +109,41 @@ class TripPage extends Component {
 				console.error('Error:', error);
 			});
 	};
+
+	handleSearchedActivitiesByTerm = (text) => {
+		fetch('/api/yelp/', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				text: text,
+				lat: this.state.lat,
+				lng: this.state.lng
+			}),
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+
+				return response.json().then((err) => {
+					throw err;
+				});
+			})
+			.then((result) => {
+				console.log('result', result);
+				let trip = { ...this.state.trip };
+				let newActivites = result.result;
+				trip.searchedActivities = newActivites;
+				this.setState({ trip });
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	};
+
 	addActivityHandler = (
 		event,
 		name,
@@ -213,6 +249,7 @@ class TripPage extends Component {
 						<ActivitySearch
 							trip={this.state.trip}
 							handleSearchedActivities={this.handleSearchedActivities}
+							handleSearchedActivitiesByTerm = {this.handleSearchedActivitiesByTerm}
 						/>
 					</GridItem>
 					<GridItem colSpan={3}>

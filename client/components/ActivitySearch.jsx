@@ -6,6 +6,7 @@ const ActivitySearch = (props) => {
   const [searchField, setSearchField] = useState("");
 
   const handleSelectedSearch = (event) => {
+    console.log('handleSelectedSearch value is: ', event.target.value);
     setSearchField(event.target.value);
   };
 
@@ -14,10 +15,43 @@ const ActivitySearch = (props) => {
     props.handleSearchedActivities(props.trip.location, searchField);
   };
 
+  const handleSearchByTerm = (event) => {
+    event.preventDefault();
+    props.handleSearchedActivitiesByTerm(searchField);
+  };
+
   return (
     <>
       <Heading align="center" color="gray.900" fontSize="2xl" mb="8px">
         Search Activities
+      </Heading>
+      
+      <Heading m={2} fontSize="2xl">
+        Search By Term
+      </Heading>
+      <Flex paddingX={40}>
+        <Box flex="2">
+          <Input
+            m={2}
+            placeholder="What are you looking for"
+            value={searchField}
+            onChange={handleSelectedSearch}
+          />
+        </Box>
+        <Box>
+          <Button
+            onClick={handleSearchByTerm}
+            colorScheme="blue"
+            size="lg"
+            marginLeft={2}
+          >
+            Search
+          </Button>
+        </Box>
+      </Flex>
+
+      <Heading m={2} fontSize="2xl">
+          Search By Category
       </Heading>
       <Flex paddingX={40}>
         <Box flex="2">
@@ -47,6 +81,7 @@ const ActivitySearch = (props) => {
           </Button>
         </Box>
       </Flex>
+
     </>
   );
 };
