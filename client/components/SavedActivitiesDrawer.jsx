@@ -21,25 +21,55 @@ import {
 	Select,
 	Input,
 } from '@chakra-ui/react';
+import { RiAddCircleFill } from 'react-icons/ri';
 
 const SavedActivitiesDrawer = ({
 	deleteActivityHandler,
 	currentActivities,
 }) => {
+	const btnRef = React.useRef();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
 		<div>
-			<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
-				My Activities
-			</Heading>
+			<Flex justifyContent="center">
+				<Button
+					ref={btnRef}
+					onClick={onOpen}
+					leftIcon={<RiAddCircleFill />}
+					colorScheme="teal"
+					size="md"
+					style={{ marginBottom: '10px' }}
+				>
+					View My Activities
+				</Button>
+			</Flex>
 
-			<Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
-				{currentActivities.map((activity) => (
-					<SavedActivities
-						deleteActivityHandler={deleteActivityHandler}
-						activity={activity}
-					/>
-				))}
-			</Grid>
+			<Drawer
+				isOpen={isOpen}
+				placement="right"
+				onClose={onClose}
+				finalFocusRef={btnRef}
+				size="md"
+			>
+				<DrawerOverlay>
+					<DrawerContent>
+						<DrawerCloseButton />
+						<DrawerHeader background="teal.50" fontSize="2xl">
+							Your Activities
+						</DrawerHeader>
+						<DrawerBody>
+							<Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
+								{currentActivities.map((activity) => (
+									<SavedActivities
+										deleteActivityHandler={deleteActivityHandler}
+										activity={activity}
+									/>
+								))}
+							</Grid>
+						</DrawerBody>
+					</DrawerContent>
+				</DrawerOverlay>
+			</Drawer>
 		</div>
 	);
 };
