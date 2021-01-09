@@ -15,7 +15,7 @@ const Map = ({ lat, lng, trip }) => {
 				lat={lat}
 				lng={lng}
 				trip={trip}
-			></WrappedMap>
+			/>
 		</div>
 	);
 };

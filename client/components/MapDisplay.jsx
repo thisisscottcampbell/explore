@@ -6,6 +6,7 @@ import {
 	InfoWindow,
 	Marker,
 } from 'react-google-maps';
+import { useControllableState } from '@chakra-ui/react';
 // import mapStyles from './mapStyles';
 
 const MapDisplay = ({ lat, lng, trip }) => {
@@ -13,6 +14,7 @@ const MapDisplay = ({ lat, lng, trip }) => {
 
 	const [selectedActivity, setSelectedActivity] = useState(null);
 	const [activities, setActivities] = useState(trip.activities);
+	const [infoPosition, setInfoPosition] = useState(null);
 	//const [displaySearch, setSearch] = useState(false);
 
 	useEffect(() => {
@@ -31,11 +33,15 @@ const MapDisplay = ({ lat, lng, trip }) => {
 			}}
 			onClick={() => {
 				setSelectedActivity(activity);
+				setInfoPosition({
+					latitude: Number(activity.latitude),
+					longitude: Number(activity.longitude),
+				});
 			}}
 			// icon={{
 			// 	// url: '../assets/images-2.png',
 			// 	scaledSize: new window.google.maps.Size(40, 40),
-			// }}
+			// // }}
 		/>
 	));
 
@@ -48,18 +54,22 @@ const MapDisplay = ({ lat, lng, trip }) => {
 			>
 				{DisplayActivities}
 				{/* {displaySearch} */}
-				{selectedActivity && (
+				{selectedActivity && infoPosition && (
 					<InfoWindow
 						position={{
-							lat: selectedActivity.latitude,
-							lng: selectedActivity.longitude,
+							lat: infoPosition.latitude,
+							lng: infoPosition.longitude,
 						}}
-						onCloseClick={() => setSelectedActivity(null)}
+						onCloseClick={() => {
+							setSelectedActivity(null);
+							setInfoPosition(null);
+						}}
 					>
 						<div>
-							<p>{selectedActivity.rating}</p>
-							<h3>{selectedActivity.title}</h3>
-							<button>Save Park</button>
+							<p>Stars: {selectedActivity.rating}</p>
+							<h3>Name: {selectedActivity.title}</h3>
+							<img src={selectedActivity.image_url} height={100} width={100} />
+							{/* <button>Save Park</button> */}
 						</div>
 					</InfoWindow>
 				)}
