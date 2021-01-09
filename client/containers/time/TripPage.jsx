@@ -191,7 +191,6 @@ class TripPage extends Component {
 						{this.state.trip.activities.length > 0 &&
 							this.state.lng &&
 							this.state.lat && (
-								//PASSS LAT AND LNG TO MAPCOMPONENT
 								<Map
 									trip={this.state.trip}
 									lat={this.state.lat}

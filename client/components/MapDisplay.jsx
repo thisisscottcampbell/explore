@@ -6,33 +6,32 @@ import {
 	InfoWindow,
 	Marker,
 } from 'react-google-maps';
-import parksData from './data/park_list';
-import mapStyles from './mapStyles';
+// import mapStyles from './mapStyles';
 
 const MapDisplay = ({ lat, lng, trip }) => {
-	const [selectedPark, setPark] = useState(null);
+	const [selectedActivity, setSelectedActivity] = useState(null);
 	const [activities, setActivities] = useState(trip.activities);
-	const [displayParks, setDisplay] = useState(false);
+	//const [displayParks, setDisplay] = useState(false);
 
 	useEffect(() => {
 		//make request
-		setParks(parksData);
+		//setParks(parksData);
 	}, []);
 
-	const DisplayParks = savedParks.current.map((park) => (
+	const DisplayActivities = activities.map((activity) => (
 		<Marker
-			name={park.Name}
-			details={park.details}
-			key={park.PARK_ID}
+			title={activity.title}
+			rating={activity.rating}
+			key={activity.id}
 			position={{
-				lat: park.coordinates[1],
-				lng: park.coordinates[0],
+				lat: activity.latitude,
+				lng: activity.longitude,
 			}}
 			onClick={() => {
-				setPark(park);
+				setSelectedActivity(activity);
 			}}
 			icon={{
-				url: '../assets/images-2.png',
+				// url: '../assets/images-2.png',
 				scaledSize: new window.google.maps.Size(40, 40),
 			}}
 		/>
@@ -43,63 +42,52 @@ const MapDisplay = ({ lat, lng, trip }) => {
 			<GoogleMap
 				defaultZoom={10}
 				//the city itself
-				defaultCenter={{ lat: 45.421532, lng: -75.697189 }}
-				defaultOptions={{ styles: mapStyles }}
+				defaultCenter={{ lat: lat, lng: lng }}
+				//defaultOptions={{ styles: mapStyles }}
 			>
-				{displayParks && DisplayParks}
-				{!displayParks &&
-					parksList &&
-					parksList.parks.map((park) => (
-						<Marker
-							name={park.Name}
-							details={park.details}
-							key={park.PARK_ID}
-							position={{
-								lat: park.coordinates[1],
-								lng: park.coordinates[0],
-							}}
-							onClick={() => {
-								setPark(park);
-							}}
-							icon={{
-								url: '../assets/images-2.png',
-								scaledSize: new window.google.maps.Size(40, 40),
-							}}
-						/>
-					))}
-				{selectedPark && (
+				{DisplayActivities}
+				{selectedActivity && (
 					<InfoWindow
 						position={{
-							lat: selectedPark.coordinates[1],
-							lng: selectedPark.coordinates[0],
+							lat: selectedActivity.latitude,
+							lng: selectedActivity.longitude,
 						}}
-						onCloseClick={() => setPark(null)}
+						onCloseClick={() => setSelectedActivity(null)}
 					>
 						<div>
-							<p>{selectedPark.details}</p>
-							<h3>{selectedPark.Name}</h3>
-							<button
-								onClick={() => {
-									savedParks.current.push(selectedPark);
-									console.log(savedParks.current);
-								}}
-							>
-								Save Park
-							</button>
+							<p>{selectedActivity.rating}</p>
+							<h3>{selectedActivity.title}</h3>
+							<button>Save Park</button>
 						</div>
 					</InfoWindow>
 				)}
 			</GoogleMap>
 			<div>
-				{!displayParks && (
+				{/* {!displayParks && (
 					<button onClick={() => setDisplay(true)}>Show Saved Parks</button>
 				)}
 				{displayParks && (
 					<button onClick={() => setDisplay(false)}>Show All Parks</button>
-				)}
+				)} */}
 			</div>
 		</>
 	);
 };
 
 export const WrappedMap = withScriptjs(withGoogleMap(MapDisplay));
+
+// const {
+//     id,
+//     image_url,
+//     title,
+//     url,
+//     latitude,
+//     longitude,
+//     rating,
+//     review_count,
+//     location,
+//     trip_id,
+//   } = props.activity;
+// console.log('activities: ', props.trip.activities);
+// console.log('latitude: ', props.trip.activities[0].latitude);
+// console.log('longitude: ', props.trip.activities[0].longitude);
