@@ -10,7 +10,6 @@ import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
 
 import TripPage from './containers/time/TripPage';
-import TripPageNonEdit from './containers/time/TripPageNonEdit';
 import ActivityList from './containers/time/Activities/ActivityList';
 
 class App extends Component { 
