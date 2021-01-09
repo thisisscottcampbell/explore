@@ -13,7 +13,7 @@ const MapDisplay = ({ lat, lng, trip }) => {
 
 	const [selectedActivity, setSelectedActivity] = useState(null);
 	const [activities, setActivities] = useState(trip.activities);
-	//const [displayParks, setDisplay] = useState(false);
+	//const [displaySearch, setSearch] = useState(false);
 
 	useEffect(() => {
 		//make request
@@ -42,12 +42,12 @@ const MapDisplay = ({ lat, lng, trip }) => {
 	return (
 		<>
 			<GoogleMap
-				defaultZoom={10}
-				//the city itself
+				defaultZoom={11.5}
 				defaultCenter={{ lat: lat, lng: lng }}
 				//defaultOptions={{ styles: mapStyles }}
 			>
 				{DisplayActivities}
+				{/* {displaySearch} */}
 				{selectedActivity && (
 					<InfoWindow
 						position={{
@@ -65,11 +65,11 @@ const MapDisplay = ({ lat, lng, trip }) => {
 				)}
 			</GoogleMap>
 			<div>
-				{/* {!displayParks && (
-					<button onClick={() => setDisplay(true)}>Show Saved Parks</button>
+				{/* {!displaySearch && (
+					<button onClick={() => setDisplay(true)}>Show My Activites</button>
 				)}
-				{displayParks && (
-					<button onClick={() => setDisplay(false)}>Show All Parks</button>
+				{displaySearch && (
+					<button onClick={() => setDisplay(false)}>Show Search Results</button>
 				)} */}
 			</div>
 		</>
@@ -78,7 +78,7 @@ const MapDisplay = ({ lat, lng, trip }) => {
 
 export const WrappedMap = withScriptjs(withGoogleMap(MapDisplay));
 
-// const {
+// props.activty === {
 //     id,
 //     image_url,
 //     title,
@@ -89,7 +89,4 @@ export const WrappedMap = withScriptjs(withGoogleMap(MapDisplay));
 //     review_count,
 //     location,
 //     trip_id,
-//   } = props.activity;
-// console.log('activities: ', props.trip.activities);
-// console.log('latitude: ', props.trip.activities[0].latitude);
-// console.log('longitude: ', props.trip.activities[0].longitude);
+//   }
