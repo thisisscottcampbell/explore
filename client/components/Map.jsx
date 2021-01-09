@@ -1,23 +1,8 @@
 import React from 'react';
 import { WrappedMap } from './MapDisplay';
 
-import {
-	GoogleMap,
-	useLoadScript,
-	Marker,
-	InfoWindow,
-} from '@react-google-maps/api';
-
-// const libraries = ['places'];
-// const mapContainerStyle = {
-// 	width: '100vw',
-// 	height: '100vh',
-// };
-
 const Map = ({ lat, lng, trip }) => {
-	// console.log('props in MapComponent: ', props);
-	console.log('LAT AND LNG!!!', lat, lng, trip);
-
+	//hide this...
 	const googleMapsApiKey = 'AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo';
 
 	return (

@@ -7,7 +7,6 @@ import TripListContainer from './TripList';
 
 class TimeHomePage extends Component {
 	componentDidMount() {
-		console.log(this.props.saveLocation);
 		this.props.handleFetchState();
 	}
 
@@ -47,7 +46,7 @@ class TimeHomePage extends Component {
 				);
 			})
 			.catch((error) => {
-				console.error('Error:', error);
+				console.error('Error: handleNewTrip', error);
 			});
 	};
 
@@ -60,7 +59,6 @@ class TimeHomePage extends Component {
 		photos,
 		datesKnown
 	) => {
-		console.log(location);
 		const newTripForBackEnd = {
 			title: tripName,
 			destination: location.label,
@@ -79,7 +77,6 @@ class TimeHomePage extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log('Success:', data);
 				const trips = [...this.props.trips];
 				const newTrip = {};
 				newTrip.location = data.trip.destination;
@@ -94,7 +91,7 @@ class TimeHomePage extends Component {
 				this.props.handleNewTrip(trips);
 			})
 			.catch((error) => {
-				console.error('Error:', error);
+				console.error('Error: newTripForBackend', error);
 			});
 	};
 
@@ -118,12 +115,11 @@ class TimeHomePage extends Component {
 				this.props.handleDelete(trips, message);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log('Error: deleteTripHandler:', error);
 			});
 	};
 
 	render() {
-		// console.log('this.props.trips',this.props.trips);
 		return (
 			<>
 				<NavBar />

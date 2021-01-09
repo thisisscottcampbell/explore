@@ -9,6 +9,8 @@ import {
 // import mapStyles from './mapStyles';
 
 const MapDisplay = ({ lat, lng, trip }) => {
+	console.log('MapDisplay props:', lat, lng, trip);
+
 	const [selectedActivity, setSelectedActivity] = useState(null);
 	const [activities, setActivities] = useState(trip.activities);
 	//const [displayParks, setDisplay] = useState(false);
@@ -24,16 +26,16 @@ const MapDisplay = ({ lat, lng, trip }) => {
 			rating={activity.rating}
 			key={activity.id}
 			position={{
-				lat: activity.latitude,
-				lng: activity.longitude,
+				lat: Number(activity.latitude),
+				lng: Number(activity.longitude),
 			}}
 			onClick={() => {
 				setSelectedActivity(activity);
 			}}
-			icon={{
-				// url: '../assets/images-2.png',
-				scaledSize: new window.google.maps.Size(40, 40),
-			}}
+			// icon={{
+			// 	// url: '../assets/images-2.png',
+			// 	scaledSize: new window.google.maps.Size(40, 40),
+			// }}
 		/>
 	));
 
