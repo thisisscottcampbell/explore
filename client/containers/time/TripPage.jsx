@@ -188,15 +188,13 @@ class TripPage extends Component {
 						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
 							Map Component
 						</Heading>
-						{this.state.trip.activities.length > 0 &&
-							this.state.lng &&
-							this.state.lat && (
-								<Map
-									trip={this.state.trip}
-									lat={this.state.lat}
-									lng={this.state.lng}
-								/>
-							)}
+						{this.state.lng && this.state.lat && (
+							<Map
+								trip={this.state.trip}
+								lat={this.state.lat}
+								lng={this.state.lng}
+							/>
+						)}
 					</GridItem>
 					<GridItem colSpan={3}>
 						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
