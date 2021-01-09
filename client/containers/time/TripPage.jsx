@@ -20,7 +20,7 @@ import Footer from '../../components/Footer';
 import ActivitiesList from './Activities/ActivityList';
 import ActivitySearch from '../../components/ActivitySearch';
 import SavedActivities from '../../components/SavedActivities';
-import MapComponent from '../../components/MapComponent';
+import Map from '../../components/Map';
 
 class TripPage extends Component {
 	//should just be able to simply declare state = {...}
@@ -192,7 +192,7 @@ class TripPage extends Component {
 							this.state.lng &&
 							this.state.lat && (
 								//PASSS LAT AND LNG TO MAPCOMPONENT
-								<MapComponent
+								<Map
 									trip={this.state.trip}
 									lat={this.state.lat}
 									lng={this.state.lng}
