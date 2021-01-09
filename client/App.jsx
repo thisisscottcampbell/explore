@@ -9,6 +9,7 @@ import TimeHomePage from './containers/time/TimeHomePage';
 import PrivateRoute from './privateRoute';
 import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
+
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
 
@@ -58,6 +59,7 @@ class App extends Component {
           newTrip.locationphotos = trip.locationphotos;
           newTrip.datesKnown = trip.dates_known;
           newTrip.id = trip.id;
+          newTrip.creator_id = trip.member_id;
 
           emptyTrip.push(newTrip);
         });
@@ -117,7 +119,7 @@ class App extends Component {
           />
           {/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
           <PrivateRoute
-            path='/time/trip/:tripId'
+            path="/time/trip/:creator_id/:tripId"
             component={TripPage}
             handleFetchYelp={this.handleFetchYelp}
             handleAddedActivity={this.handleAddedActivity}
@@ -133,6 +135,8 @@ class App extends Component {
         </Switch>
       </div>
     );
+    
+    
   }
 }
 /*render={(props) => 
@@ -142,3 +146,6 @@ class App extends Component {
 />
 }*/
 export default App;
+
+    
+ 

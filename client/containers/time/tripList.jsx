@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import {
   createStandaloneToast,
   useDisclosure,
@@ -27,15 +26,6 @@ import TripPlanned from '../../components/tripComponent';
 
 const TripListContainer = ({ trips, deleteTripHandler, message }) => {
   const toast = createStandaloneToast();
-  // if(!message) {
-  //   toast({
-  //     title: '',
-  //     description: `${message}`,
-  //     status: 'success',
-  //     duration: 9000,
-  //     isClosable: true,
-  //     position: 'top',
-  // })};
 
   return (
     <>
@@ -64,12 +54,13 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
               tripEndFrontEnd,
               place_id,
               datesKnown,
+              creator_id,
             }) => (
               <>
                 <Grid key={`trip_grid_${id}`}>
                   <GridItem>
                     <Text textAlign="center" color="gray.800" fontSize="2xl">
-                      {tripName}
+                      {tripName} Created By: { creator_id }
                     </Text>
                   </GridItem>
                   <GridItem>
@@ -81,6 +72,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
                         tripEndFrontEnd,
                         place_id,
                         datesKnown,
+                        creator_id,
                       }}
                     />
                   </GridItem>
@@ -89,12 +81,12 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
                       {/* <Button m={2} colorScheme="blue" onClick = {()=>console.log('clicked')}> */}
                       <Link
                         to={{
-                          pathname: `/time/trip/${id}`,
+                          pathname: `/time/trip/${creator_id}/${id}`,
                           state: { param: `${id}` },
                         }}
                       >
                         <Button type="button" m={2} colorScheme="blue">
-                          Explore {location}
+                          Explore {location} 
                         </Button>
                       </Link>
                       {/* </Button>  */}

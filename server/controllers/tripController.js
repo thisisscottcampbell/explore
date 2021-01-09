@@ -53,6 +53,7 @@ tripController.createTrip = async (req, res, next) => {
 
     if (trip.rowCount) {
       res.locals.trip = trip.rows[0];
+      console.log(res.locals.trip)
       next();
     }
   } catch (error) {
@@ -205,6 +206,7 @@ tripController.deleteTrip = async (req, res, next) => {
 };
 
 tripController.getTrip = async (req, res, next) => {
+  const sessionId = req.session.passport.user;
   const { id } = req.params;
 
   try {
@@ -215,9 +217,11 @@ tripController.getTrip = async (req, res, next) => {
       rowCount,
       rows: [data],
     } = trip;
-
+    console.log(data)
     // if (rowCount) {
     res.locals.trip = data;
+    res.locals.trip.sessionId = sessionId;
+    console.log(res.locals.trip)
     next();
     // }
   } catch (error) {

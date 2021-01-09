@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 
 const TripPlanned = ({trip, deleteTripHandler}) => {
- const { location, tripStartFrontEnd, tripEndFrontEnd, place_id, datesKnown } = trip;
+  const { location, tripStartFrontEnd, tripEndFrontEnd, place_id, datesKnown, member_id } = trip;
   // const max = props.trips.locationPhotos.length;
   // const randPhoto = Math.floor(Math.random() * max) + 1;
   // console.log(randPhoto);
