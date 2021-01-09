@@ -30,8 +30,6 @@ const FindActivitiesDrawer = ({
 }) => {
 	//[inputOrSelect, setSearch] = [];
 
-	console.log('TRIP IN FAD', trip);
-
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef();
 
@@ -76,6 +74,7 @@ const FindActivitiesDrawer = ({
 					leftIcon={<RiAddCircleFill />}
 					colorScheme="teal"
 					size="md"
+					style={{ marginBottom: '10px' }}
 				>
 					Find Stuff To Do
 				</Button>

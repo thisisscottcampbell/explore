@@ -21,15 +21,11 @@ import {
 	Input,
 } from '@chakra-ui/react';
 
-// import "@babel/polyfill";
 import NavBar from '../../components/NavBar';
 import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
-// import Activity from '../../components/activityComponent';
-//import ActivityList from './Activities/ActivityList';
 import FindActivitesDrawer from '../../components/FindActivitesDrawer';
-// import ActivitySearch from '../../components/ActivitySearch';
-import SavedActivities from '../../components/SavedActivities';
+import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
 import Map from '../../components/Map';
 
 class TripPage extends Component {
@@ -161,15 +157,18 @@ class TripPage extends Component {
 						<TripPageIntroText trip={this.state.trip} />
 					</GridItem>
 					<GridItem colSpan={3}>
-						<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
+						<GridItem colSpan={3} m={30} padding={10}>
 							<FindActivitesDrawer
 								addActivityHandler={this.addActivityHandler}
 								trip={this.state.trip}
 							/>
+							<GridItem colSpan={3}>
+								<SavedActivitiesDrawer
+									deleteActivityHandler={this.deleteActivityHandler}
+									currentActivities={this.state.trip.activities}
+								/>
+							</GridItem>
 						</GridItem>
-						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
-							Map Component
-						</Heading>
 						{this.state.lng && this.state.lat && (
 							<Map
 								trip={this.state.trip}
@@ -177,19 +176,6 @@ class TripPage extends Component {
 								lng={this.state.lng}
 							/>
 						)}
-					</GridItem>
-					<GridItem colSpan={3}>
-						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
-							Saved Activity
-						</Heading>
-						<Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
-							{this.state.trip.activities.map((savedActivity) => (
-								<SavedActivities
-									deleteActivityHandler={this.deleteActivityHandler}
-									activity={savedActivity}
-								/>
-							))}
-						</Grid>
 					</GridItem>
 				</Grid>
 				<Footer />

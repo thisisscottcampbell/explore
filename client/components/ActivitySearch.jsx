@@ -17,12 +17,12 @@ const ActivitySearch = ({ findActivities, trip }) => {
 	return (
 		<>
 			<Heading align="center" color="gray.900" fontSize="2xl" mb="8px">
-				Search Activities
+				Find Activities
 			</Heading>
 			<Flex paddingX={40}>
 				<Box flex="2">
 					<Select
-						placeholder="Search Activities"
+						placeHolder="Search Activities"
 						value={searchField}
 						onChange={handleSelectedSearch}
 						background="white"
