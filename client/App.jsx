@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trips: [],  // upcoming
+      trips: [], // upcoming
       savedTrips: [],
       pastTrips: [],
       message: '',
@@ -42,31 +42,13 @@ class App extends Component {
     );
   };
   t;
-  handleFetchState = (whichTrips) => { 
+  handleFetchState = (whichTrips) => {
     // whichTrips: upcoming/past/inspiration/all
     fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
       .then((response) => response.json())
       .then((result) => {
         const { trips } = result;
-        const emptyTrip = [];
-        trips.forEach((trip) => {
-          const newTrip = {};
-          newTrip.location = trip.destination;
-          newTrip.tripName = trip.title;
-          newTrip.place_id = trip.place_id;
-          newTrip.tripStartFrontEnd = trip.start_date;
-          newTrip.tripEndFrontEnd = trip.end_date;
-          newTrip.locationphotos = trip.locationphotos;
-          newTrip.datesKnown = trip.dates_known;
-          newTrip.id = trip.id;
-          newTrip.creator_id = trip.member_id;
-
-          emptyTrip.push(newTrip);
-        });
-
-        this.setState({ trips: emptyTrip });
-
-        //this.handleStateUpdate(emptyTrip);
+        this.setState({ trips });
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -119,7 +101,7 @@ class App extends Component {
           />
           {/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
           <PrivateRoute
-            path="/time/trip/:creator_id/:tripId"
+            path='/time/trip/:member_id/:tripId'
             component={TripPage}
             handleFetchYelp={this.handleFetchYelp}
             handleAddedActivity={this.handleAddedActivity}
@@ -135,8 +117,6 @@ class App extends Component {
         </Switch>
       </div>
     );
-    
-    
   }
 }
 /*render={(props) => 
@@ -146,6 +126,3 @@ class App extends Component {
 />
 }*/
 export default App;
-
-    
- 

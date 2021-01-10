@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect, Component } from 'react';
 
 import {
   Flex,
@@ -10,16 +10,16 @@ import {
   StackDivider,
   Text,
   Heading,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 // import "@babel/polyfill";
-import NavBar from "../../components/NavBar";
-import TripPageIntroText from "../../components/tripPageIntroText";
-import Footer from "../../components/Footer";
+import NavBar from '../../components/NavBar';
+import TripPageIntroText from '../../components/tripPageIntroText';
+import Footer from '../../components/Footer';
 // import Activity from '../../components/activityComponent';
-import ActivitiesList from "./Activities/ActivityList";
-import ActivitySearch from "../../components/ActivitySearch";
-import SavedActivities from "../../components/SavedActivities";
+import ActivitiesList from './Activities/ActivityList';
+import ActivitySearch from '../../components/ActivitySearch';
+import SavedActivities from '../../components/SavedActivities';
 class TripPage extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +29,7 @@ class TripPage extends Component {
         activities: [],
       },
       tripId: props.location.state.param,
-      creator_id: props.computedMatch.params.creator_id,
+      member_id: props.computedMatch.params.member_id,
     };
     this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
     this.addActivityHandler = this.addActivityHandler.bind(this);
@@ -42,32 +42,22 @@ class TripPage extends Component {
     // console.log(this.state)
     // console.log(this.props)
 
-    fetch(`/api/trips/${this.state.creator_id}/${this.state.tripId}`)
+    fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
       .then((result) => result.json())
       .then((result) => {
-        const newTrip = {};
-        newTrip.location = result.trip.destination;
-        newTrip.tripName = result.trip.title;
-        newTrip.place_id = result.trip.place_id;
-        newTrip.tripStartFrontEnd = result.trip.start_date;
-        newTrip.tripEndFrontEnd = result.trip.end_date;
-        newTrip.locationphotos = result.trip.locationphotos;
-        newTrip.datesKnown = result.trip.dates_known;
-        newTrip.id = result.trip.id;
-        newTrip.activities = result.activities;
-        newTrip.creator_id = result.trip.member_id;
+        const { trip } = result;
 
-        this.setState({ trip: newTrip });
+        this.setState({ trip });
       })
       .catch((err) => console.log(err));
   }
 
   handleSearchedActivities = (location, category) => {
-    fetch("/api/yelp/", {
-      method: "POST",
+    fetch('/api/yelp/', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         categories: category,
@@ -84,14 +74,14 @@ class TripPage extends Component {
         });
       })
       .then((result) => {
-        console.log("result", result);
+        console.log('result', result);
         let trip = { ...this.state.trip };
         let newActivites = result.result;
         trip.searchedActivities = newActivites;
         this.setState({ trip });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   };
   addActivityHandler = (
@@ -108,10 +98,10 @@ class TripPage extends Component {
     event.preventDefault();
 
     fetch(`/api/activity/${this.state.tripId}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
@@ -141,9 +131,9 @@ class TripPage extends Component {
   };
   deleteActivityHandler = (event, id) => {
     fetch(`/api/activity/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((res) => {
@@ -166,15 +156,15 @@ class TripPage extends Component {
     return (
       <>
         <NavBar />
-        <Grid templateColumns="repeat(3, 1fr)">
+        <Grid templateColumns='repeat(3, 1fr)'>
           <GridItem colSpan={3}>
             <TripPageIntroText trip={this.state.trip} />
           </GridItem>
           <GridItem colSpan={3}>
-            <Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
+            <Heading align='center' color='gray.900' mt='1%' fontSize='2xl'>
               Saved Activities
             </Heading>
-            <Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
+            <Grid templateColumns='repeat(4, 1fr)' m={30} padding={2} gap={6}>
               {this.state.trip.activities.map((savedActivity) => (
                 <SavedActivities
                   deleteActivityHandler={this.deleteActivityHandler}
@@ -183,7 +173,7 @@ class TripPage extends Component {
               ))}
             </Grid>
           </GridItem>
-          <GridItem colSpan={3} m={30} padding={10} bg="gray.100">
+          <GridItem colSpan={3} m={30} padding={10} bg='gray.100'>
             <ActivitySearch
               trip={this.state.trip}
               handleSearchedActivities={this.handleSearchedActivities}

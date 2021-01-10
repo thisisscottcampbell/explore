@@ -7,24 +7,24 @@ tripController.createTrip = async (req, res, next) => {
   const {
     title,
     destination,
-    startDate,
-    endDate,
-    placeId,
+    start_date,
+    end_date,
+    place_id,
     locationphotos,
     dates_known,
   } = req.body;
 
-  const memberId = req.session.passport.user;
+  const member_id = req.session.passport.user;
 
   if (
     title === undefined ||
     destination === undefined ||
-    placeId === undefined ||
+    place_id === undefined ||
     locationphotos === undefined ||
     dates_known === undefined ||
     !dates_known ||
     !locationphotos ||
-    !placeId ||
+    !place_id ||
     !title ||
     !destination
   ) {
@@ -43,12 +43,12 @@ tripController.createTrip = async (req, res, next) => {
     const trip = await Pool.query(query, [
       title,
       destination,
-      placeId,
-      startDate,
-      endDate,
+      place_id,
+      start_date,
+      end_date,
       locationphotos,
       dates_known,
-      memberId,
+      member_id,
     ]);
 
     if (trip.rowCount) {
@@ -68,7 +68,7 @@ tripController.createTrip = async (req, res, next) => {
 };
 
 tripController.getTrips = async (req, res, next) => {
-  const memberId = req.session.passport.user;
+  const member_id = req.session.passport.user;
   console.log('req query', req.query);
   let query = '';
   if (req.query.type === 'all') {
@@ -80,7 +80,7 @@ tripController.getTrips = async (req, res, next) => {
   }
 
   try {
-    const trips = await Pool.query(query, [memberId]);
+    const trips = await Pool.query(query, [member_id]);
 
     const { rows } = trips;
     // if all
@@ -92,7 +92,7 @@ tripController.getTrips = async (req, res, next) => {
         return tripEndDate < currentDate;
       });
       res.locals.savedTrips = rows.filter((trip) => {
-        return trip.member_id !== memberId;
+        return trip.member_id !== member_id;
       });
       // trips is upcomingTrips
       res.locals.trips = rows.filter((trip) => {
@@ -118,7 +118,7 @@ tripController.getTrips = async (req, res, next) => {
 
 tripController.updateTrip = async (req, res, next) => {
   const { id } = req.params;
-  const { title, destination, placeId, startDate, endDate } = req.body;
+  const { title, destination, place_id, start_date, end_date } = req.body;
 
   if (!id) {
     return next({
@@ -133,8 +133,8 @@ tripController.updateTrip = async (req, res, next) => {
   if (
     title === undefined ||
     destination === undefined ||
-    placeId === undefined ||
-    !placeId ||
+    place_id === undefined ||
+    !place_id ||
     !title ||
     !destination
   ) {
@@ -152,10 +152,10 @@ tripController.updateTrip = async (req, res, next) => {
       'UPDATE trip SET destination = $1, start_date = $2, end_date = $3, title = $4, place_id = $5 WHERE id = $6 RETURNING *';
     const trip = await Pool.query(query, [
       destination,
-      startDate,
-      endDate,
+      start_date,
+      end_date,
       title,
-      placeId,
+      place_id,
       id,
     ]);
 

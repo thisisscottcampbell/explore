@@ -22,14 +22,16 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-const TripPlanned = ({trip, deleteTripHandler}) => {
-  const { location, tripStartFrontEnd, tripEndFrontEnd, place_id, datesKnown, member_id } = trip;
+const TripPlanned = ({destination, start_date, end_date, place_id, dates_known, member_id, deleteTripHandler}) => {
+  // const { destination, start_date, end_date, place_id, dates_known, member_id } = trip;
   // const max = props.trips.locationPhotos.length;
   // const randPhoto = Math.floor(Math.random() * max) + 1;
   // console.log(randPhoto);
   // const photo = props.trips.locationPhotos[randPhoto];
   // console.log(photo, props.trips.location, props.trips.tripStart, props.trips.tripEnd);
   const photo = null;
+
+  console.log("TRIPPLANNED", "destination", destination, "start_date", start_date)
   return (
     <>
       <Box borderWidth="1px" borderRadius="lg">
@@ -54,15 +56,15 @@ const TripPlanned = ({trip, deleteTripHandler}) => {
             <Text fontSize="xl" color="gray.800">Going to:</Text>
             <Text fontSize="2xl" color="gray.800">{location}</Text>
           </GridItem>
-          {(datesKnown === 'day' || datesKnown === 'month') && (
+          {(dates_known === 'day' || dates_known === 'month') && (
             <>
           <GridItem rowSpan={1} colSpan={1}>
             <Text fontSize="xl" color="gray.800">Starting</Text>
-            <Text fontSize="2xl" color="gray.800">{new Date(tripStartFrontEnd).toLocaleDateString()}</Text>
+            <Text fontSize="2xl" color="gray.800">{new Date(start_date).toLocaleDateString()}</Text>
           </GridItem>
           <GridItem rowSpan={1} colSpan={1}>
             <Text fontSize="xl" color="gray.800">Ending</Text>
-            <Text fontSize="2xl" color="gray.800">{new Date(tripEndFrontEnd).toLocaleDateString()}</Text>
+            <Text fontSize="2xl" color="gray.800">{new Date(end_date).toLocaleDateString()}</Text>
           
           </GridItem>
           </>
