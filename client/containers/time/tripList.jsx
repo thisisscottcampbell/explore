@@ -27,66 +27,65 @@ import TripPlanned from '../../components/tripComponent';
 const TripListContainer = ({ trips, deleteTripHandler, message }) => {
   const toast = createStandaloneToast();
 
+  console.log('TRIPS FROM TRIPLIST: ', trips);
   return (
     <>
       <Box
         p={5}
-        shadow="md"
-        borderWidth="1px"
-        flex="1"
-        borderRadius="md"
+        shadow='md'
+        borderWidth='1px'
+        flex='1'
+        borderRadius='md'
         mt={10}
         mb={10}
         mr={(0, 50, 200)}
         ml={(0, 50, 200)}
       >
         <VStack
-          divider={<StackDivider borderColor="gray.200" />}
+          divider={<StackDivider borderColor='gray.200' />}
           spacing={4}
-          align="stretch"
+          align='stretch'
         >
           {trips.map(
             ({
               id,
-              tripName,
-              location,
-              tripStartFrontEnd,
-              tripEndFrontEnd,
+              title,
+              destination,
+              start_date,
+              end_date,
               place_id,
-              datesKnown,
-              creator_id,
+              dates_known,
+              member_id,
             }) => (
               <>
                 <Grid key={`trip_grid_${id}`}>
                   <GridItem>
-                    <Text textAlign="center" color="gray.800" fontSize="2xl">
-                      {tripName} Created By: { creator_id }
+                    <Text textAlign='center' color='gray.800' fontSize='2xl'>
+                      {title} Created By: {member_id}
                     </Text>
                   </GridItem>
                   <GridItem>
                     <TripPlanned
                       key={`trip_${id}`}
-                      trip={{
-                        location,
-                        tripStartFrontEnd,
-                        tripEndFrontEnd,
-                        place_id,
-                        datesKnown,
-                        creator_id,
-                      }}
+                      destination={destination}
+                      start_date={start_date}
+                      end_date={end_date}
+                      place_id={place_id}
+                      dates_known={dates_known}
+                      member_id={member_id}
                     />
                   </GridItem>
                   <GridItem>
-                    <Flex justify="center">
+                    <Flex justify='center'>
                       {/* <Button m={2} colorScheme="blue" onClick = {()=>console.log('clicked')}> */}
                       <Link
                         to={{
-                          pathname: `/time/trip/${creator_id}/${id}`,
+                          pathname: `/time/trip/${member_id}/${id}`,
                           state: { param: `${id}` },
                         }}
                       >
-                        <Button type="button" m={2} colorScheme="blue">
-                          Explore {location} 
+                        <Button type='button' m={2} colorScheme='blue'>
+                          Explore {destination}
                         </Button>
                       </Link>
                       {/* </Button>  */}
@@ -94,8 +93,8 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
                       <Button
                         m={2}
                         id={id}
-                        type="button"
-                        colorScheme="red"
+                        type='button'
+                        colorScheme='red'
                         onClick={deleteTripHandler}
                       >
                         Delete trip

@@ -81,7 +81,7 @@ const LoginPage = () => {
         title = 'error';
         description = `${error.err}`;
         duration = 9000;
-        n;
+
         setToastMessage({ title, description, duration });
       });
   };
@@ -90,56 +90,56 @@ const LoginPage = () => {
     <LightMode>
       <Box>
         <Box
-          mb="20px"
-          width="100%"
-          overflow="hidden"
-          border="1px"
-          borderColor="cyan.400"
-          background="cyan.300"
+          mb='20px'
+          width='100%'
+          overflow='hidden'
+          border='1px'
+          borderColor='cyan.400'
+          background='cyan.300'
         >
-          <Text textAlign="center" letterSpacing="2px" mb={2}>
+          <Text textAlign='center' letterSpacing='2px' mb={2}>
             Exploration
           </Text>
         </Box>
         <Container
-          border="1px solid silver"
-          mt="40px"
-          mb="40px"
-          maxW="300px"
-          py="40px"
-          rounded="5%"
+          border='1px solid silver'
+          mt='40px'
+          mb='40px'
+          maxW='300px'
+          py='40px'
+          rounded='5%'
         >
-          <Container marginBottom="1px solid silver" justifyContent="column">
+          <Container marginBottom='1px solid silver' justifyContent='column'>
             <form onSubmit={handleUserSubmit}>
               <FormControl isRequired>
                 <FormLabel>Username:</FormLabel>
                 <Input
-                  id="username"
+                  id='username'
                   onChange={handleInputChange}
-                  name="username"
+                  name='username'
                 />
-                <FormHelperText fontSize="12px" id="email-helper-text">
+                <FormHelperText fontSize='12px' id='email-helper-text'>
                   Your username
                 </FormHelperText>
               </FormControl>
-              <FormControl isRequired mt="10px">
+              <FormControl isRequired mt='10px'>
                 <FormLabel>Password:</FormLabel>
                 <Input
-                  id="password"
+                  id='password'
                   onChange={handleInputChange}
-                  type="password"
-                  name="password"
+                  type='password'
+                  name='password'
                 />
-                <FormHelperText fontSize="12px" id="password-helper-text">
+                <FormHelperText fontSize='12px' id='password-helper-text'>
                   The password you used to signup with
                 </FormHelperText>
               </FormControl>
               <Button
-                ml="80px"
+                ml='80px'
                 mt={4}
-                colorScheme="cyan"
-                color="white"
-                type="submit"
+                colorScheme='cyan'
+                color='white'
+                type='submit'
               >
                 Login
               </Button>
@@ -150,10 +150,10 @@ const LoginPage = () => {
             <Button colorScheme="purple"><Text fontSize="12px">Login with Google</Text></Button>
           </Flex> */}
           <Container>
-            <Flex justifyContent="space-between" padding={5}>
-              <Text fontSize="12px">Do not have an account?</Text>
-              <NavLink to="/signup">
-                <Text fontSize="12px" textDecoration="underline">
+            <Flex justifyContent='space-between' padding={5}>
+              <Text fontSize='12px'>Do not have an account?</Text>
+              <NavLink to='/signup'>
+                <Text fontSize='12px' textDecoration='underline'>
                   Sign up
                 </Text>
               </NavLink>
