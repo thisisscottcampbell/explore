@@ -18,6 +18,7 @@ import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
+import Map from '../../components/Map';
 
 class TripPage extends Component {
 	constructor(props) {
@@ -176,13 +177,12 @@ class TripPage extends Component {
 								/>
 							</GridItem>
 						</GridItem>
-						{this.state.lng && this.state.lat && (
-							<Map
-								trip={this.state.trip}
-								lat={this.state.lat}
-								lng={this.state.lng}
-							/>
-						)}
+
+						<Map
+							trip={this.state.trip}
+							lat={this.state.lat}
+							lng={this.state.lng}
+						/>
 					</GridItem>
 				</Grid>
 				<Footer />
