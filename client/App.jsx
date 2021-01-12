@@ -13,6 +13,8 @@ import NotFound from './containers/404';
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
 
+
+
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -38,9 +40,25 @@ class App extends Component {
 		this.setState({ trips: trips });
 	};
 
-	handleStateUpdate = (emptyTrip) => {
-		this.setState({ trips: emptyTrip });
-	};
+  handleDelete = (trips, message) => {
+    this.setState({ trips: trips, message: message }, () =>
+      console.log(this.state)
+    );
+  };
+  t;
+  handleFetchState = (whichTrips) => {
+    // whichTrips: upcoming/past/inspiration/all
+    fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
+      .then((response) => response.json())
+      .then((result) => {
+        const { trips, savedTrips, pastTrips } = result;
+      
+        this.setState({ trips, savedTrips, pastTrips });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
 
 	handleDelete = (trips, message) => {
 		this.setState({ trips: trips, message: message }, () =>
@@ -111,20 +129,22 @@ class App extends Component {
 						component={TripPage}
 						handleFetchYelp={this.handleFetchYelp}
             handleAddedActivity={this.handleAddedActivity}
-            inputLocation={this.state.inputLocation}
-					/>
-					<PrivateRoute
-						path="/time/profile/:userid"
-						component={Profile}
-						allTrips={this.state.trips}
-						handleFetchState={this.handleFetchState}
-					/>
-					{/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
-					<PrivateRoute path="*" component={NotFound} />
-				</Switch>
-			</div>
-		);
-	}
+          />
+          <PrivateRoute
+            path='/time/profile/:userid'
+            component={Profile}
+            trips={this.state.trips}
+            savedTrips={this.state.savedTrips}
+            pastTrips={this.state.pastTrips}
+      
+            handleFetchState={this.handleFetchState}
+          />
+          {/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
+          <PrivateRoute path='*' component={NotFound} />
+        </Switch>
+      </div>
+    );
+  }
 }
 /*render={(props) => 
 <TimeHomePage 

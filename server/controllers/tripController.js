@@ -4,116 +4,116 @@ const Pool = require('../model/database.js');
 const tripController = {};
 
 tripController.createTrip = async (req, res, next) => {
-	const {
-		title,
-		destination,
-		start_date,
-		end_date,
-		place_id,
-		locationphotos,
-		dates_known,
-	} = req.body;
+  const {
+    title,
+    destination,
+    start_date,
+    end_date,
+    place_id,
+    locationphotos,
+    dates_known,
+  } = req.body;
 
-	const member_id = req.session.passport.user;
+  const member_id = req.session.passport.user;
 
-	if (
-		title === undefined ||
-		destination === undefined ||
-		place_id === undefined ||
-		locationphotos === undefined ||
-		dates_known === undefined ||
-		!dates_known ||
-		!locationphotos ||
-		!place_id ||
-		!title ||
-		!destination
-	) {
-		return next({
-			log: 'tripController.createTrip: Request parameters are empty',
-			status: 406,
-			message: {
-				err: 'Request parameters are empty',
-			},
-		});
-	}
+  if (
+    title === undefined ||
+    destination === undefined ||
+    place_id === undefined ||
+    locationphotos === undefined ||
+    dates_known === undefined ||
+    !dates_known ||
+    !locationphotos ||
+    !place_id ||
+    !title ||
+    !destination
+  ) {
+    return next({
+      log: 'tripController.createTrip: Request parameters are empty',
+      status: 406,
+      message: {
+        err: 'Request parameters are empty',
+      },
+    });
+  }
 
-	try {
-		const query =
-			'INSERT INTO trip (title, destination, place_id, start_date, end_date, locationphotos, dates_known, member_id) VALUES ($1, $2 , $3, $4, $5, $6, $7, $8) RETURNING *';
-		const trip = await Pool.query(query, [
-			title,
-			destination,
-			place_id,
-			start_date,
-			end_date,
-			locationphotos,
-			dates_known,
-			member_id,
-		]);
+  try {
+    const query =
+      'INSERT INTO trip (title, destination, place_id, start_date, end_date, locationphotos, dates_known, member_id) VALUES ($1, $2 , $3, $4, $5, $6, $7, $8) RETURNING *';
+    const trip = await Pool.query(query, [
+      title,
+      destination,
+      place_id,
+      start_date,
+      end_date,
+      locationphotos,
+      dates_known,
+      member_id,
+    ]);
 
-		if (trip.rowCount) {
-			res.locals.trip = trip.rows[0];
-			console.log(res.locals.trip);
-			next();
-		}
-	} catch (error) {
-		return next({
-			log: `tripController.createTrip: ${error}`,
-			status: 500,
-			message: {
-				err: 'Internal server error',
-			},
-		});
-	}
+    if (trip.rowCount) {
+      res.locals.trip = trip.rows[0];
+      console.log(res.locals.trip);
+      next();
+    }
+  } catch (error) {
+    return next({
+      log: `tripController.createTrip: ${error}`,
+      status: 500,
+      message: {
+        err: 'Internal server error',
+      },
+    });
+  }
 };
 
 tripController.getTrips = async (req, res, next) => {
-	const member_id = req.session.passport.user;
-	console.log('req query', req.query);
-	let query = '';
-	if (req.query.type === 'all') {
-		// query = 'SELECT * FROM trip WHERE member_id = $1';
-		query =
-			'SELECT trip.id,title,destination,start_date,end_date,member_id,place_id,dates_known,locationphotos FROM trip where member_id=$1 UNION SELECT trip.id,title,destination,start_date,end_date,member_id,place_id,dates_known,locationphotos FROM trip JOIN member ON member.id=$1 AND trip.id=ANY(saved_trips)';
-	} else {
-		query = 'SELECT * FROM trip WHERE member_id = $1';
-	}
+  const member_id = req.session.passport.user;
+  console.log('req query', req.query);
+  let query = '';
+  if (req.query.type === 'all') {
+    // query = 'SELECT * FROM trip WHERE member_id = $1';
+    query =
+      'SELECT trip.id,title,destination,start_date,end_date,member_id,place_id,dates_known,locationphotos FROM trip where member_id=$1 UNION SELECT trip.id,title,destination,start_date,end_date,member_id,place_id,dates_known,locationphotos FROM trip JOIN member ON member.id=$1 AND trip.id=ANY(saved_trips)';
+  } else {
+    query = 'SELECT * FROM trip WHERE member_id = $1';
+  }
 
-	try {
-		const trips = await Pool.query(query, [member_id]);
+  try {
+    const trips = await Pool.query(query, [member_id]);
 
-		const { rows } = trips;
-		// if all
-		if (req.query.type === 'all') {
-			const currentDate = new Date();
+    const { rows } = trips;
+    // 'all' is user's past/upcoming/and saved trips
+    if (req.query.type === 'all') {
+      const currentDate = new Date();
 
-			res.locals.pastTrips = rows.filter((trip) => {
-				const tripEndDate = new Date(trip.end_date);
-				return tripEndDate < currentDate;
-			});
-			res.locals.savedTrips = rows.filter((trip) => {
-				return trip.member_id !== member_id;
-			});
-			// trips is upcomingTrips
-			res.locals.trips = rows.filter((trip) => {
-				const tripEndDate = new Date(trip.end_date);
-				return tripEndDate >= currentDate;
-			});
-		} else {
-			res.locals.trips = rows;
-		}
-		console.log('PAST TRIPS: ', res.locals.pastTrips);
-		console.log('SAVED TRIPS: ', res.locals.savedTrips);
-		next();
-	} catch (error) {
-		return next({
-			log: `tripController.getTrips: ${error}`,
-			status: 500,
-			message: {
-				err: 'Internal server error',
-			},
-		});
-	}
+      res.locals.pastTrips = rows.filter((trip) => {
+        const tripEndDate = new Date(trip.end_date);
+        return tripEndDate < currentDate && trip.member_id === member_id;
+      });
+      res.locals.savedTrips = rows.filter((trip) => {
+        return trip.member_id !== member_id;
+      });
+      // trips is upcomingTrips
+      res.locals.trips = rows.filter((trip) => {
+        const tripEndDate = new Date(trip.end_date);
+        return tripEndDate >= currentDate && trip.member_id === member_id;
+      });
+    } else {
+      res.locals.trips = rows; // user's own trips
+    }
+    // console.log('PAST TRIPS: ', res.locals.pastTrips);
+    console.log('INSPIRATION SAVED TRIPS: ', res.locals.savedTrips);
+    next();
+  } catch (error) {
+    return next({
+      log: `tripController.getTrips: ${error}`,
+      status: 500,
+      message: {
+        err: 'Internal server error',
+      },
+    });
+  }
 };
 
 tripController.updateTrip = async (req, res, next) => {
@@ -206,33 +206,33 @@ tripController.deleteTrip = async (req, res, next) => {
 };
 
 tripController.getTrip = async (req, res, next) => {
-	const sessionId = req.session.passport.user;
-	const { id } = req.params;
+  const sessionId = req.session.passport.user;
+  const { id } = req.params;
 
-	try {
-		const query = 'SELECT * FROM trip WHERE id = $1';
-		const trip = await Pool.query(query, [id]);
+  try {
+    const query = 'SELECT * FROM trip WHERE id = $1';
+    const trip = await Pool.query(query, [id]);
 
-		const {
-			rowCount,
-			rows: [data],
-		} = trip;
-		console.log(data);
-		// if (rowCount) {
-		res.locals.trip = data;
-		res.locals.trip.sessionId = sessionId;
-		console.log(res.locals.trip);
-		next();
-		// }
-	} catch (error) {
-		return next({
-			log: `tripController.getTrip: ${error}`,
-			status: 500,
-			message: {
-				err: 'Internal server error',
-			},
-		});
-	}
-};
+    const {
+      rowCount,
+      rows: [data],
+    } = trip;
+    console.log(data);
+    // if (rowCount) {
+    res.locals.trip = data;
+    res.locals.trip.sessionId = sessionId;
+    console.log(res.locals.trip);
+    next();
+    // }
+  } catch (error) {
+    return next({
+      log: `tripController.getTrip: ${error}`,
+      status: 500,
+      message: {
+        err: 'Internal server error',
+      },
+    });
+  }
+  }
 
 module.exports = tripController;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import ProfileHeader from '../../components/profile/ProfileHeader';
+import ProfileTrip from '../../components/profile/ProfileTrip';
 
 import {
   Box,
@@ -16,25 +17,21 @@ import {
   Flex,
 } from '@chakra-ui/react';
 
-const trips = {
-  Inspiration: ['1'],
-  Upcoming: ['2'],
-  Past: ['3'],
-};
-
-const Profile = ({ allTrips, handleFetchState }) => {
-  const [currentTab, setCurrentTab] = useState(0);
+const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
+  const [currentTab, setCurrentTab] = useState('inspiration');
 
   useEffect(() => {
-    handleFetchState("all");   // 'all' 'upcoming' 'past' 
-  },[])
+    handleFetchState('all'); // 'all' -> server side splits to 'upcoming' and 'past'
+  }, []);
 
-   
+  const profileTabs = {
+    upcoming: trips,
+    inspiration: savedTrips,
+    'past trips': pastTrips,
+  };
 
-  console.log('all trips FROM PROFILE PAGE', allTrips);
-
-  const menuItems = Object.keys(trips);
-
+  // console.log('all trips FROM PROFILE PAGE', trips)
+  console.log('INSPIRATION SAVED TRIPS: ', savedTrips);
   return (
     <>
       <NavBar />
@@ -42,13 +39,22 @@ const Profile = ({ allTrips, handleFetchState }) => {
         <ProfileHeader
           currentTab={currentTab}
           setCurrentTab={setCurrentTab}
-          menuItems={menuItems}
+          menuItems={Object.keys(profileTabs)}
         />
         <>
-          {menuItems.map((el, index) => {
-            const style = { display: index === currentTab ? 'block' : 'none' };
-            return <p style={style}>{el}</p>;
-          })}
+          <Flex>
+            {profileTabs[currentTab] &&
+              profileTabs[currentTab].map((trip) => (
+                <ProfileTrip
+                  title={trip.title}
+                  destination={trip.destination}
+                  start_date={trip.start_date}
+                  end_date={trip.end_date}
+                  locationphotos={trip.locationphotos}
+                  member_name='trip.member_name'
+                />
+              ))}
+          </Flex>
         </>
       </Box>
       <Footer />
