@@ -49,6 +49,7 @@ class TripPage extends Component {
 		fetch(`/api/trips/${this.state.tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
+				console.log('This is the result from TripPage: ', result);
 				const newTrip = {};
 				newTrip.location = result.trip.destination;
 				newTrip.tripName = result.trip.title;

@@ -23,6 +23,7 @@ const ActivitySearch = (props) => {
 
   const handleSearchByTerm = (event) => {
     console.log('handleSearchByTerm event triggered')
+    console.log('The props is: ', props);
     event.preventDefault();
     props.handleSearchedActivitiesByTerm(props.trip.location, searchByTerm);
   };
