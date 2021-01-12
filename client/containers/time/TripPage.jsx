@@ -49,7 +49,8 @@ class TripPage extends Component {
 			.then((result) => {
 				console.log(result);
 				const { trip } = result;
-				trip.activities = [];
+				console.log('Trip Render', trip)
+				trip.activities = result.activities;
 				this.setState({ trip });
 			})
 			.catch((err) => console.log(err));

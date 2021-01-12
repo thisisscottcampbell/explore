@@ -20,9 +20,15 @@ class App extends Component {
 			trips: [], // upcoming
 			savedTrips: [],
 			pastTrips: [],
-			message: '',
+      message: '',
+      inputLocation: '',
 		};
-	}
+  }
+  
+  saveLocation = (inputLocation) => {
+      console.log('INPUT LOCATION:', inputLocation);
+      this.setState({ inputLocation: inputLocation });
+  };
 
 	handleNewTrip = (trips) => {
 		this.setState({ trips: trips });
@@ -96,14 +102,16 @@ class App extends Component {
 						handleNewTrip={this.handleNewTrip}
 						handleStateUpdate={this.handleStateUpdate}
 						handleDelete={this.handleDelete}
-						handleFetchState={this.handleFetchState}
+            handleFetchState={this.handleFetchState}
+            saveLocation={this.saveLocation}
 					/>
 					{/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
 					<PrivateRoute
 						path="/time/trip/:member_id/:tripId"
 						component={TripPage}
 						handleFetchYelp={this.handleFetchYelp}
-						handleAddedActivity={this.handleAddedActivity}
+            handleAddedActivity={this.handleAddedActivity}
+            inputLocation={this.state.inputLocation}
 					/>
 					<PrivateRoute
 						path="/time/profile/:userid"
