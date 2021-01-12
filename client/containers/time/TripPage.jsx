@@ -40,19 +40,20 @@ class TripPage extends Component {
     // const { tripId } = this.props.match.params
     // console.log('Get url params', tripId);
     // console.log(this.state)
-    // console.log(this.props)
+    console.log(this.props)
 
-    fetch(`/api/trips/${this.state.tripId}`)
+    fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
       .then((result) => result.json())
       .then((result) => {
+        console.log(result)
         const { trip } = result;
-
+        trip.activities = [];
         this.setState({ trip });
       })
       .catch((err) => console.log(err));
   }
 
-  handleSearchedActivities = (location, category) => {
+  handleSearchedActivities = (destination, category) => {
     fetch('/api/yelp/', {
       method: 'POST',
       headers: {
@@ -61,10 +62,11 @@ class TripPage extends Component {
       },
       body: JSON.stringify({
         categories: category,
-        location: location,
+        location: destination,
       }),
     })
       .then((response) => {
+        console.log(response)
         if (response.status === 200) {
           return response.json();
         }
@@ -153,7 +155,7 @@ class TripPage extends Component {
       });
   };
   render() {
-    console.log(this.state)
+    console.log(this.state.trip)
     return (
       <>
         <NavBar />

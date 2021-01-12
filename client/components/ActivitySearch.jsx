@@ -11,7 +11,8 @@ const ActivitySearch = (props) => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    props.handleSearchedActivities(props.trip.location, searchField);
+    console.log(props)
+    props.handleSearchedActivities(props.trip.destination, searchField);
   };
 
   return (
