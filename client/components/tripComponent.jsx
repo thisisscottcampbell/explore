@@ -31,7 +31,7 @@ const TripPlanned = ({destination, start_date, end_date, place_id, dates_known, 
   // console.log(photo, props.trips.location, props.trips.tripStart, props.trips.tripEnd);
   const photo = null;
 
-  console.log("TRIPPLANNED", "destination", destination, "start_date", start_date)
+  console.log("TRIPPLANNED", "destination", destination, "start_date", start_date, end_date, place_id, dates_known, member_id)
   return (
     <>
       <Box borderWidth="1px" borderRadius="lg">
@@ -54,7 +54,7 @@ const TripPlanned = ({destination, start_date, end_date, place_id, dates_known, 
           </GridItem>
           <GridItem rowSpan={2} colSpan={1}>
             <Text fontSize="xl" color="gray.800">Going to:</Text>
-            <Text fontSize="2xl" color="gray.800">{location}</Text>
+            <Text fontSize="2xl" color="gray.800">{destination}</Text>
           </GridItem>
           {(dates_known === 'day' || dates_known === 'month') && (
             <>

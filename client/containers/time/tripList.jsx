@@ -85,7 +85,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
                         }}
                       >
                         <Button type='button' m={2} colorScheme='blue'>
-                          Explore {location}
+                          Explore {destination}
                         </Button>
                       </Link>
                       {/* </Button>  */}
