@@ -42,17 +42,19 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
           menuItems={Object.keys(profileTabs)}
         />
         <>
-          {profileTabs[currentTab] &&
-            profileTabs[currentTab].map((trip) => (
-              <ProfileTrip
-                title={trip.title}
-                destination={trip.destination}
-                start_date={trip.start_date}
-                end_date={trip.end_date}
-                locationphotos={trip.locationphotos}
-                member_name='trip.member_name'
-              />
-            ))}
+          <Flex>
+            {profileTabs[currentTab] &&
+              profileTabs[currentTab].map((trip) => (
+                <ProfileTrip
+                  title={trip.title}
+                  destination={trip.destination}
+                  start_date={trip.start_date}
+                  end_date={trip.end_date}
+                  locationphotos={trip.locationphotos}
+                  member_name='trip.member_name'
+                />
+              ))}
+          </Flex>
         </>
       </Box>
       <Footer />

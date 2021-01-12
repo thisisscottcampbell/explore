@@ -26,13 +26,20 @@ const ProfileTrip = ({
   return (
     <>
       <Box>
-        <Grid templateRows='repeat(4, 1fr)'>
+        <Grid>
           <GridItem>{title}</GridItem>
           <GridItem>{destination}</GridItem>
           <GridItem>
-            {start_date} - {end_date}
+            {new Date(start_date).toLocaleDateString()} -{' '}
+            {new Date(end_date).toLocaleDateString()}
           </GridItem>
-          <GridItem>{locationphotos}</GridItem>
+          <Flex align='center'>
+            <Image
+              //   boxSize='200px'
+              src={locationphotos[0]}
+              fallbackSrc='https://www.ishn.com/ext/resources/900x550/airplane-plane-flight-900.jpg?height=635&t=1583412590&width=1200'
+            />
+          </Flex>
         </Grid>
         {/* <Grid templateColumns='repeat(3, 1fr)'>
           {menuItems.map((el, index) => {
