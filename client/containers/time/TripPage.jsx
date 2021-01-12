@@ -28,6 +28,8 @@ class TripPage extends Component {
 				activities: [],
 			},
 			tripId: props.location.state.param,
+			lat: null,
+			lng: null,
 			member_id: props.computedMatch.params.member_id,
 		};
 		// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
