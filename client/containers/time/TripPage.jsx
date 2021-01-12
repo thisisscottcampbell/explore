@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from 'react';
-import Map from '../../components/Map'
+
 import {
 	Flex,
 	Button,
@@ -18,6 +18,7 @@ import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
+import Map from '../../components/Map';
 
 class TripPage extends Component {
 	constructor(props) {
@@ -52,6 +53,18 @@ class TripPage extends Component {
 				this.setState({ trip });
 			})
 			.catch((err) => console.log(err));
+
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.props.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
+		)
+			.then((result) => result.json())
+			.then((result) => {
+				const lat = result.results[0].geometry.location.lat;
+				const lng = result.results[0].geometry.location.lng;
+				this.setState({ lat: lat });
+				this.setState({ lng: lng });
+			})
+			.catch((err) => console.log('i am lat/lng error', err));
 	}
 
 	addActivityHandler = (
@@ -143,7 +156,8 @@ class TripPage extends Component {
 								/>
 							</GridItem>
 						</GridItem>
-						{this.state.lng && this.state.lat && (
+
+						{this.state.lat && this.state.lng && (
 							<Map
 								trip={this.state.trip}
 								lat={this.state.lat}
