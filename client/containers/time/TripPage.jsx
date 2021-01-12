@@ -42,7 +42,7 @@ class TripPage extends Component {
     // console.log(this.state)
     // console.log(this.props)
 
-    fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
+    fetch(`/api/trips/${this.state.tripId}`)
       .then((result) => result.json())
       .then((result) => {
         const { trip } = result;
@@ -153,6 +153,7 @@ class TripPage extends Component {
       });
   };
   render() {
+    console.log(this.state)
     return (
       <>
         <NavBar />
