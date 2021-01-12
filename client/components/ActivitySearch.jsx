@@ -4,10 +4,16 @@ import { Button, Input, Flex, Box, Heading, Select } from "@chakra-ui/react";
 
 const ActivitySearch = (props) => {
   const [searchField, setSearchField] = useState("");
+  const [searchByTerm, setSearchTerm] = useState("");
 
   const handleSelectedSearch = (event) => {
-    console.log('handleSelectedSearch value is: ', event.target.value);
+    console.log('handleSelectedSearchByCategory value is: ', event.target.value);
     setSearchField(event.target.value);
+  };
+
+  const handleSelectedSearchByTerm = (event) => {
+    console.log('handleSelectedSearchByTerm value is: ', event.target.value);
+    setSearchTerm(event.target.value);
   };
 
   const handleSearch = (event) => {
@@ -16,8 +22,9 @@ const ActivitySearch = (props) => {
   };
 
   const handleSearchByTerm = (event) => {
+    console.log('handleSearchByTerm event triggered')
     event.preventDefault();
-    props.handleSearchedActivitiesByTerm(searchField);
+    props.handleSearchedActivitiesByTerm(props.trip.location, searchByTerm);
   };
 
   return (
@@ -34,8 +41,8 @@ const ActivitySearch = (props) => {
           <Input
             m={2}
             placeholder="What are you looking for"
-            value={searchField}
-            onChange={handleSelectedSearch}
+            value={searchByTerm}
+            onChange={handleSelectedSearchByTerm}
           />
         </Box>
         <Box>

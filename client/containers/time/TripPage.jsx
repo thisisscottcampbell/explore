@@ -110,7 +110,7 @@ class TripPage extends Component {
 			});
 	};
 
-	handleSearchedActivitiesByTerm = (text) => {
+	handleSearchedActivitiesByTerm = (location, text) => {
 		fetch('/api/yelp/', {
 			method: 'POST',
 			headers: {
@@ -118,9 +118,8 @@ class TripPage extends Component {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				text: text,
-				lat: this.state.lat,
-				lng: this.state.lng
+				location,
+				text
 			}),
 		})
 			.then((response) => {
