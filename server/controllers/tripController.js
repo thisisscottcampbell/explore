@@ -53,7 +53,7 @@ tripController.createTrip = async (req, res, next) => {
 
     if (trip.rowCount) {
       res.locals.trip = trip.rows[0];
-      console.log(res.locals.trip)
+      console.log(res.locals.trip);
       next();
     }
   } catch (error) {
@@ -83,13 +83,13 @@ tripController.getTrips = async (req, res, next) => {
     const trips = await Pool.query(query, [member_id]);
 
     const { rows } = trips;
-    // if all
+    // 'all' is user's past/upcoming/and saved trips
     if (req.query.type === 'all') {
       const currentDate = new Date();
 
       res.locals.pastTrips = rows.filter((trip) => {
         const tripEndDate = new Date(trip.end_date);
-        return tripEndDate < currentDate;
+        return tripEndDate < currentDate && trip.member_id === member_id;
       });
       res.locals.savedTrips = rows.filter((trip) => {
         return trip.member_id !== member_id;
@@ -97,13 +97,13 @@ tripController.getTrips = async (req, res, next) => {
       // trips is upcomingTrips
       res.locals.trips = rows.filter((trip) => {
         const tripEndDate = new Date(trip.end_date);
-        return tripEndDate >= currentDate;
+        return tripEndDate >= currentDate && trip.member_id === member_id;
       });
     } else {
-      res.locals.trips = rows;
+      res.locals.trips = rows; // user's own trips
     }
-    console.log('PAST TRIPS: ', res.locals.pastTrips);
-    console.log('SAVED TRIPS: ', res.locals.savedTrips);
+    // console.log('PAST TRIPS: ', res.locals.pastTrips);
+    console.log('INSPIRATION SAVED TRIPS: ', res.locals.savedTrips);
     next();
   } catch (error) {
     return next({
@@ -217,11 +217,11 @@ tripController.getTrip = async (req, res, next) => {
       rowCount,
       rows: [data],
     } = trip;
-    console.log(data)
+    console.log(data);
     // if (rowCount) {
     res.locals.trip = data;
     res.locals.trip.sessionId = sessionId;
-    console.log(res.locals.trip)
+    console.log(res.locals.trip);
     next();
     // }
   } catch (error) {
