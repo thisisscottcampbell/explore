@@ -7,7 +7,7 @@ const yelpController = {};
 
 yelpController.getActivities = async (req, res, next) => {
   const { categories, location } = req.body;
-
+  console.log(req.body)
   const offset = [20, 40, 60, 80, 100];
   let completeResult = [];
   let differentSearchRequests = [];

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 import LoginPage from './containers/LoginPage';
@@ -16,27 +16,29 @@ import ActivityList from './containers/time/Activities/ActivityList';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      trips: [], // upcoming
-      savedTrips: [],
-      pastTrips: [],
+	constructor(props) {
+		super(props);
+		this.state = {
+			trips: [], // upcoming
+			savedTrips: [],
+			pastTrips: [],
       message: '',
-    };
+      inputLocation: '',
+		};
   }
-
-  handleNewTrip = (trips) => {
-    this.setState({ trips: trips });
+  
+  saveLocation = (inputLocation) => {
+      console.log('INPUT LOCATION:', inputLocation);
+      this.setState({ inputLocation: inputLocation });
   };
 
-  handleAddedActivity = (trips) => {
-    this.setState({ trips: trips });
-  };
+	handleNewTrip = (trips) => {
+		this.setState({ trips: trips });
+	};
 
-  handleStateUpdate = (emptyTrip) => {
-    this.setState({ trips: emptyTrip });
-  };
+	handleAddedActivity = (trips) => {
+		this.setState({ trips: trips });
+	};
 
   handleDelete = (trips, message) => {
     this.setState({ trips: trips, message: message }, () =>
@@ -58,55 +60,74 @@ class App extends Component {
       });
   };
 
-  handleFetchYelp = (location, tripId) => {
-    // console.log(this.state);
-    fetch('/api/yelp/' + location, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        // console.log('result', result);
-        let trips = [...this.state.trips];
-        let trip = trips.filter((el) => el.id === tripId);
-        trip = trip[0];
-        let index = this.state.trips.indexOf(trip);
-        let newActivites = result.result;
-        trip.activities = newActivites;
-        trips.splice(index, 1, trip);
-        this.setState({ trips });
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+	handleDelete = (trips, message) => {
+		this.setState({ trips: trips, message: message }, () =>
+			console.log(this.state)
+		);
+	};
+	t;
+	handleFetchState = (whichTrips) => {
+		// whichTrips: upcoming/past/inspiration/all
+		fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
+			.then((response) => response.json())
+			.then((result) => {
+				const { trips } = result;
+				this.setState({ trips });
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	};
 
-  render() {
-    console.log(this.state);
-    return (
-      <div id='app' className='main-container'>
-        <Switch>
-          <Route path='/' exact component={HomePage} />
-          <Route path='/login' exact component={LoginPage} />
-          <Route path='/signup' exact component={SignupPage} />
-          {/* <Route path="/resetpassword" exact component={ResetPasswordPage} /> */}
-          <PrivateRoute
-            path='/time/home'
-            component={TimeHomePage}
-            trips={this.state.trips}
-            handleNewTrip={this.handleNewTrip}
-            handleStateUpdate={this.handleStateUpdate}
-            handleDelete={this.handleDelete}
+	handleFetchYelp = (location, tripId) => {
+		// console.log(this.state);
+		fetch('/api/yelp/' + location, {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				// console.log('result', result);
+				let trips = [...this.state.trips];
+				let trip = trips.filter((el) => el.id === tripId);
+				trip = trip[0];
+				let index = this.state.trips.indexOf(trip);
+				let newActivites = result.result;
+				trip.activities = newActivites;
+				trips.splice(index, 1, trip);
+				this.setState({ trips });
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	};
+
+	render() {
+		return (
+			<div id="app" className="main-container">
+				<Switch>
+					<Route path="/" exact component={HomePage} />
+					<Route path="/login" exact component={LoginPage} />
+					<Route path="/signup" exact component={SignupPage} />
+					{/* <Route path="/resetpassword" exact component={ResetPasswordPage} /> */}
+					<PrivateRoute
+						path="/time/home"
+						component={TimeHomePage}
+						trips={this.state.trips}
+						handleNewTrip={this.handleNewTrip}
+						handleStateUpdate={this.handleStateUpdate}
+						handleDelete={this.handleDelete}
             handleFetchState={this.handleFetchState}
-          />
-          {/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
-          <PrivateRoute
-            path='/time/trip/:member_id/:tripId'
-            component={TripPage}
-            handleFetchYelp={this.handleFetchYelp}
+            saveLocation={this.saveLocation}
+					/>
+					{/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
+					<PrivateRoute
+						path="/time/trip/:member_id/:tripId"
+						component={TripPage}
+						handleFetchYelp={this.handleFetchYelp}
             handleAddedActivity={this.handleAddedActivity}
           />
           <PrivateRoute
