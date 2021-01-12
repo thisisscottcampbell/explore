@@ -10,8 +10,8 @@ class TimeHomePage extends Component {
 		this.props.handleFetchState();
 	}
 
-	handleNewTrip = (tripName, location, datesKnown, tripStart, tripEnd) => {
-		fetch('/imagefetch/' + location.value.place_id, {
+	handleNewTrip = (title, destination, dates_known, tripStart, tripEnd) => {
+		fetch('/imagefetch/' + destination.value.place_id, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -27,46 +27,46 @@ class TimeHomePage extends Component {
 					);
 				}
 
-				let tripStartFrontEnd, tripEndFrontEnd;
-				datesKnown === 'day' || datesKnown === 'month'
-					? (tripStartFrontEnd = tripStart.toLocaleDateString('en-US'))
-					: (tripStartFrontEnd = 'Soon!');
-				datesKnown === 'day' || datesKnown === 'month'
-					? (tripEndFrontEnd = tripEnd.toLocaleDateString('en-US'))
-					: (tripEndFrontEnd = 'Soon!');
+				let start_date, end_date;
+				dates_known === 'day' || dates_known === 'month'
+					? (start_date = tripStart.toLocaleDateString('en-US'))
+					: (start_date = 'Soon!');
+				dates_known === 'day' || dates_known === 'month'
+					? (end_date = tripEnd.toLocaleDateString('en-US'))
+					: (end_date = 'Soon!');
 
 				this.handleTripToBackEnd(
-					tripName,
-					location,
-					location.value.place_id,
-					tripStart,
-					tripEnd,
-					photos,
-					datesKnown
+					title,
+					destination,
+					destination.value.place_id,
+					start_date,
+					end_date,
+					locationphotos,
+					dates_known
 				);
 			})
 			.catch((error) => {
-				console.error('Error: handleNewTrip', error);
+				console.error('Error:', error);
 			});
 	};
 
 	handleTripToBackEnd = (
-		tripName,
-		location,
+		title,
+		destination,
 		place_id,
-		tripStartBackEnd,
-		tripEndBackEnd,
-		photos,
-		datesKnown
+		start_date,
+		end_date,
+		locationphotos,
+		dates_known
 	) => {
 		const newTripForBackEnd = {
-			title: tripName,
-			destination: location.label,
-			placeId: place_id,
-			startDate: tripStartBackEnd,
-			endDate: tripEndBackEnd,
-			locationphotos: photos,
-			dates_known: datesKnown,
+			title,
+			destination: destination.label,
+			place_id,
+			start_date,
+			end_date,
+			locationphotos,
+			dates_known,
 		};
 		fetch('/api/trips/', {
 			method: 'POST',
@@ -77,21 +77,12 @@ class TimeHomePage extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				const trips = [...this.props.trips];
-				const newTrip = {};
-				newTrip.location = data.trip.destination;
-				newTrip.tripName = data.trip.title;
-				newTrip.place_id = data.trip.place_id;
-				newTrip.tripStartFrontEnd = data.trip.start_date;
-				newTrip.tripEndFrontEnd = data.trip.end_date;
-				newTrip.locationphotos = data.trip.locationphotos;
-				newTrip.datesKnown = data.trip.dates_known;
-				newTrip.id = data.trip.id;
-				trips.push(newTrip);
+				console.log('Success:', data);
+				const trips = [...this.props.trips, data.trip];
 				this.props.handleNewTrip(trips);
 			})
 			.catch((error) => {
-				console.error('Error: newTripForBackend', error);
+				console.error('Error:', error);
 			});
 	};
 
@@ -115,11 +106,14 @@ class TimeHomePage extends Component {
 				this.props.handleDelete(trips, message);
 			})
 			.catch((error) => {
-				console.log('Error: deleteTripHandler:', error);
+				console.log(error);
 			});
 	};
 
 	render() {
+		// console.log('this.props.trips from TimeHomePage',this.props.trips);
+		console.log('TRIPS', this.props.trips);
+		console.log('MESSAGE', this.props.message);
 		return (
 			<>
 				<NavBar />

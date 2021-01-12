@@ -35,7 +35,7 @@ const FindActivitiesDrawer = ({
 
 	const [searchResults, setSearchResults] = useState([]);
 
-	const findActivities = (location, category) => {
+	const findActivities = (destination, category) => {
 		fetch('/api/yelp/', {
 			method: 'POST',
 			headers: {
@@ -44,7 +44,7 @@ const FindActivitiesDrawer = ({
 			},
 			body: JSON.stringify({
 				categories: category,
-				location: location,
+				location: destination,
 			}),
 		})
 			.then((response) => {

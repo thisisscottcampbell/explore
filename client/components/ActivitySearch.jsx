@@ -5,13 +5,15 @@ import { Button, Input, Flex, Box, Heading, Select } from '@chakra-ui/react';
 const ActivitySearch = ({ findActivities, trip }) => {
 	const [searchField, setSearchField] = useState('');
 
+	console.log('i am trip', trip);
+
 	const handleSelectedSearch = (event) => {
 		setSearchField(event.target.value);
 	};
 
 	const handleSearch = (event) => {
 		event.preventDefault();
-		findActivities(trip.location, searchField);
+		findActivities(trip.destination, searchField);
 	};
 
 	return (

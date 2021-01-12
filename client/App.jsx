@@ -4,10 +4,12 @@ import { Route, Switch } from 'react-router-dom';
 import LoginPage from './containers/LoginPage';
 import SignupPage from './containers/SignupPage';
 import HomePage from './containers/HomePage';
+import Profile from './containers/time/Profile';
 import TimeHomePage from './containers/time/TimeHomePage';
 import PrivateRoute from './privateRoute';
 import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
+
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
 
@@ -15,16 +17,12 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			trips: [],
+			trips: [], // upcoming
+			savedTrips: [],
+			pastTrips: [],
 			message: '',
-			inputLocation: '',
 		};
 	}
-
-	saveLocation = (inputLocation) => {
-		console.log('INPUT LOCATION:', inputLocation);
-		this.setState({ inputLocation: inputLocation });
-	};
 
 	handleNewTrip = (trips) => {
 		this.setState({ trips: trips });
@@ -44,25 +42,13 @@ class App extends Component {
 		);
 	};
 	t;
-	handleFetchState = () => {
-		fetch('/api/trips/')
+	handleFetchState = (whichTrips) => {
+		// whichTrips: upcoming/past/inspiration/all
+		fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
 			.then((response) => response.json())
 			.then((result) => {
 				const { trips } = result;
-				const emptyTrip = [];
-				trips.forEach((trip) => {
-					const newTrip = {};
-					newTrip.location = trip.destination;
-					newTrip.tripName = trip.title;
-					newTrip.place_id = trip.place_id;
-					newTrip.tripStartFrontEnd = trip.start_date;
-					newTrip.tripEndFrontEnd = trip.end_date;
-					newTrip.locationphotos = trip.locationphotos;
-					newTrip.datesKnown = trip.dates_known;
-					newTrip.id = trip.id;
-					emptyTrip.push(newTrip);
-				});
-				this.handleStateUpdate(emptyTrip);
+				this.setState({ trips });
 			})
 			.catch((error) => {
 				console.error('Error:', error);
@@ -110,16 +96,20 @@ class App extends Component {
 						handleNewTrip={this.handleNewTrip}
 						handleStateUpdate={this.handleStateUpdate}
 						handleDelete={this.handleDelete}
-						saveLocation={this.saveLocation}
 						handleFetchState={this.handleFetchState}
 					/>
 					{/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
 					<PrivateRoute
-						path="/time/trip/:tripId"
+						path="/time/trip/:member_id/:tripId"
 						component={TripPage}
 						handleFetchYelp={this.handleFetchYelp}
 						handleAddedActivity={this.handleAddedActivity}
-						inputLocation={this.state.inputLocation}
+					/>
+					<PrivateRoute
+						path="/time/profile/:userid"
+						component={Profile}
+						allTrips={this.state.trips}
+						handleFetchState={this.handleFetchState}
 					/>
 					{/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
 					<PrivateRoute path="*" component={NotFound} />

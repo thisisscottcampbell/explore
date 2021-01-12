@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
 import {
 	createStandaloneToast,
 	useDisclosure,
@@ -25,23 +24,10 @@ import {
 } from '@chakra-ui/react';
 import TripPlanned from '../../components/tripComponent';
 
-const TripListContainer = ({
-	trips,
-	deleteTripHandler,
-	message,
-	saveLocation,
-}) => {
+const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 	const toast = createStandaloneToast();
-	// if(!message) {
-	//   toast({
-	//     title: '',
-	//     description: `${message}`,
-	//     status: 'success',
-	//     duration: 9000,
-	//     isClosable: true,
-	//     position: 'top',
-	// })};
 
+	console.log('TRIPS FROM TRIPLIST: ', trips);
 	return (
 		<>
 			<Box
@@ -63,30 +49,30 @@ const TripListContainer = ({
 					{trips.map(
 						({
 							id,
-							tripName,
-							location,
-							tripStartFrontEnd,
-							tripEndFrontEnd,
+							title,
+							destination,
+							start_date,
+							end_date,
 							place_id,
-							datesKnown,
+							dates_known,
+							member_id,
 						}) => (
 							<>
 								<Grid key={`trip_grid_${id}`}>
 									<GridItem>
 										<Text textAlign="center" color="gray.800" fontSize="2xl">
-											{tripName}
+											{title} Created By: {member_id}
 										</Text>
 									</GridItem>
 									<GridItem>
 										<TripPlanned
 											key={`trip_${id}`}
-											trip={{
-												location,
-												tripStartFrontEnd,
-												tripEndFrontEnd,
-												place_id,
-												datesKnown,
-											}}
+											destination={destination}
+											start_date={start_date}
+											end_date={end_date}
+											place_id={place_id}
+											dates_known={dates_known}
+											member_id={member_id}
 										/>
 									</GridItem>
 									<GridItem>
@@ -94,20 +80,12 @@ const TripListContainer = ({
 											{/* <Button m={2} colorScheme="blue" onClick = {()=>console.log('clicked')}> */}
 											<Link
 												to={{
-													pathname: `/time/trip/${id}`,
+													pathname: `/time/trip/${member_id}/${id}`,
 													state: { param: `${id}` },
 												}}
 											>
-												<Button
-													onClick={() => {
-														console.log('LOCATION CLICK:', location);
-														saveLocation(location);
-													}}
-													type="button"
-													m={2}
-													colorScheme="blue"
-												>
-													Explore {location}
+												<Button type="button" m={2} colorScheme="blue">
+													Explore {destination}
 												</Button>
 											</Link>
 											{/* </Button>  */}

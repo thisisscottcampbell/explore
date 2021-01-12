@@ -1,35 +1,25 @@
 import React, { useState, useEffect, Component } from 'react';
 
 import {
-	useDisclosure,
-	Drawer,
-	DrawerBody,
-	DrawerHeader,
-	DrawerOverlay,
-	DrawerContent,
-	DrawerCloseButton,
-	Heading,
 	Flex,
 	Button,
-	FormControl,
-	Stack,
-	Text,
 	Box,
 	Grid,
 	GridItem,
-	Select,
-	Input,
+	VStack,
+	StackDivider,
+	Text,
+	Heading,
 } from '@chakra-ui/react';
 
+// import "@babel/polyfill";
 import NavBar from '../../components/NavBar';
 import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
-import Map from '../../components/Map';
 
 class TripPage extends Component {
-	//should just be able to simply declare state = {...}
 	constructor(props) {
 		super(props);
 
@@ -38,9 +28,9 @@ class TripPage extends Component {
 				activities: [],
 			},
 			tripId: props.location.state.param,
-			lat: null,
-			lng: null,
+			member_id: props.computedMatch.params.member_id,
 		};
+		// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
 		this.addActivityHandler = this.addActivityHandler.bind(this);
 		this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
 	}
@@ -48,38 +38,52 @@ class TripPage extends Component {
 	componentDidMount() {
 		// const { tripId } = this.props.match.params
 		// console.log('Get url params', tripId);
-		console.log('INPUTLOCATION IN TRIP PAGE:', this.props.inputLocation);
-		//grab the lat and lon ... set that value
+		console.log(this.state.trip);
+		// console.log(this.props)
+
 		fetch(`/api/trips/${this.state.tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				const newTrip = {};
-				newTrip.location = result.trip.destination;
-				newTrip.tripName = result.trip.title;
-				newTrip.place_id = result.trip.place_id;
-				newTrip.tripStartFrontEnd = result.trip.start_date;
-				newTrip.tripEndFrontEnd = result.trip.end_date;
-				newTrip.locationphotos = result.trip.locationphotos;
-				newTrip.datesKnown = result.trip.dates_known;
-				newTrip.id = result.trip.id;
-				newTrip.activities = result.activities;
+				const { trip } = result;
 
-				this.setState({ trip: newTrip });
+				this.setState({ trip });
 			})
-			.catch((err) => console.log('i am tripId error', err));
-
-		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.props.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
-		)
-			.then((result) => result.json())
-			.then((result) => {
-				const lat = result.results[0].geometry.location.lat;
-				const lng = result.results[0].geometry.location.lng;
-				this.setState({ lat: lat });
-				this.setState({ lng: lng });
-			})
-			.catch((err) => console.log('i am lat/lng error', err));
+			.catch((err) => console.log(err));
 	}
+
+	// handleSearchedActivities = (destination, category) => {
+	// 	fetch('/api/yelp/', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			Accept: 'application/json',
+	// 			'Content-Type': 'application/json',
+	// 		},
+	// 		body: JSON.stringify({
+	// 			categories: category,
+	// 			location: destination,
+	// 		}),
+	// 	})
+	// 		.then((response) => {
+	// 			console.log(body);
+	// 			if (response.status === 200) {
+	// 				return response.json();
+	// 			}
+
+	// 			return response.json().then((err) => {
+	// 				throw err;
+	// 			});
+	// 		})
+	// 		.then((result) => {
+	// 			console.log('result', result);
+	// 			let trip = { ...this.state.trip };
+	// 			let newActivites = result.result;
+	// 			trip.searchedActivities = newActivites;
+	// 			this.setState({ trip });
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error('Error:', error);
+	// 		});
+	// };
 	addActivityHandler = (
 		event,
 		name,
