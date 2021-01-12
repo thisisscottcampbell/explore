@@ -20,9 +20,10 @@ class TimeHomePage extends Component {
 			.then((res) => res.json())
 			.then((body) => {
 				const results = body.result.photos;
-				let photos = [];
+				console.log(results)
+				let locationphotos = [];
 				for (let i = 0; i < results.length; i++) {
-					photos.push(
+					locationphotos.push(
 						`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=${results[i].photo_reference}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
 					);
 				}
