@@ -41,15 +41,17 @@ class TripPage extends Component {
 	componentDidMount() {
 		// const { tripId } = this.props.match.params
 		// console.log('Get url params', tripId);
-		console.log(this.state.trip);
+		//console.log(this.state.trip);
 		// console.log(this.props)
+		console.log('LOCATION INPUT:', this.props.inputLocation);
+		console.log('PROPS TRIP PAGE', this.props);
 
 		fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log(result);
+				//console.log(result);
 				const { trip } = result;
-				console.log('Trip Render', trip)
+				//console.log('Trip Render', trip)
 				trip.activities = result.activities;
 				this.setState({ trip });
 			})

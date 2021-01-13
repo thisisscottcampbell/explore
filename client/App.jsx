@@ -13,8 +13,6 @@ import NotFound from './containers/404';
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
 
-
-
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -22,15 +20,14 @@ class App extends Component {
 			trips: [], // upcoming
 			savedTrips: [],
 			pastTrips: [],
-      message: '',
-      inputLocation: '',
+			message: '',
+			inputLocation: '',
 		};
-  }
-  
-  saveLocation = (inputLocation) => {
-      console.log('INPUT LOCATION:', inputLocation);
-      this.setState({ inputLocation: inputLocation });
-  };
+	}
+
+	saveLocation = (inputLocation) => {
+		this.setState({ inputLocation: inputLocation });
+	};
 
 	handleNewTrip = (trips) => {
 		this.setState({ trips: trips });
@@ -40,25 +37,23 @@ class App extends Component {
 		this.setState({ trips: trips });
 	};
 
-  handleDelete = (trips, message) => {
-    this.setState({ trips: trips, message: message }, () =>
-      console.log(this.state)
-    );
-  };
-  t;
-  handleFetchState = (whichTrips) => {
-    // whichTrips: upcoming/past/inspiration/all
-    fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
-      .then((response) => response.json())
-      .then((result) => {
-        const { trips, savedTrips, pastTrips } = result;
-      
-        this.setState({ trips, savedTrips, pastTrips });
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+	handleDelete = (trips, message) => {
+		this.setState({ trips: trips, message: message });
+	};
+
+	handleFetchState = (whichTrips) => {
+		// whichTrips: upcoming/past/inspiration/all
+		fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
+			.then((response) => response.json())
+			.then((result) => {
+				const { trips, savedTrips, pastTrips } = result;
+
+				this.setState({ trips, savedTrips, pastTrips });
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	};
 
 	handleDelete = (trips, message) => {
 		this.setState({ trips: trips, message: message }, () =>
@@ -105,6 +100,10 @@ class App extends Component {
 			});
 	};
 
+	componentDidMount() {
+		console.log('INPUT LOCATION:', this.state.inputLocation);
+	}
+
 	render() {
 		return (
 			<div id="app" className="main-container">
@@ -120,31 +119,31 @@ class App extends Component {
 						handleNewTrip={this.handleNewTrip}
 						handleStateUpdate={this.handleStateUpdate}
 						handleDelete={this.handleDelete}
-            handleFetchState={this.handleFetchState}
-            saveLocation={this.saveLocation}
+						handleFetchState={this.handleFetchState}
+						saveLocation={this.saveLocation}
 					/>
 					{/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
 					<PrivateRoute
 						path="/time/trip/:member_id/:tripId"
 						component={TripPage}
 						handleFetchYelp={this.handleFetchYelp}
-            handleAddedActivity={this.handleAddedActivity}
-          />
-          <PrivateRoute
-            path='/time/profile/:userid'
-            component={Profile}
-            trips={this.state.trips}
-            savedTrips={this.state.savedTrips}
-            pastTrips={this.state.pastTrips}
-      
-            handleFetchState={this.handleFetchState}
-          />
-          {/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
-          <PrivateRoute path='*' component={NotFound} />
-        </Switch>
-      </div>
-    );
-  }
+						handleAddedActivity={this.handleAddedActivity}
+						inputLocation={this.state.inputLocation}
+					/>
+					<PrivateRoute
+						path="/time/profile/:userid"
+						component={Profile}
+						trips={this.state.trips}
+						savedTrips={this.state.savedTrips}
+						pastTrips={this.state.pastTrips}
+						handleFetchState={this.handleFetchState}
+					/>
+					{/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
+					<PrivateRoute path="*" component={NotFound} />
+				</Switch>
+			</div>
+		);
+	}
 }
 /*render={(props) => 
 <TimeHomePage 

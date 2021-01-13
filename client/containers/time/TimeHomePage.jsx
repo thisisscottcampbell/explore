@@ -7,6 +7,7 @@ import TripListContainer from './TripList';
 
 class TimeHomePage extends Component {
 	componentDidMount() {
+		console.log(this.props.saveLocation);
 		this.props.handleFetchState();
 	}
 
@@ -20,7 +21,7 @@ class TimeHomePage extends Component {
 			.then((res) => res.json())
 			.then((body) => {
 				const results = body.result.photos;
-				console.log(results)
+				//console.log(results)
 				let locationphotos = [];
 				for (let i = 0; i < results.length; i++) {
 					locationphotos.push(
@@ -78,7 +79,7 @@ class TimeHomePage extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log('Success:', data);
+				//console.log('Success:', data);
 				const trips = [...this.props.trips, data.trip];
 				this.props.handleNewTrip(trips);
 			})
@@ -113,15 +114,17 @@ class TimeHomePage extends Component {
 
 	render() {
 		// console.log('this.props.trips from TimeHomePage',this.props.trips);
-		console.log('TRIPS', this.props.trips);
-		console.log('MESSAGE', this.props.message);
+		//console.log('TRIPS', this.props.trips);
+		//console.log('MESSAGE', this.props.message);
 		return (
 			<>
 				<NavBar />
 				<IntroText />
-				<NewTripDrawer handleNewTrip={this.handleNewTrip} />
-				<TripListContainer
+				<NewTripDrawer
+					handleNewTrip={this.handleNewTrip}
 					saveLocation={this.props.saveLocation}
+				/>
+				<TripListContainer
 					deleteTripHandler={this.deleteTripHandler}
 					trips={this.props.trips}
 					message={this.props.message}
