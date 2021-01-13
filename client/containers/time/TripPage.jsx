@@ -16,14 +16,11 @@ import {
 import NavBar from '../../components/NavBar';
 import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
-// import Activity from '../../components/activityComponent';
-import ActivitiesList from './Activities/ActivityList';
-import ActivitySearch from '../../components/ActivitySearch';
-import SavedActivities from '../../components/SavedActivities';
+import FindActivitesDrawer from '../../components/FindActivitesDrawer';
+import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
 import Map from '../../components/Map';
 
 class TripPage extends Component {
-	//should just be able to simply declare state = {...}
 	constructor(props) {
 		super(props);
 
@@ -31,45 +28,57 @@ class TripPage extends Component {
 			trip: {
 				activities: [],
 			},
+			inputLocation: '',
 			tripId: props.location.state.param,
 			lat: null,
 			lng: null,
+			member_id: props.computedMatch.params.member_id,
 		};
-		this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
+		// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
 		this.addActivityHandler = this.addActivityHandler.bind(this);
 		this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
-		this.handleSearchedActivitiesByTerm = this.handleSearchedActivitiesByTerm.bind(this);
 	}
 
 	componentDidMount() {
 		// const { tripId } = this.props.match.params
 		// console.log('Get url params', tripId);
-		console.log('INPUTLOCATION IN TRIP PAGE:', this.props.inputLocation);
-		//grab the lat and lon ... set that value
-		fetch(`/api/trips/${this.state.tripId}`)
+		console.log(this.state.trip);
+		// console.log(this.props)
+
+		fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log('This is the result from TripPage: ', result);
-				const newTrip = {};
-				newTrip.location = result.trip.destination;
-				newTrip.tripName = result.trip.title;
-				newTrip.place_id = result.trip.place_id;
-				newTrip.tripStartFrontEnd = result.trip.start_date;
-				newTrip.tripEndFrontEnd = result.trip.end_date;
-				newTrip.locationphotos = result.trip.locationphotos;
-				newTrip.datesKnown = result.trip.dates_known;
-				newTrip.id = result.trip.id;
-				newTrip.activities = result.activities;
+				// console.log('This is the result from TripPage: ', result);
+				// const newTrip = {};
+				// newTrip.location = result.trip.destination;
+				// newTrip.tripName = result.trip.title;
+				// newTrip.place_id = result.trip.place_id;
+				// newTrip.tripStartFrontEnd = result.trip.start_date;
+				// newTrip.tripEndFrontEnd = result.trip.end_date;
+				// newTrip.locationphotos = result.trip.locationphotos;
+				// newTrip.datesKnown = result.trip.dates_known;
+				// newTrip.id = result.trip.id;
+				// newTrip.activities = result.activities;
 
-				this.setState({ trip: newTrip });
+				// this.setState({ trip: newTrip });
+
+				console.log(result);
+				const { trip } = result;
+				console.log('Trip Render', trip)
+				trip.activities = result.activities;
+				this.setState({ trip });
+				this.setState({ inputLocation: trip.destination});
 			})
-			.catch((err) => console.log('i am tripId error', err));
+			.catch((err) => console.log(err));
 
 		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.props.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
 		)
 			.then((result) => result.json())
 			.then((result) => {
+				console.log('From the geocode fetch state: ', this.state);
+				console.log('From the geocode fetch trip: ', this.state.trip);
+				console.log('From the geocode fetch: ', result);
 				const lat = result.results[0].geometry.location.lat;
 				const lng = result.results[0].geometry.location.lng;
 				this.setState({ lat: lat });
@@ -77,72 +86,6 @@ class TripPage extends Component {
 			})
 			.catch((err) => console.log('i am lat/lng error', err));
 	}
-
-	handleSearchedActivities = (location, category) => {
-		fetch('/api/yelp/', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				categories: category,
-				location: location,
-			}),
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-
-				return response.json().then((err) => {
-					throw err;
-				});
-			})
-			.then((result) => {
-				console.log('result', result);
-				let trip = { ...this.state.trip };
-				let newActivites = result.result;
-				trip.searchedActivities = newActivites;
-				this.setState({ trip });
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
-	};
-
-	handleSearchedActivitiesByTerm = (location, text) => {
-		fetch('/api/yelp/', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				location,
-				text
-			}),
-		})
-			.then((response) => {
-				if (response.status === 200) {
-					return response.json();
-				}
-
-				return response.json().then((err) => {
-					throw err;
-				});
-			})
-			.then((result) => {
-				console.log('result', result);
-				let trip = { ...this.state.trip };
-				let newActivites = result.result;
-				trip.searchedActivities = newActivites;
-				this.setState({ trip });
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-			});
-	};
 
 	addActivityHandler = (
 		event,
@@ -221,42 +164,24 @@ class TripPage extends Component {
 						<TripPageIntroText trip={this.state.trip} />
 					</GridItem>
 					<GridItem colSpan={3}>
-						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
-							Map Component
-						</Heading>
-						{this.state.lng && this.state.lat && (
+						<GridItem colSpan={3} m={30} padding={10}>
+							<FindActivitesDrawer
+								addActivityHandler={this.addActivityHandler}
+								trip={this.state.trip}
+							/>
+							<GridItem colSpan={3}>
+								<SavedActivitiesDrawer
+									deleteActivityHandler={this.deleteActivityHandler}
+									currentActivities={this.state.trip.activities}
+								/>
+							</GridItem>
+						</GridItem>
+
+						{this.state.lat && this.state.lng && (
 							<Map
 								trip={this.state.trip}
 								lat={this.state.lat}
 								lng={this.state.lng}
-							/>
-						)}
-					</GridItem>
-					<GridItem colSpan={3}>
-						<Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
-							Saved Activity
-						</Heading>
-						<Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
-							{this.state.trip.activities.map((savedActivity) => (
-								<SavedActivities
-									deleteActivityHandler={this.deleteActivityHandler}
-									activity={savedActivity}
-								/>
-							))}
-						</Grid>
-					</GridItem>
-					<GridItem colSpan={3} m={30} padding={10} bg="gray.100">
-						<ActivitySearch
-							trip={this.state.trip}
-							handleSearchedActivities={this.handleSearchedActivities}
-							handleSearchedActivitiesByTerm = {this.handleSearchedActivitiesByTerm}
-						/>
-					</GridItem>
-					<GridItem colSpan={3}>
-						{this.state.trip.searchedActivities && (
-							<ActivitiesList
-								addActivityHandler={this.addActivityHandler}
-								trip={this.state.trip}
 							/>
 						)}
 					</GridItem>

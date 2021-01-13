@@ -13,8 +13,7 @@ import {
 	Center,
 } from '@chakra-ui/react';
 
-const SavedActivities = (props) => {
-	//console.log(props);
+const SavedActivities = ({ deleteActivityHandler, activity }) => {
 	const {
 		id,
 		image_url,
@@ -26,7 +25,7 @@ const SavedActivities = (props) => {
 		review_count,
 		location,
 		trip_id,
-	} = props.activity;
+	} = activity;
 	return (
 		<>
 			<Box borderWidth="1px" borderRadius="lg" overflow="hidden">
@@ -70,7 +69,7 @@ const SavedActivities = (props) => {
 						<Box as="span" ml="2" color="gray.600" fontSize="sm">
 							<Button
 								type="button"
-								onClick={(event) => props.deleteActivityHandler(event, id)}
+								onClick={(event) => deleteActivityHandler(event, id)}
 								colorScheme="red"
 								size="sm"
 							>
