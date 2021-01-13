@@ -54,7 +54,7 @@ const TripPage = (props) => {
 			.then((result) => result.json())
 			.then((result) => {
 				// console.log('This is the result from TripPage: ', result);
-				console.log('I AM RESULT', result);
+
 				const newTrip = {};
 				newTrip.location = result.trip.destination;
 				newTrip.tripName = result.trip.title;
@@ -66,13 +66,10 @@ const TripPage = (props) => {
 				newTrip.id = result.trip.id;
 				newTrip.activities = result.activities;
 
-				// this.setState({ trip: newTrip });
-
-				console.log('New Trip Location', newTrip.location);
 				setTrip(newTrip);
 				setInputLocation(newTrip.location);
 				setGeocodeFetch(true);
-				console.log(trip);
+				console.log('I AM TRIP: CDM', trip);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -84,12 +81,12 @@ const TripPage = (props) => {
 		)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log('From the geocode fetch: ', result);
 				const lat = result.results[0].geometry.location.lat;
 				const lng = result.results[0].geometry.location.lng;
 				setLat(lat);
 				setLng(lng);
 				geocodeFetch(false);
+				console.log('I AM TRIP: GEO', trip);
 			})
 			.catch((err) => console.log('i am lat/lng error', err));
 	}, [geocodeFetch]);
@@ -170,15 +167,19 @@ const TripPage = (props) => {
 				</GridItem>
 				<GridItem colSpan={3}>
 					<GridItem colSpan={3} m={30} padding={10}>
-						{/* <FindActivitesDrawer
-							addActivityHandler={addActivityHandler}
-							trip={trip}
-						/> */}
+						{/* {trip && (
+							<FindActivitesDrawer
+								addActivityHandler={addActivityHandler}
+								trip={trip}
+							/>
+						)} */}
 						<GridItem colSpan={3}>
-							{/* <SavedActivitiesDrawer
-								deleteActivityHandler={deleteActivityHandler}
-								currentActivities={trip.activities}
-							/> */}
+							{/* {trip && (
+								<SavedActivitiesDrawer
+									deleteActivityHandler={deleteActivityHandler}
+									currentActivities={trip.activities}
+								/>
+							)} */}
 						</GridItem>
 					</GridItem>
 
