@@ -53,8 +53,7 @@ const TripPage = (props) => {
 		fetch(`/api/trips/${member_id}/${tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				// console.log('This is the result from TripPage: ', result);
-
+				console.log('I AM RESULT: CDM', result);
 				const newTrip = {};
 				newTrip.location = result.trip.destination;
 				newTrip.tripName = result.trip.title;
@@ -67,6 +66,7 @@ const TripPage = (props) => {
 				newTrip.activities = result.activities;
 
 				setTrip(newTrip);
+				console.log('I AM NEW TRIP: CDM', newTrip);
 				setInputLocation(newTrip.location);
 				setGeocodeFetch(true);
 				console.log('I AM TRIP: CDM', trip);
