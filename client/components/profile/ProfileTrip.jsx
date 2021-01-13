@@ -1,6 +1,8 @@
 import React from 'react';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 import {
+  Icon,
   Box,
   Button,
   Text,
@@ -41,23 +43,11 @@ const ProfileTrip = ({
             />
           </Flex>
         </Grid>
-        {/* <Grid templateColumns='repeat(3, 1fr)'>
-          {menuItems.map((el, index) => {
-            return (
-              <GridItem colSpan={1} m={2} key={el + index}>
-                <Button
-                  colorScheme='teal'
-                  variant='outline'
-                  onClick={() => setCurrentTab(el)}
-                >
-                  <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
-                    {el}
-                  </Text>
-                </Button>
-              </GridItem>
-            );
-          })}
-        </Grid> */}
+        <Grid>
+          <Button onClick={handleAddFavorite}>
+            <Icon as={AiOutlineHeart}/>
+          </Button>
+        </Grid>
       </Box>
     </>
   );
