@@ -44,7 +44,7 @@ const ProfileTrip = ({
           </Flex>
         </Grid>
         <Grid>
-          <Button onClick={handleAddFavorite}>
+          <Button /*onClick={handleAddFavorite}*/>
             <Icon as={AiOutlineHeart}/>
           </Button>
         </Grid>

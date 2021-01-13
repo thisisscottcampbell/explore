@@ -103,15 +103,29 @@ tripController.getTrips = async (req, res, next) => {
       });
     } else if (req.query.type === 'inspiration'){
       res.locals.inspirationTrips = rows;
+      let insp_sTripsQuery = 'SELECT saved_trips FROM member WHERE id = $1'
+      try{
+        const insp_sTrips = await Pool.query(insp_sTripsQuery, [member_id]);
+        const { rows } = insp_sTrips;
+        // console.log(rows)
+        res.locals.savedTrips = rows;
+      } catch (error) {
+        return next({
+          log: `tripController.getTrips: ${error}`,
+          status: 500,
+          message: {
+            err: 'Internal server error',
+          },
+        });
+      }
     }
     
     else {
       res.locals.trips = rows; // user's own trips
     }
     // console.log('PAST TRIPS: ', res.locals.pastTrips);
-    // console.log('INSPIRATION SAVED TRIPS: ', res.locals.savedTrips);
-    console.log('INSPIRATION ALL TRIPS: ', res.locals.inspirationTrips);
-    
+    // console.log('INSPIRATION ALL TRIPS: ', res.locals.inspirationTrips);
+    console.log('INSPIRATION SAVED TRIPS: ', res.locals.savedTrips);
     next();
   } catch (error) {
     return next({

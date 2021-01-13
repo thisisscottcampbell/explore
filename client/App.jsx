@@ -58,8 +58,17 @@ class App extends Component {
     fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
       .then((response) => response.json())
       .then((result) => {
-		const { trips, savedTrips, pastTrips, inspirationTrips } = result;
-		// inspirationTrips.map(trip=> if (savedTrips.includes(inspirationTrips.trip.id){})
+				console.log('RES', result)
+				const { trips, savedTrips, pastTrips, inspirationTrips } = result;
+				console.log('BEFORE MAPPING FAV', inspirationTrips)
+				console.log('SAVED TRIPS', savedTrips)
+				if (whichTrips === 'inspiration') {
+					inspirationTrips.map((trip) => {
+						console.log(trip.id)
+						trip.favorite = savedTrips[0].saved_trips.includes(trip.id)
+					})
+					console.log('AFTER MAPPING FAV', inspirationTrips)
+				}
         this.setState({ trips, savedTrips, pastTrips, inspirationTrips });
       })
       .catch((error) => {
