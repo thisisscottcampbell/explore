@@ -7,7 +7,7 @@ import TripListContainer from './TripList';
 
 class TimeHomePage extends Component {
 	componentDidMount() {
-		console.log(this.props.saveLocation);
+		console.log(this.props);
 		this.props.handleFetchState();
 	}
 
@@ -120,14 +120,13 @@ class TimeHomePage extends Component {
 			<>
 				<NavBar />
 				<IntroText />
-				<NewTripDrawer
-					handleNewTrip={this.handleNewTrip}
-					saveLocation={this.props.saveLocation}
-				/>
+				<NewTripDrawer handleNewTrip={this.handleNewTrip} />
 				<TripListContainer
+					saveLocation={this.props.saveLocation}
 					deleteTripHandler={this.deleteTripHandler}
 					trips={this.props.trips}
 					message={this.props.message}
+					{...this.props}
 				/>
 				<Footer />
 			</>

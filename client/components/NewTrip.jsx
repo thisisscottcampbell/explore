@@ -25,7 +25,7 @@ import {
 import { RiAddCircleFill } from 'react-icons/ri';
 
 const NewTripDrawer = (props) => {
-	console.log('NEWTRIPDRAWER', props.saveLocation);
+	//console.log('NEWTRIPDRAWER', props.saveLocation);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = React.useRef();
 	const { handleNewTrip } = props;

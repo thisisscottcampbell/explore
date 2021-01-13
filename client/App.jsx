@@ -100,10 +100,6 @@ class App extends Component {
 			});
 	};
 
-	componentDidMount() {
-		console.log('INPUT LOCATION:', this.state.inputLocation);
-	}
-
 	render() {
 		return (
 			<div id="app" className="main-container">
@@ -128,8 +124,6 @@ class App extends Component {
 						component={TripPage}
 						handleFetchYelp={this.handleFetchYelp}
 						handleAddedActivity={this.handleAddedActivity}
-<<<<<<< HEAD
-						inputLocation={this.state.inputLocation}
 					/>
 					<PrivateRoute
 						path="/time/profile/:userid"
@@ -145,24 +139,6 @@ class App extends Component {
 			</div>
 		);
 	}
-=======
-          />
-          <PrivateRoute
-            path='/time/profile/:userid'
-            component={Profile}
-            trips={this.state.trips}
-            savedTrips={this.state.savedTrips}
-            pastTrips={this.state.pastTrips}
-      
-            handleFetchState={this.handleFetchState}
-          />
-          {/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
-          <PrivateRoute path='*' component={NotFound} />
-        </Switch>
-      </div>
-    );
-  }
->>>>>>> 4d45f5698c731ff7d110d0f8a613e1897e261ff1
 }
 /*render={(props) => 
 <TimeHomePage 

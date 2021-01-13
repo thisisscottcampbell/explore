@@ -20,76 +20,81 @@ import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
 import Map from '../../components/Map';
 
-class TripPage extends Component {
-	constructor(props) {
-		super(props);
+const TripPage = (props) => {
+	// constructor(props) {
+	// 	super(props);
 
-		this.state = {
-			trip: {
-				activities: [],
-			},
-			inputLocation: '',
-			tripId: props.location.state.param,
-			lat: null,
-			lng: null,
-			member_id: props.computedMatch.params.member_id,
-		};
-		// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
-		this.addActivityHandler = this.addActivityHandler.bind(this);
-		this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
-	}
+	// 	this.state = {
+	// 		trip: {
+	// 			activities: [],
+	// 		},
+	// 		inputLocation: '',
+	// 		tripId: props.location.state.param,
+	// 		lat: null,
+	// 		lng: null,
+	// 		member_id: props.computedMatch.params.member_id,
+	// 	};
+	// 	// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
+	// 	this.addActivityHandler = this.addActivityHandler.bind(this);
+	// 	this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
+	// }
 
-	componentDidMount() {
-		// const { tripId } = this.props.match.params
-		// console.log('Get url params', tripId);
-		//console.log(this.state.trip);
-		// console.log(this.props)
-		console.log('LOCATION INPUT:', this.props.inputLocation);
-		console.log('PROPS TRIP PAGE', this.props);
+	const [trip, setTrip] = useState({});
+	const [inputLocation, setInputLocation] = useState('');
+	const [tripId, setTripId] = useState(props.location.state.param);
+	const [lat, setLat] = useState('');
+	const [lng, setLng] = useState('');
+	const [member_id, setMember_id] = useState(
+		props.computedMatch.params.member_id
+	);
+	const [geocodeFetch, setGeocodeFetch] = useState(false);
 
-		fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
+	useEffect(() => {
+		fetch(`/api/trips/${member_id}/${tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
 				// console.log('This is the result from TripPage: ', result);
-				// const newTrip = {};
-				// newTrip.location = result.trip.destination;
-				// newTrip.tripName = result.trip.title;
-				// newTrip.place_id = result.trip.place_id;
-				// newTrip.tripStartFrontEnd = result.trip.start_date;
-				// newTrip.tripEndFrontEnd = result.trip.end_date;
-				// newTrip.locationphotos = result.trip.locationphotos;
-				// newTrip.datesKnown = result.trip.dates_known;
-				// newTrip.id = result.trip.id;
-				// newTrip.activities = result.activities;
+				console.log('I AM RESULT', result);
+				const newTrip = {};
+				newTrip.location = result.trip.destination;
+				newTrip.tripName = result.trip.title;
+				newTrip.place_id = result.trip.place_id;
+				newTrip.tripStartFrontEnd = result.trip.start_date;
+				newTrip.tripEndFrontEnd = result.trip.end_date;
+				newTrip.locationphotos = result.trip.locationphotos;
+				newTrip.datesKnown = result.trip.dates_known;
+				newTrip.id = result.trip.id;
+				newTrip.activities = result.activities;
 
 				// this.setState({ trip: newTrip });
 
-				console.log(result);
-				const { trip } = result;
-				//console.log('Trip Render', trip)
-				trip.activities = result.activities;
-				this.setState({ trip });
-				this.setState({ inputLocation: trip.destination });
+				console.log('New Trip Location', newTrip.location);
+				setTrip(newTrip);
+				setInputLocation(newTrip.location);
+				setGeocodeFetch(true);
+				console.log(trip);
 			})
 			.catch((err) => console.log(err));
+	}, []);
 
+	useEffect(() => {
+		if (!geocodeFetch) return;
 		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
 		)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log('From the geocode fetch state: ', this.state);
-				console.log('From the geocode fetch trip: ', this.state.trip);
 				console.log('From the geocode fetch: ', result);
 				const lat = result.results[0].geometry.location.lat;
 				const lng = result.results[0].geometry.location.lng;
-				this.setState({ lat: lat });
-				this.setState({ lng: lng });
+				setLat(lat);
+				setLng(lng);
+				geocodeFetch(false);
 			})
 			.catch((err) => console.log('i am lat/lng error', err));
-	}
+	}, [geocodeFetch]);
 
-	addActivityHandler = (
+	const addActivityHandler = (
 		event,
 		name,
 		location,
@@ -102,7 +107,7 @@ class TripPage extends Component {
 	) => {
 		event.preventDefault();
 
-		fetch(`/api/activity/${this.state.tripId}`, {
+		fetch(`/api/activity/${tripId}`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -121,12 +126,12 @@ class TripPage extends Component {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				let trip = { ...this.state.trip };
+				const trip = { trip };
 				const activity = data.activity;
 				activity.imageUrl = data.activity.image_url;
 				trip.activities.push(data.activity);
-				this.setState({ trip });
-				console.log(data.activity);
+				setTrip(trip);
+				//console.log(data.activity);
 
 				// const trip = [...this.state.trip];
 				// trip.activities.push(data.activity);
@@ -134,7 +139,7 @@ class TripPage extends Component {
 			})
 			.catch((error) => console.log(error));
 	};
-	deleteActivityHandler = (event, id) => {
+	const deleteActivityHandler = (event, id) => {
 		fetch(`/api/activity/${id}`, {
 			method: 'DELETE',
 			headers: {
@@ -148,51 +153,42 @@ class TripPage extends Component {
 				});
 			})
 			.then((data) => {
-				const activities = this.state.trip.activities.filter(
-					(el) => el.id !== id
-				);
-				this.setState({ trip: { ...this.state.trip, activities } });
+				const activities = trip.activities.filter((el) => el.id !== id);
+				setTrip({ ...this.state.trip, activities });
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
-	render() {
-		return (
-			<>
-				<NavBar />
-				<Grid templateColumns="repeat(3, 1fr)">
-					<GridItem colSpan={3}>
-						<TripPageIntroText trip={this.state.trip} />
-					</GridItem>
-					<GridItem colSpan={3}>
-						<GridItem colSpan={3} m={30} padding={10}>
-							<FindActivitesDrawer
-								addActivityHandler={this.addActivityHandler}
-								trip={this.state.trip}
-							/>
-							<GridItem colSpan={3}>
-								<SavedActivitiesDrawer
-									deleteActivityHandler={this.deleteActivityHandler}
-									currentActivities={this.state.trip.activities}
-								/>
-							</GridItem>
-						</GridItem>
 
-						{this.state.lat && this.state.lng && (
-							<Map
-								trip={this.state.trip}
-								lat={this.state.lat}
-								lng={this.state.lng}
-							/>
-						)}
+	return (
+		<>
+			<NavBar />
+			<Grid templateColumns="repeat(3, 1fr)">
+				<GridItem colSpan={3}>
+					<TripPageIntroText trip={trip} />
+				</GridItem>
+				<GridItem colSpan={3}>
+					<GridItem colSpan={3} m={30} padding={10}>
+						{/* <FindActivitesDrawer
+							addActivityHandler={addActivityHandler}
+							trip={trip}
+						/> */}
+						<GridItem colSpan={3}>
+							{/* <SavedActivitiesDrawer
+								deleteActivityHandler={deleteActivityHandler}
+								currentActivities={trip.activities}
+							/> */}
+						</GridItem>
 					</GridItem>
-				</Grid>
-				<Footer />
-				{/* <Button onClick={this.handleShowState}>Show State</Button> */}
-			</>
-		);
-	}
-}
+
+					{lat && lng && <Map trip={trip} lat={lat} lng={lng} />}
+				</GridItem>
+			</Grid>
+			<Footer />
+			{/* <Button onClick={this.handleShowState}>Show State</Button> */}
+		</>
+	);
+};
 
 export default TripPage;
