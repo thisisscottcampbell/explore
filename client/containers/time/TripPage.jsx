@@ -28,6 +28,7 @@ class TripPage extends Component {
 			trip: {
 				activities: [],
 			},
+			inputLocation: '',
 			tripId: props.location.state.param,
 			lat: null,
 			lng: null,
@@ -49,19 +50,37 @@ class TripPage extends Component {
 		fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				//console.log(result);
+				// console.log('This is the result from TripPage: ', result);
+				// const newTrip = {};
+				// newTrip.location = result.trip.destination;
+				// newTrip.tripName = result.trip.title;
+				// newTrip.place_id = result.trip.place_id;
+				// newTrip.tripStartFrontEnd = result.trip.start_date;
+				// newTrip.tripEndFrontEnd = result.trip.end_date;
+				// newTrip.locationphotos = result.trip.locationphotos;
+				// newTrip.datesKnown = result.trip.dates_known;
+				// newTrip.id = result.trip.id;
+				// newTrip.activities = result.activities;
+
+				// this.setState({ trip: newTrip });
+
+				console.log(result);
 				const { trip } = result;
 				//console.log('Trip Render', trip)
 				trip.activities = result.activities;
 				this.setState({ trip });
+				this.setState({ inputLocation: trip.destination });
 			})
 			.catch((err) => console.log(err));
 
 		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.props.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
 		)
 			.then((result) => result.json())
 			.then((result) => {
+				console.log('From the geocode fetch state: ', this.state);
+				console.log('From the geocode fetch trip: ', this.state.trip);
+				console.log('From the geocode fetch: ', result);
 				const lat = result.results[0].geometry.location.lat;
 				const lng = result.results[0].geometry.location.lng;
 				this.setState({ lat: lat });

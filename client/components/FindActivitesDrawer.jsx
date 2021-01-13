@@ -65,6 +65,36 @@ const FindActivitiesDrawer = ({
 			});
 	};
 
+	const findActivitiesByTerm = (destination, text) => {
+		fetch('/api/yelp/', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				location: destination,
+				text
+			}),
+		})
+			.then((response) => {
+				if (response.status === 200) {
+					return response.json();
+				}
+
+				return response.json().then((err) => {
+					throw err;
+				});
+			})
+			.then((result) => {
+				console.log('result', result);
+				setSearchResults([...result.result]);
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	};
+
 	return (
 		<>
 			<Flex justifyContent="center">
@@ -97,7 +127,7 @@ const FindActivitiesDrawer = ({
 							<FormControl>
 								<FormLabel>Know What You're Looking For?</FormLabel>
 								<input />
-								<ActivitySearch trip={trip} findActivities={findActivities} />
+								<ActivitySearch trip={trip} findActivitiesByTerm={findActivitiesByTerm} findActivities={findActivities} />
 							</FormControl>
 							<GridItem colSpan={3}>
 								{searchResults && (
