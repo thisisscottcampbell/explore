@@ -25,8 +25,8 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
   }, []);
 
   const profileTabs = {
-    upcoming: trips,
-    inspiration: savedTrips,
+    'upcoming': trips,
+    'inspiration': savedTrips,
     'past trips': pastTrips,
   };
 

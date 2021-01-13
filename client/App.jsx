@@ -52,7 +52,6 @@ class App extends Component {
       .then((response) => response.json())
       .then((result) => {
         const { trips, savedTrips, pastTrips } = result;
-      
         this.setState({ trips, savedTrips, pastTrips });
       })
       .catch((error) => {
