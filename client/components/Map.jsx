@@ -5,6 +5,8 @@ const Map = ({ lat, lng, trip }) => {
 	//hide this...
 	const googleMapsApiKey = 'AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo';
 
+	console.log('I AM MAP', trip);
+
 	return (
 		<div style={{ width: '99%', height: '80vh' }}>
 			<WrappedMap

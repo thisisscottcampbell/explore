@@ -135,8 +135,8 @@ const TripPage = (props) => {
 				});
 			})
 			.then((data) => {
-				const activities = trip.activities.filter((el) => el.id !== id);
-				setTrip({ ...trip, activities });
+				const newActivities = trip.activities.filter((el) => el.id !== id);
+				setTrip({ ...trip, activities: newActivities });
 			})
 			.catch((error) => {
 				console.log(error);

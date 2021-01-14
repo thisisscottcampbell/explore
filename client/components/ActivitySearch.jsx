@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 
-import { Button, Input, Flex, Box, Heading, Select } from '@chakra-ui/react';
+import {
+	Button,
+	Input,
+	Flex,
+	Box,
+	Heading,
+	Select,
+	FormControl,
+} from '@chakra-ui/react';
 
 const ActivitySearch = ({ findActivities, findActivitiesByTerm, trip }) => {
 	const [searchField, setSearchField] = useState('');
@@ -39,56 +47,48 @@ const ActivitySearch = ({ findActivities, findActivitiesByTerm, trip }) => {
 			<Heading m={2} fontSize="2xl">
 				Search By Term
 			</Heading>
-			<Flex paddingX={40}>
-				<Box flex="2">
-					<Input
-						m={2}
-						placeholder="What are you looking for"
-						value={searchByTerm}
-						onChange={handleSelectedSearchByTerm}
-					/>
-				</Box>
-				<Box>
-					<Button
-						onClick={handleSearchByTerm}
-						colorScheme="blue"
-						size="lg"
-						marginLeft={2}
-					>
-						Search
-					</Button>
-				</Box>
-			</Flex>
+			<FormControl>
+				<Input
+					m={2}
+					placeholder="What are you looking for"
+					value={searchByTerm}
+					onChange={handleSelectedSearchByTerm}
+				/>
 
-			<Flex paddingX={40}>
-				<Box flex="2">
-					<Select
-						placeHolder="Search Activities"
-						value={searchField}
-						onChange={handleSelectedSearch}
-						background="white"
-					>
-						<option value="arts">Arts</option>
-						<option value="active">Currently Open</option>
-						<option value="food">Food</option>
-						<option value="hotels">Hotels</option>
-						<option value="parks">Parks</option>
-						<option value="shopping">Shopping</option>
-						<option value="tours">Tours</option>
-					</Select>
-				</Box>
+				<Button
+					onClick={handleSearchByTerm}
+					colorScheme="blue"
+					size="lg"
+					marginLeft={2}
+				>
+					Search
+				</Button>
 
-				<Box>
-					<Button
-						onClick={handleSearch}
-						colorScheme="blue"
-						size="lg"
-						marginLeft={2}
-					>
-						Search
-					</Button>
-				</Box>
-			</Flex>
+				<Select
+					m={2}
+					placeHolder="Search Activities"
+					value={searchField}
+					onChange={handleSelectedSearch}
+					background="white"
+				>
+					<option value="arts">Arts</option>
+					<option value="active">Currently Open</option>
+					<option value="food">Food</option>
+					<option value="hotels">Hotels</option>
+					<option value="parks">Parks</option>
+					<option value="shopping">Shopping</option>
+					<option value="tours">Tours</option>
+				</Select>
+
+				<Button
+					onClick={handleSearch}
+					colorScheme="blue"
+					size="lg"
+					marginLeft={2}
+				>
+					Search
+				</Button>
+			</FormControl>
 		</>
 	);
 };

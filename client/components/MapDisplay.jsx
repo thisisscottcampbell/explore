@@ -11,18 +11,13 @@ import { useControllableState } from '@chakra-ui/react';
 
 const MapDisplay = ({ lat, lng, trip }) => {
 	//console.log('MapDisplay props:', lat, lng, trip);
-
+	console.log('I AM MAPDISPLAY:', trip);
 	const [selectedActivity, setSelectedActivity] = useState(null);
-	const [activities, setActivities] = useState(trip.activities);
+	// const [activities, setActivities] = useState(trip.activities);
 	const [infoPosition, setInfoPosition] = useState(null);
 	//const [displaySearch, setSearch] = useState(false);
 
-	useEffect(() => {
-		//make request
-		//setParks(parksData);
-	}, []);
-
-	const DisplayActivities = activities.map((activity) => (
+	const DisplayActivities = trip.activities.map((activity) => (
 		<Marker
 			title={activity.title}
 			rating={activity.rating}

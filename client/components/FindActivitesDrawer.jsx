@@ -74,7 +74,7 @@ const FindActivitiesDrawer = ({
 			},
 			body: JSON.stringify({
 				location: destination,
-				text
+				text,
 			}),
 		})
 			.then((response) => {
@@ -124,11 +124,11 @@ const FindActivitiesDrawer = ({
 							Add Your Adventure
 						</DrawerHeader>
 						<DrawerBody>
-							<FormControl>
-								<FormLabel>Know What You're Looking For?</FormLabel>
-								<input />
-								<ActivitySearch trip={trip} findActivitiesByTerm={findActivitiesByTerm} findActivities={findActivities} />
-							</FormControl>
+							<ActivitySearch
+								trip={trip}
+								findActivitiesByTerm={findActivitiesByTerm}
+								findActivities={findActivities}
+							/>
 							<GridItem colSpan={3}>
 								{searchResults && (
 									<ActivityList
