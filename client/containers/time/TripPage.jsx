@@ -48,10 +48,8 @@ const TripPage = (props) => {
 				newTrip.activities = result.activities;
 
 				setTrip(newTrip);
-				console.log('I AM NEW TRIP: CDM', newTrip);
 				setInputLocation(newTrip.location);
 				setGeocodeFetch(true);
-				console.log('I AM TRIP: CDM', trip);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -63,13 +61,11 @@ const TripPage = (props) => {
 		)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log('GEO RESULT');
 				const lat = result.results[0].geometry.location.lat;
 				const lng = result.results[0].geometry.location.lng;
 				setLat(lat);
 				setLng(lng);
-				console.log('I AM TRIP: GEO', trip);
-				console.log('I AM TRIP.ACTIVITIES: GEO', trip.activities);
+
 				geocodeFetch(false);
 			})
 			.catch((err) => console.log('i am lat/lng error', err));
@@ -107,17 +103,7 @@ const TripPage = (props) => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				const newTrip = trip;
-				console.log(newTrip);
-				const activity = data.activity;
-				activity.imageUrl = data.activity.image_url;
-				newTrip.activities.push(data.activity);
-				setTrip(newTrip);
-				//console.log(data.activity);
-
-				// const trip = [...this.state.trip];
-				// trip.activities.push(data.activity);
-				// this.props.handleNewTrip(trips);
+				setTrip({ ...trip, activities: [...trip.activities, data.activity] });
 			})
 			.catch((error) => console.log(error));
 	};

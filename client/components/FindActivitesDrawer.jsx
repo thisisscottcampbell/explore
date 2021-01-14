@@ -57,7 +57,7 @@ const FindActivitiesDrawer = ({
 				});
 			})
 			.then((result) => {
-				console.log('result', result);
+				console.log('RESULT', result);
 				setSearchResults([...result.result]);
 			})
 			.catch((error) => {
