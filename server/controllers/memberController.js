@@ -38,7 +38,8 @@ memberController.createMember = (req, res, next) => {
         // override the cleartext password with the hashed one
         hashedPassword = hash;
 
-        const query = 'INSERT INTO member (username, password, email) VALUES ($1, $2 , $3)';
+        const query =
+          'INSERT INTO member (username, password, email) VALUES ($1, $2 , $3)';
         const member = Pool.query(query, [username, hashedPassword, email]);
         next();
       });
@@ -81,6 +82,28 @@ memberController.validateMember = async (req, res, next) => {
   } catch (error) {
     next({
       log: `memberController.validateMember: ${error}`,
+      status: 500,
+      message: {
+        err: 'Internal server error',
+      },
+    });
+  }
+};
+
+memberController.updateMember = async (req, res, next) => {
+  const member_id = req.session.passport.user;
+
+  const { saved_trips } = req.body;
+
+  try {
+    const query = `UPDATE member SET saved_trips='{$2}' WHERE id=$1`;
+
+    const member = await Pool.query(query, [member_id, saved_trips]);
+
+    return next();
+  } catch (error) {
+    next({
+      log: `memberController.updateMember: ${error}`,
       status: 500,
       message: {
         err: 'Internal server error',

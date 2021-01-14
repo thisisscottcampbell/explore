@@ -52,6 +52,7 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
                   end_date={trip.end_date}
                   locationphotos={trip.locationphotos}
                   member_name='trip.member_name'
+                  favorite={trip.favorite}
                 />
               ))}
           </Flex>

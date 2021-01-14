@@ -16,7 +16,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 
-const Inspiration = ({ handleFetchState, inspirationTrips }) => {
+const Inspiration = ({ handleFetchState, inspirationTrips, handleFavorite }) => {
   useEffect(() => {
     handleFetchState('inspiration');
   }, []);
@@ -32,6 +32,7 @@ const Inspiration = ({ handleFetchState, inspirationTrips }) => {
               inspirationTrips.map((trip) => (
                 <ProfileTrip
                   key={trip.id}
+                  tripId={trip.id}
                   title={trip.title}
                   destination={trip.destination}
                   start_date={trip.start_date}
@@ -39,7 +40,7 @@ const Inspiration = ({ handleFetchState, inspirationTrips }) => {
                   locationphotos={trip.locationphotos}
                   favorite={trip.favorite}
                   member_name='trip.member_name'
-                  // handleFavorite={this.handleFavorite}
+                  handleFavorite={handleFavorite}
                 />
               ))}
           </Flex>

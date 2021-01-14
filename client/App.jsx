@@ -13,6 +13,7 @@ import NotFound from './containers/404';
 
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
+ 
 
 class App extends Component {
   constructor(props) {
@@ -22,8 +23,9 @@ class App extends Component {
       savedTrips: [],
       pastTrips: [],
       message: '',
-			inputLocation: '',
-			inspirationTrips: [],
+      inputLocation: '',
+      inspirationTrips: [],
+      favoriteTripIds: [],
     };
   }
 
@@ -44,38 +46,80 @@ class App extends Component {
     this.setState({ trips: trips, message: message }, () =>
       console.log(this.state)
     );
-	};
-	
-	handleFavorite = (inspirationTrip) => {
-		console.log('in handleFavorite')
-		if (inspriationTrip.favorite) {
-			inspirationTrip.favorite = false;
-			this.setState({inspirationTrip: inspirationTrip})
-		} else {
-			inspirationTrip.favorite = true;
-			this.setState({inspirationTrip: inspirationTrip})
-		}
-		console.log(this.state.inspirationTrip.favorite)
-	}
+  };
+
+  handleFavorite = (inspirationTripId) => {
+    console.log('in handleFavorite');
+
+    let favoriteTripIdsUpdate = [...this.state.favoriteTripIds];
+
+    const inspirationTripsUpdate = this.state.inspirationTrips.map((trip) => {
+      if (trip.id === inspirationTripId) {
+        // delete favorite
+        if (trip.favorite) {
+          favoriteTripIdsUpdate = favoriteTripIdsUpdate.filter((trip) => {
+            return trip != inspirationTripId;
+          });
+        } else {
+          favoriteTripIdsUpdate.push(trip.id);
+        }
+
+        const tripUpdate = { ...trip, favorite: !trip.favorite };
+        return tripUpdate;
+      }
+      return trip;
+    });
+
+    this.setState({
+      inspirationTrips: inspirationTripsUpdate,
+      favoriteTripIds: favoriteTripIdsUpdate,
+    });
+
+    fetch('/api/member/update', {
+      method: 'PUT',
+      body: JSON.stringify({ saved_trips: favoriteTripIdsUpdate }),
+    })
+      .then((response) => {
+        response.json();
+      })
+      .then((data) => {
+        console.log('HANDLEFAVORITE FETCH RESPONSE MESSAGE', data.message);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
 
   handleFetchState = (whichTrips) => {
     // whichTrips: upcoming/past/inspiration/all
     fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
       .then((response) => response.json())
       .then((result) => {
-				console.log('RES', result)
-				const { trips, savedTrips, pastTrips, inspirationTrips, favoriteTripIds } = result;
-				// console.log('BEFORE MAPPING FAV', inspirationTrips)
-				console.log('FAVORITE TRIP IDS: ', favoriteTripIds)
-				console.log('ROUTE', whichTrips)
-				if (whichTrips === 'inspiration' && favoriteTripIds[0].saved_trips) {
-					inspirationTrips.map((trip) => {
-						// console.log(trip.id)
-						trip.favorite = favoriteTripIds[0].saved_trips.includes(trip.id)
-					})
-					// console.log('AFTER MAPPING FAV', inspirationTrips)
-				}
-        this.setState({ trips, savedTrips, pastTrips, inspirationTrips });
+        console.log('RES', result);
+        const {
+          trips,
+          savedTrips,
+          pastTrips,
+          inspirationTrips,
+          favoriteTripIds,
+        } = result;
+        // console.log('BEFORE MAPPING FAV', inspirationTrips)
+        console.log('FAVORITE TRIP IDS: ', favoriteTripIds);
+        console.log('ROUTE', whichTrips);
+        if (whichTrips === 'inspiration' && favoriteTripIds[0].saved_trips) {
+          inspirationTrips.map((trip) => {
+            // console.log(trip.id)
+            trip.favorite = favoriteTripIds[0].saved_trips.includes(trip.id);
+          });
+          // console.log('AFTER MAPPING FAV', inspirationTrips)
+        }
+        this.setState({
+          trips,
+          savedTrips,
+          pastTrips,
+          inspirationTrips,
+          favoriteTripIds,
+        });
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -106,7 +150,7 @@ class App extends Component {
       .catch((error) => {
         console.error('Error:', error);
       });
-	};
+  };
 
   render() {
     return (
@@ -146,8 +190,8 @@ class App extends Component {
             component={Inspiration}
             inspirationTrips={this.state.inspirationTrips}
             savedTrips={this.state.savedTrips}
-						handleFetchState={this.handleFetchState}
-						// handleFavorite={this.handleFavorite}
+            handleFetchState={this.handleFetchState}
+            handleFavorite={this.handleFavorite}
           />
 
           <PrivateRoute path='*' component={NotFound} />

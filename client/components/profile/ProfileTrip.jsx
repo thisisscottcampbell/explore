@@ -17,8 +17,6 @@ import {
   TabList,
 } from '@chakra-ui/react';
 
-
-
 const ProfileTrip = ({
   title,
   destination,
@@ -27,6 +25,8 @@ const ProfileTrip = ({
   locationphotos,
   member_name,
   favorite,
+  tripId,
+  handleFavorite,
 }) => {
   return (
     <>
@@ -47,11 +47,12 @@ const ProfileTrip = ({
           </Flex>
         </Grid>
         <Grid>
-          <Button /*onClick={handleFavorite}*/>
-            { favorite ?
-            <Icon as={AiFillHeart} color='teal.500'/> : 
-            <Icon as={AiOutlineHeart} color='teal.500'/> 
-            }
+          <Button onClick={() => handleFavorite(tripId)}>
+            {favorite ? (
+              <Icon as={AiFillHeart} color='teal.500' />
+            ) : (
+              <Icon as={AiOutlineHeart} color='teal.500' />
+            )}
           </Button>
         </Grid>
       </Box>
