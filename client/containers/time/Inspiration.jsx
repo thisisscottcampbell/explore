@@ -37,7 +37,9 @@ const Inspiration = ({ handleFetchState, inspirationTrips }) => {
                   start_date={trip.start_date}
                   end_date={trip.end_date}
                   locationphotos={trip.locationphotos}
+                  favorite={trip.favorite}
                   member_name='trip.member_name'
+                  // handleFavorite={this.handleFavorite}
                 />
               ))}
           </Flex>

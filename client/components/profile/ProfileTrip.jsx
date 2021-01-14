@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 
 import {
   Icon,
@@ -17,6 +17,8 @@ import {
   TabList,
 } from '@chakra-ui/react';
 
+
+
 const ProfileTrip = ({
   title,
   destination,
@@ -24,6 +26,7 @@ const ProfileTrip = ({
   end_date,
   locationphotos,
   member_name,
+  favorite,
 }) => {
   return (
     <>
@@ -44,8 +47,11 @@ const ProfileTrip = ({
           </Flex>
         </Grid>
         <Grid>
-          <Button /*onClick={handleAddFavorite}*/>
-            <Icon as={AiOutlineHeart}/>
+          <Button /*onClick={handleFavorite}*/>
+            { favorite ?
+            <Icon as={AiFillHeart} color='teal.500'/> : 
+            <Icon as={AiOutlineHeart} color='teal.500'/> 
+            }
           </Button>
         </Grid>
       </Box>
