@@ -64,14 +64,14 @@ class App extends Component {
       .then((response) => response.json())
       .then((result) => {
 				console.log('RES', result)
-				const { trips, savedTrips, pastTrips, inspirationTrips } = result;
+				const { trips, savedTrips, pastTrips, inspirationTrips, favoriteTripIds } = result;
 				// console.log('BEFORE MAPPING FAV', inspirationTrips)
-				console.log('SAVED TRIPS', savedTrips)
+				console.log('FAVORITE TRIP IDS: ', favoriteTripIds)
 				console.log('ROUTE', whichTrips)
-				if (whichTrips === 'inspiration' && savedTrips[0].saved_trips) {
+				if (whichTrips === 'inspiration' && favoriteTripIds[0].saved_trips) {
 					inspirationTrips.map((trip) => {
 						// console.log(trip.id)
-						trip.favorite = savedTrips[0].saved_trips.includes(trip.id)
+						trip.favorite = favoriteTripIds[0].saved_trips.includes(trip.id)
 					})
 					// console.log('AFTER MAPPING FAV', inspirationTrips)
 				}

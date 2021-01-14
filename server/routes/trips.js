@@ -24,6 +24,7 @@ route.get(
       savedTrips: res.locals.savedTrips,
       pastTrips: res.locals.pastTrips,
       inspirationTrips: res.locals.inspirationTrips,
+      favoriteTripIds: res.locals.favoriteTripIds,
     });
   }
 );
