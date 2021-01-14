@@ -21,24 +21,6 @@ import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
 import Map from '../../components/Map';
 
 const TripPage = (props) => {
-	// constructor(props) {
-	// 	super(props);
-
-	// 	this.state = {
-	// 		trip: {
-	// 			activities: [],
-	// 		},
-	// 		inputLocation: '',
-	// 		tripId: props.location.state.param,
-	// 		lat: null,
-	// 		lng: null,
-	// 		member_id: props.computedMatch.params.member_id,
-	// 	};
-	// 	// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
-	// 	this.addActivityHandler = this.addActivityHandler.bind(this);
-	// 	this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
-	// }
-
 	const [trip, setTrip] = useState({});
 	const [inputLocation, setInputLocation] = useState('');
 	const [tripId, setTripId] = useState(props.location.state.param);
@@ -81,12 +63,14 @@ const TripPage = (props) => {
 		)
 			.then((result) => result.json())
 			.then((result) => {
+				console.log('GEO RESULT');
 				const lat = result.results[0].geometry.location.lat;
 				const lng = result.results[0].geometry.location.lng;
 				setLat(lat);
 				setLng(lng);
-				geocodeFetch(false);
 				console.log('I AM TRIP: GEO', trip);
+				console.log('I AM TRIP.ACTIVITIES: GEO', trip.activities);
+				geocodeFetch(false);
 			})
 			.catch((err) => console.log('i am lat/lng error', err));
 	}, [geocodeFetch]);
@@ -123,11 +107,12 @@ const TripPage = (props) => {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				const trip = { trip };
+				const newTrip = trip;
+				console.log(newTrip);
 				const activity = data.activity;
 				activity.imageUrl = data.activity.image_url;
-				trip.activities.push(data.activity);
-				setTrip(trip);
+				newTrip.activities.push(data.activity);
+				setTrip(newTrip);
 				//console.log(data.activity);
 
 				// const trip = [...this.state.trip];
@@ -151,7 +136,7 @@ const TripPage = (props) => {
 			})
 			.then((data) => {
 				const activities = trip.activities.filter((el) => el.id !== id);
-				setTrip({ ...this.state.trip, activities });
+				setTrip({ ...trip, activities });
 			})
 			.catch((error) => {
 				console.log(error);
@@ -167,19 +152,19 @@ const TripPage = (props) => {
 				</GridItem>
 				<GridItem colSpan={3}>
 					<GridItem colSpan={3} m={30} padding={10}>
-						{/* {trip && (
+						{trip.location && (
 							<FindActivitesDrawer
 								addActivityHandler={addActivityHandler}
 								trip={trip}
 							/>
-						)} */}
+						)}
 						<GridItem colSpan={3}>
-							{/* {trip && (
+							{trip.activities && (
 								<SavedActivitiesDrawer
 									deleteActivityHandler={deleteActivityHandler}
-									currentActivities={trip.activities}
+									trip={trip}
 								/>
-							)} */}
+							)}
 						</GridItem>
 					</GridItem>
 
