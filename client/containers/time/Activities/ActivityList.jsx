@@ -19,7 +19,7 @@ const ActivityList = ({ searchResults, addActivityHandler, onClose }) => {
 			<Box boxSize="m">
 				<Grid templateColumns="repeat(2, 1fr)" m={30} padding={10} gap={6}>
 					{searchResults.map((activity) => (
-						<GridItem colSpan={1} align="center">
+						<GridItem colSpan={1}>
 							<Activity
 								addActivityHandler={addActivityHandler}
 								activity={activity}
