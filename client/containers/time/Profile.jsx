@@ -51,7 +51,8 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
                   start_date={trip.start_date}
                   end_date={trip.end_date}
                   locationphotos={trip.locationphotos}
-                  member_name='trip.member_name'
+                  member_name='trip.username'
+                  member_id={trip.member_id}
                   favorite={trip.favorite}
                 />
               ))}

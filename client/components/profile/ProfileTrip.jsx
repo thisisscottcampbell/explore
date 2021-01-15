@@ -1,5 +1,6 @@
 import React from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 import {
   Icon,
@@ -9,7 +10,6 @@ import {
   Image,
   Grid,
   GridItem,
-  Link,
   Badge,
   Center,
   Flex,
@@ -27,6 +27,7 @@ const ProfileTrip = ({
   favorite,
   tripId,
   handleFavorite,
+  member_id,
 }) => {
   return (
     <>
@@ -37,6 +38,11 @@ const ProfileTrip = ({
           <GridItem>
             {new Date(start_date).toLocaleDateString()} -{' '}
             {new Date(end_date).toLocaleDateString()}
+          </GridItem>
+          <GridItem>
+            <Link to={{ pathname: `/time/profile/2` }}>
+              PERSON {member_name}
+            </Link>
           </GridItem>
           <Flex align='center'>
             <Image
