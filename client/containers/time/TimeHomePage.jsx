@@ -7,6 +7,7 @@ import TripListContainer from './TripList';
 
 class TimeHomePage extends Component {
 	componentDidMount() {
+		console.log(this.props);
 		this.props.handleFetchState();
 	}
 
@@ -20,9 +21,10 @@ class TimeHomePage extends Component {
 			.then((res) => res.json())
 			.then((body) => {
 				const results = body.result.photos;
-				let photos = [];
+				//console.log(results)
+				let locationphotos = [];
 				for (let i = 0; i < results.length; i++) {
-					photos.push(
+					locationphotos.push(
 						`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=${results[i].photo_reference}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
 					);
 				}
@@ -77,7 +79,7 @@ class TimeHomePage extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log('Success:', data);
+				//console.log('Success:', data);
 				const trips = [...this.props.trips, data.trip];
 				this.props.handleNewTrip(trips);
 			})
@@ -111,9 +113,6 @@ class TimeHomePage extends Component {
 	};
 
 	render() {
-		// console.log('this.props.trips from TimeHomePage',this.props.trips);
-		console.log('TRIPS', this.props.trips);
-		console.log('MESSAGE', this.props.message);
 		return (
 			<>
 				<NavBar />
@@ -124,6 +123,7 @@ class TimeHomePage extends Component {
 					deleteTripHandler={this.deleteTripHandler}
 					trips={this.props.trips}
 					message={this.props.message}
+					{...this.props}
 				/>
 				<Footer />
 			</>

@@ -18,76 +18,59 @@ import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 import FindActivitesDrawer from '../../components/FindActivitesDrawer';
 import SavedActivitiesDrawer from '../../components/SavedActivitiesDrawer';
+import Map from '../../components/Map';
 
-class TripPage extends Component {
-	constructor(props) {
-		super(props);
+const TripPage = (props) => {
+	const [trip, setTrip] = useState({});
+	const [inputLocation, setInputLocation] = useState('');
+	const [tripId, setTripId] = useState(props.location.state.param);
+	const [lat, setLat] = useState('');
+	const [lng, setLng] = useState('');
+	const [member_id, setMember_id] = useState(
+		props.computedMatch.params.member_id
+	);
+	const [geocodeFetch, setGeocodeFetch] = useState(false);
 
-		this.state = {
-			trip: {
-				activities: [],
-			},
-			tripId: props.location.state.param,
-			lat: null,
-			lng: null,
-			member_id: props.computedMatch.params.member_id,
-		};
-		// this.handleSearchedActivities = this.handleSearchedActivities.bind(this);
-		this.addActivityHandler = this.addActivityHandler.bind(this);
-		this.deleteActivityHandler = this.deleteActivityHandler.bind(this);
-	}
-
-	componentDidMount() {
-		// const { tripId } = this.props.match.params
-		// console.log('Get url params', tripId);
-		console.log(this.state.trip);
-		// console.log(this.props)
-
-		fetch(`/api/trips/${this.state.member_id}/${this.state.tripId}`)
+	useEffect(() => {
+		fetch(`/api/trips/${member_id}/${tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log(result);
-				const { trip } = result;
-				trip.activities = [];
-				this.setState({ trip });
+				const newTrip = {};
+				newTrip.location = result.trip.destination;
+				newTrip.tripName = result.trip.title;
+				newTrip.place_id = result.trip.place_id;
+				newTrip.tripStartFrontEnd = result.trip.start_date;
+				newTrip.tripEndFrontEnd = result.trip.end_date;
+				newTrip.locationphotos = result.trip.locationphotos;
+				newTrip.datesKnown = result.trip.dates_known;
+				newTrip.id = result.trip.id;
+				newTrip.activities = result.activities;
+
+				setTrip(newTrip);
+				setInputLocation(newTrip.location);
+				setGeocodeFetch(true);
 			})
 			.catch((err) => console.log(err));
-	}
+	}, []);
 
-	// handleSearchedActivities = (destination, category) => {
-	// 	fetch('/api/yelp/', {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			Accept: 'application/json',
-	// 			'Content-Type': 'application/json',
-	// 		},
-	// 		body: JSON.stringify({
-	// 			categories: category,
-	// 			location: destination,
-	// 		}),
-	// 	})
-	// 		.then((response) => {
-	// 			console.log(body);
-	// 			if (response.status === 200) {
-	// 				return response.json();
-	// 			}
+	useEffect(() => {
+		if (!geocodeFetch) return;
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${inputLocation}&key=AIzaSyD1C3IhMoufeZNQ0FEC2b5B2wyr6gVBMfo`
+		)
+			.then((result) => result.json())
+			.then((result) => {
+				const lat = result.results[0].geometry.location.lat;
+				const lng = result.results[0].geometry.location.lng;
+				setLat(lat);
+				setLng(lng);
 
-	// 			return response.json().then((err) => {
-	// 				throw err;
-	// 			});
-	// 		})
-	// 		.then((result) => {
-	// 			console.log('result', result);
-	// 			let trip = { ...this.state.trip };
-	// 			let newActivites = result.result;
-	// 			trip.searchedActivities = newActivites;
-	// 			this.setState({ trip });
-	// 		})
-	// 		.catch((error) => {
-	// 			console.error('Error:', error);
-	// 		});
-	// };
-	addActivityHandler = (
+				geocodeFetch(false);
+			})
+			.catch((err) => console.log('i am lat/lng error', err));
+	}, [geocodeFetch]);
+
+	const addActivityHandler = (
 		event,
 		name,
 		location,
@@ -100,7 +83,7 @@ class TripPage extends Component {
 	) => {
 		event.preventDefault();
 
-		fetch(`/api/activity/${this.state.tripId}`, {
+		fetch(`/api/activity/${tripId}`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -119,20 +102,11 @@ class TripPage extends Component {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				let trip = { ...this.state.trip };
-				const activity = data.activity;
-				activity.imageUrl = data.activity.image_url;
-				trip.activities.push(data.activity);
-				this.setState({ trip });
-				console.log(data.activity);
-
-				// const trip = [...this.state.trip];
-				// trip.activities.push(data.activity);
-				// this.props.handleNewTrip(trips);
+				setTrip({ ...trip, activities: [...trip.activities, data.activity] });
 			})
 			.catch((error) => console.log(error));
 	};
-	deleteActivityHandler = (event, id) => {
+	const deleteActivityHandler = (event, id) => {
 		fetch(`/api/activity/${id}`, {
 			method: 'DELETE',
 			headers: {
@@ -146,50 +120,49 @@ class TripPage extends Component {
 				});
 			})
 			.then((data) => {
-				const activities = this.state.trip.activities.filter(
-					(el) => el.id !== id
-				);
-				this.setState({ trip: { ...this.state.trip, activities } });
+				const newActivities = trip.activities.filter((el) => el.id !== id);
+				setTrip({ ...trip, activities: newActivities });
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
-	render() {
-		return (
-			<>
-				<NavBar />
-				<Grid templateColumns="repeat(3, 1fr)">
-					<GridItem colSpan={3}>
-						<TripPageIntroText trip={this.state.trip} />
+
+	return (
+		<>
+			<NavBar />
+			<Grid templateColumns="repeat(3, 1fr)" templateRows="repeat(1, 1fr)">
+				<GridItem colSpan={1} m={15}>
+					{trip.location && (
+						<FindActivitesDrawer
+							addActivityHandler={addActivityHandler}
+							trip={trip}
+						/>
+					)}
+				</GridItem>
+				<GridItem colSpan={1} m={2.5}>
+					{trip && <TripPageIntroText trip={trip} />}
+				</GridItem>
+
+				<GridItem colSpan={1} m={15}>
+					{trip.activities && (
+						<SavedActivitiesDrawer
+							deleteActivityHandler={deleteActivityHandler}
+							trip={trip}
+						/>
+					)}
+				</GridItem>
+
+				{lat && lng && (
+					<GridItem colSpan={3} rowSpan={1}>
+						<Map trip={trip} lat={lat} lng={lng} />
 					</GridItem>
-					<GridItem colSpan={3}>
-						<GridItem colSpan={3} m={30} padding={10}>
-							<FindActivitesDrawer
-								addActivityHandler={this.addActivityHandler}
-								trip={this.state.trip}
-							/>
-							<GridItem colSpan={3}>
-								<SavedActivitiesDrawer
-									deleteActivityHandler={this.deleteActivityHandler}
-									currentActivities={this.state.trip.activities}
-								/>
-							</GridItem>
-						</GridItem>
-						{this.state.lng && this.state.lat && (
-							<Map
-								trip={this.state.trip}
-								lat={this.state.lat}
-								lng={this.state.lng}
-							/>
-						)}
-					</GridItem>
-				</Grid>
-				<Footer />
-				{/* <Button onClick={this.handleShowState}>Show State</Button> */}
-			</>
-		);
-	}
-}
+				)}
+			</Grid>
+			<Footer />
+			{/* <Button onClick={this.handleShowState}>Show State</Button> */}
+		</>
+	);
+};
 
 export default TripPage;

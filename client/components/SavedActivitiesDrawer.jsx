@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import SavedActivities from './SavedActivities';
 
 import {
@@ -23,10 +23,9 @@ import {
 } from '@chakra-ui/react';
 import { RiAddCircleFill } from 'react-icons/ri';
 
-const SavedActivitiesDrawer = ({
-	deleteActivityHandler,
-	currentActivities,
-}) => {
+const SavedActivitiesDrawer = ({ deleteActivityHandler, trip }) => {
+	console.log('I AM TRIP: SAD', trip);
+	console.log('I AM TRIP.ACT: SAD', trip.activities);
 	const btnRef = React.useRef();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
@@ -59,7 +58,7 @@ const SavedActivitiesDrawer = ({
 						</DrawerHeader>
 						<DrawerBody>
 							<Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
-								{currentActivities.map((activity) => (
+								{trip.activities.map((activity) => (
 									<SavedActivities
 										deleteActivityHandler={deleteActivityHandler}
 										activity={activity}

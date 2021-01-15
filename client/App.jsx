@@ -21,8 +21,13 @@ class App extends Component {
 			savedTrips: [],
 			pastTrips: [],
 			message: '',
+			inputLocation: '',
 		};
 	}
+
+	saveLocation = (inputLocation) => {
+		this.setState({ inputLocation: inputLocation });
+	};
 
 	handleNewTrip = (trips) => {
 		this.setState({ trips: trips });
@@ -32,8 +37,22 @@ class App extends Component {
 		this.setState({ trips: trips });
 	};
 
-	handleStateUpdate = (emptyTrip) => {
-		this.setState({ trips: emptyTrip });
+	handleDelete = (trips, message) => {
+		this.setState({ trips: trips, message: message });
+	};
+
+	handleFetchState = (whichTrips) => {
+		// whichTrips: upcoming/past/inspiration/all
+		fetch(`/api/trips/?type=${whichTrips}`) // `api/trips/?=${condition}`  // api/trips/?=all
+			.then((response) => response.json())
+			.then((result) => {
+				const { trips, savedTrips, pastTrips } = result;
+
+				this.setState({ trips, savedTrips, pastTrips });
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 	};
 
 	handleDelete = (trips, message) => {
@@ -97,6 +116,7 @@ class App extends Component {
 						handleStateUpdate={this.handleStateUpdate}
 						handleDelete={this.handleDelete}
 						handleFetchState={this.handleFetchState}
+						saveLocation={this.saveLocation}
 					/>
 					{/* <PrivateRoute path="/time/trip" exact component={TripPage} /> */}
 					<PrivateRoute
@@ -108,7 +128,9 @@ class App extends Component {
 					<PrivateRoute
 						path="/time/profile/:userid"
 						component={Profile}
-						allTrips={this.state.trips}
+						trips={this.state.trips}
+						savedTrips={this.state.savedTrips}
+						pastTrips={this.state.pastTrips}
 						handleFetchState={this.handleFetchState}
 					/>
 					{/* <PrivateRoute path="/time/activitylist" exact component={ActivityList} /> */}
