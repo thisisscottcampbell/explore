@@ -13,7 +13,7 @@ import {
 	StackDivider,
 	Heading,
 } from '@chakra-ui/react';
-const ActivityList = ({ searchResults, addActivityHandler }) => {
+const ActivityList = ({ searchResults, addActivityHandler, onClose }) => {
 	return (
 		<>
 			<Box boxSize="m">
@@ -23,6 +23,7 @@ const ActivityList = ({ searchResults, addActivityHandler }) => {
 							<Activity
 								addActivityHandler={addActivityHandler}
 								activity={activity}
+								onClose={onClose}
 							/>
 						</GridItem>
 					))}

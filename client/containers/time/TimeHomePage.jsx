@@ -113,9 +113,6 @@ class TimeHomePage extends Component {
 	};
 
 	render() {
-		// console.log('this.props.trips from TimeHomePage',this.props.trips);
-		//console.log('TRIPS', this.props.trips);
-		//console.log('MESSAGE', this.props.message);
 		return (
 			<>
 				<NavBar />

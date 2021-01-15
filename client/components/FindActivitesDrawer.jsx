@@ -132,6 +132,7 @@ const FindActivitiesDrawer = ({
 							<GridItem colSpan={3}>
 								{searchResults && (
 									<ActivityList
+										onClose={onClose}
 										addActivityHandler={addActivityHandler}
 										searchResults={searchResults}
 									/>

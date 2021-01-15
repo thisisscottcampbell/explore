@@ -10,8 +10,6 @@ import { useControllableState } from '@chakra-ui/react';
 // import mapStyles from './mapStyles';
 
 const MapDisplay = ({ lat, lng, trip }) => {
-	//console.log('MapDisplay props:', lat, lng, trip);
-	console.log('I AM MAPDISPLAY:', trip);
 	const [selectedActivity, setSelectedActivity] = useState(null);
 	const [infoPosition, setInfoPosition] = useState(null);
 	//const [displaySearch, setSearch] = useState(false);

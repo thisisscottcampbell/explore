@@ -35,7 +35,6 @@ const TripPage = (props) => {
 		fetch(`/api/trips/${member_id}/${tripId}`)
 			.then((result) => result.json())
 			.then((result) => {
-				console.log('I AM RESULT: CDM', result);
 				const newTrip = {};
 				newTrip.location = result.trip.destination;
 				newTrip.tripName = result.trip.title;
@@ -132,30 +131,33 @@ const TripPage = (props) => {
 	return (
 		<>
 			<NavBar />
-			<Grid templateColumns="repeat(3, 1fr)">
-				<GridItem colSpan={3}>
-					<TripPageIntroText trip={trip} />
+			<Grid templateColumns="repeat(3, 1fr)" templateRows="repeat(1, 1fr)">
+				<GridItem colSpan={1} m={15}>
+					{trip.location && (
+						<FindActivitesDrawer
+							addActivityHandler={addActivityHandler}
+							trip={trip}
+						/>
+					)}
 				</GridItem>
-				<GridItem colSpan={3}>
-					<GridItem colSpan={3} m={30} padding={10}>
-						{trip.location && (
-							<FindActivitesDrawer
-								addActivityHandler={addActivityHandler}
-								trip={trip}
-							/>
-						)}
-						<GridItem colSpan={3}>
-							{trip.activities && (
-								<SavedActivitiesDrawer
-									deleteActivityHandler={deleteActivityHandler}
-									trip={trip}
-								/>
-							)}
-						</GridItem>
-					</GridItem>
+				<GridItem colSpan={1} m={2.5}>
+					{trip && <TripPageIntroText trip={trip} />}
+				</GridItem>
 
-					{lat && lng && <Map trip={trip} lat={lat} lng={lng} />}
+				<GridItem colSpan={1} m={15}>
+					{trip.activities && (
+						<SavedActivitiesDrawer
+							deleteActivityHandler={deleteActivityHandler}
+							trip={trip}
+						/>
+					)}
 				</GridItem>
+
+				{lat && lng && (
+					<GridItem colSpan={3} rowSpan={1}>
+						<Map trip={trip} lat={lat} lng={lng} />
+					</GridItem>
+				)}
 			</Grid>
 			<Footer />
 			{/* <Button onClick={this.handleShowState}>Show State</Button> */}
