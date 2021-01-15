@@ -8,8 +8,8 @@ import { Box, Button, Text, Grid, GridItem, Link } from '@chakra-ui/react';
 const Footer = () => (
   <Box
     border='1px'
-    borderColor='teal.100'
-    background='teal.50'
+    borderColor='#c8c8c8'
+    background='#e8e8e8'
     left='0px'
     bottom='0px'
     height='12%'
@@ -24,8 +24,21 @@ const Footer = () => (
             }
             rowSpan={1}
             fontSize={{ base: '12px', md: '12px', lg: '16px' }}
+            background='#f8f8f8'
           >
-            Our Code
+            Open Source Code
+          </Button>
+        </Link>
+        <Link href='https://github.com/teamjellybean/exploration' m={1}>
+          <Button
+            leftIcon={
+              <AiOutlineGithub w={('20px', '32px')} h={('20px', '32px')} />
+            }
+            rowSpan={1}
+            fontSize={{ base: '12px', md: '12px', lg: '16px' }}
+            background='#f8f8f8'
+          >
+            Iteration Code
           </Button>
         </Link>
       </GridItem>
@@ -40,7 +53,7 @@ const Footer = () => (
           textAlign={['left', 'center']}
           fontSize={{ base: '8px', md: '12px', lg: '16px' }}
         >
-          By Scott Campbell, Christy Gomez, Dasha Kondratenko, Jason Lee, &
+          Open Source Iteration By Scott Campbell, Christy Gomez, Dasha Kondratenko, Jason Lee, &
           Chris Lung
         </Text>
       </GridItem>
