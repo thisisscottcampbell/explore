@@ -1,13 +1,15 @@
 import React from 'react';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 import {
+  Icon,
   Box,
   Button,
   Text,
   Image,
   Grid,
   GridItem,
-  Link,
   Badge,
   Center,
   Flex,
@@ -22,6 +24,10 @@ const ProfileTrip = ({
   end_date,
   locationphotos,
   member_name,
+  favorite,
+  tripId,
+  handleFavorite,
+  member_id,
 }) => {
   return (
     <>
@@ -33,6 +39,11 @@ const ProfileTrip = ({
             {new Date(start_date).toLocaleDateString()} -{' '}
             {new Date(end_date).toLocaleDateString()}
           </GridItem>
+          <GridItem>
+            <Link to={{ pathname: `/time/profile/2` }}>
+              PERSON {member_name}
+            </Link>
+          </GridItem>
           <Flex align='center'>
             <Image
               //   boxSize='200px'
@@ -41,23 +52,15 @@ const ProfileTrip = ({
             />
           </Flex>
         </Grid>
-        {/* <Grid templateColumns='repeat(3, 1fr)'>
-          {menuItems.map((el, index) => {
-            return (
-              <GridItem colSpan={1} m={2} key={el + index}>
-                <Button
-                  colorScheme='teal'
-                  variant='outline'
-                  onClick={() => setCurrentTab(el)}
-                >
-                  <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
-                    {el}
-                  </Text>
-                </Button>
-              </GridItem>
-            );
-          })}
-        </Grid> */}
+        <Grid>
+          <Button onClick={() => handleFavorite(tripId)}>
+            {favorite ? (
+              <Icon as={AiFillHeart} color='teal.500' />
+            ) : (
+              <Icon as={AiOutlineHeart} color='teal.500' />
+            )}
+          </Button>
+        </Grid>
       </Box>
     </>
   );

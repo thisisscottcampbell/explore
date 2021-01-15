@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
-import ProfileHeader from '../../components/profile/ProfileHeader';
 import ProfileTrip from '../../components/profile/ProfileTrip';
 
 import {
@@ -17,43 +16,32 @@ import {
   Flex,
 } from '@chakra-ui/react';
 
-const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
-  const [currentTab, setCurrentTab] = useState('inspiration');
-
+const Inspiration = ({ handleFetchState, inspirationTrips, handleFavorite }) => {
   useEffect(() => {
-    handleFetchState('all'); // 'all' -> server side splits to 'upcoming' and 'past'
+    handleFetchState('inspiration');
   }, []);
 
-  const profileTabs = {
-    "upcoming": trips,
-    "inspiration": savedTrips,
-    "past trips": pastTrips,
-  };
-
-  // console.log('all trips FROM PROFILE PAGE', trips)
-  console.log('INSPIRATION SAVED TRIPS: ', savedTrips);
+  console.log('INSPIRATION ALL TRIPS: ', inspirationTrips);
   return (
     <>
       <NavBar />
       <Box>
-        <ProfileHeader
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-          menuItems={Object.keys(profileTabs)}
-        />
         <>
           <Flex>
-            {profileTabs[currentTab] &&
-              profileTabs[currentTab].map((trip) => (
+            {inspirationTrips &&
+              inspirationTrips.map((trip) => (
                 <ProfileTrip
+                  key={trip.id}
+                  tripId={trip.id}
                   title={trip.title}
                   destination={trip.destination}
                   start_date={trip.start_date}
                   end_date={trip.end_date}
                   locationphotos={trip.locationphotos}
+                  favorite={trip.favorite}
                   member_name='trip.username'
                   member_id={trip.member_id}
-                  favorite={trip.favorite}
+                  handleFavorite={handleFavorite}
                 />
               ))}
           </Flex>
@@ -63,4 +51,4 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
     </>
   );
 };
-export default Profile;
+export default Inspiration;

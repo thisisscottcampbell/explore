@@ -16,6 +16,10 @@ route.post(
   }
 );
 
+route.put('/update', memberController.updateMember, (req, res) =>
+  res.status(200).json({ message: 'Member Updated' })
+);
+
 route.post('/login', authController.authenticate, (req, res) => {
   res.status(200).json({ message: res.locals.message, user: res.locals.user });
 });
