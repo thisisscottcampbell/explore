@@ -10,19 +10,13 @@ import { useControllableState } from '@chakra-ui/react';
 // import mapStyles from './mapStyles';
 
 const MapDisplay = ({ lat, lng, trip }) => {
-	console.log('MapDisplay props:', lat, lng, trip);
-
+	// const firstRender = useRef(true);
 	const [selectedActivity, setSelectedActivity] = useState(null);
-	const [activities, setActivities] = useState(trip.activities);
 	const [infoPosition, setInfoPosition] = useState(null);
-	//const [displaySearch, setSearch] = useState(false);
+	// const [center, setCenter] = useState({ lat: lat, lng: lng });
+	// const [zoom, setZoom] = useState(11.5);
 
-	useEffect(() => {
-		//make request
-		//setParks(parksData);
-	}, []);
-
-	const DisplayActivities = activities.map((activity) => (
+	const DisplayActivities = trip.activities.map((activity) => (
 		<Marker
 			title={activity.title}
 			rating={activity.rating}
@@ -45,10 +39,33 @@ const MapDisplay = ({ lat, lng, trip }) => {
 		/>
 	));
 
+	// useEffect(() => {
+	// 	if (firstRender.current) return;
+
+	// 	const activity = trip.activities[trip.activities.length - 1];
+
+	// 	setCenter({
+	// 		lat: Number(activity.latitude),
+	// 		lng: Number(activity.longitude),
+	// 	});
+	// }, [trip]);
+
+	// useEffect(() => {
+	// 	if (firstRender.current) return;
+
+	// 	console.log('ZOOOOOOM before', zoom);
+	// 	setZoom(12.5);
+	// 	console.log('ZOOM after', zoom);
+	// 	firstRender.current = true;
+	// }, [trip]);
+
+	// useEffect(() => (firstRender.current = false), []);
+
 	return (
 		<>
 			<GoogleMap
 				defaultZoom={11.5}
+				//if there is a value in our center state, use that, if not, use default
 				defaultCenter={{ lat: lat, lng: lng }}
 				//defaultOptions={{ styles: mapStyles }}
 			>
