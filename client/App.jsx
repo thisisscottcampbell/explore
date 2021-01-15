@@ -13,7 +13,6 @@ import NotFound from './containers/404';
 
 import TripPage from './containers/time/TripPage';
 import ActivityList from './containers/time/Activities/ActivityList';
- 
 
 class App extends Component {
   constructor(props) {
@@ -106,10 +105,10 @@ class App extends Component {
         // console.log('BEFORE MAPPING FAV', inspirationTrips)
         console.log('FAVORITE TRIP IDS: ', favoriteTripIds);
         console.log('ROUTE', whichTrips);
-        if (whichTrips === 'inspiration' && favoriteTripIds[0].saved_trips) {
+        if (whichTrips === 'inspiration' && favoriteTripIds) {
           inspirationTrips.map((trip) => {
             // console.log(trip.id)
-            trip.favorite = favoriteTripIds[0].saved_trips.includes(trip.id);
+            trip.favorite = favoriteTripIds.includes(trip.id);
           });
           // console.log('AFTER MAPPING FAV', inspirationTrips)
         }

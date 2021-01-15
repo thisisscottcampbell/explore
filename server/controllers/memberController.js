@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const SALT_WORK_FACTOR = 10;
 
 const Pool = require('../model/database.js');
+const { getTrips } = require('./tripController.js');
 
 const memberController = {};
 
@@ -91,14 +92,17 @@ memberController.validateMember = async (req, res, next) => {
 };
 
 memberController.updateMember = async (req, res, next) => {
-  const member_id = req.session.passport.user;
+  // const member_id = req.session.passport.user;
+  const member_id = 1
 
   const { saved_trips } = req.body;
+
+  console.log("SAVED Trips", saved_trips)
 
   try {
     const query = `UPDATE member SET saved_trips='{$2}' WHERE id=$1`;
 
-    const member = await Pool.query(query, [member_id, saved_trips]);
+    const member = await Pool.query(query, [member_id, {saved_trips}]);
 
     return next();
   } catch (error) {

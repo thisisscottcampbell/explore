@@ -108,7 +108,7 @@ tripController.getTrips = async (req, res, next) => {
         const insp_sTrips = await Pool.query(insp_sTripsQuery, [member_id]);
         const { rows } = insp_sTrips;
         // console.log(rows)
-        res.locals.favoriteTripIds = rows;
+        res.locals.favoriteTripIds = rows[0].saved_trips;
       } catch (error) {
         return next({
           log: `tripController.getTrips: ${error}`,
