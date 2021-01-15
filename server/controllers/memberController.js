@@ -93,16 +93,18 @@ memberController.validateMember = async (req, res, next) => {
 
 memberController.updateMember = async (req, res, next) => {
   // const member_id = req.session.passport.user;
-  const member_id = 1
+  const member_id = 1;
 
   const { saved_trips } = req.body;
 
-  console.log("SAVED Trips", saved_trips)
+  console.log('SAVED Trips REQ.BODY', req.body);
+  const saved_tripsString = "{" + saved_trips.join(',') + "}";
+  console.log('saved_tripsString', saved_tripsString);
 
   try {
-    const query = `UPDATE member SET saved_trips='{$2}' WHERE id=$1`;
+    const query = `UPDATE member SET saved_trips=$2 WHERE id=$1`;
 
-    const member = await Pool.query(query, [member_id, {saved_trips}]);
+    const member = await Pool.query(query, [member_id, saved_tripsString]);
 
     return next();
   } catch (error) {

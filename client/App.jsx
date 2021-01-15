@@ -76,6 +76,9 @@ class App extends Component {
 
     fetch('/api/member/update', {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ saved_trips: favoriteTripIdsUpdate }),
     })
       .then((response) => {
