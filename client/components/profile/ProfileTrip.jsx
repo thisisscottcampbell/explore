@@ -33,26 +33,26 @@ const ProfileTrip = ({
     <>
       <Box>
         <Grid>
-          <GridItem>{title}</GridItem>
+          <GridItem fontSize="12px" >{title}</GridItem>
           <GridItem>{destination}</GridItem>
-          <GridItem>
+          <GridItem fontSize="12px">
             {new Date(start_date).toLocaleDateString()} -{' '}
             {new Date(end_date).toLocaleDateString()}
           </GridItem>
-          <GridItem>
+          <GridItem fontSize="12px">
             <Link to={{ pathname: `/time/profile/2` }}>
               PERSON {member_name}
             </Link>
           </GridItem>
-          <Flex align='center'>
-            <Image
-              //   boxSize='200px'
+          <GridItem align="center">
+            <Image  rounded="5%"
+                boxSize='200px'
               src={locationphotos[0]}
               fallbackSrc='https://www.ishn.com/ext/resources/900x550/airplane-plane-flight-900.jpg?height=635&t=1583412590&width=1200'
             />
-          </Flex>
+          </GridItem>
         </Grid>
-        <Grid>
+        {/* <Grid>
           <Button onClick={() => handleFavorite(tripId)}>
             {favorite ? (
               <Icon as={AiFillHeart} color='teal.500' />
@@ -60,7 +60,7 @@ const ProfileTrip = ({
               <Icon as={AiOutlineHeart} color='teal.500' />
             )}
           </Button>
-        </Grid>
+        </Grid> */}
       </Box>
     </>
   );
