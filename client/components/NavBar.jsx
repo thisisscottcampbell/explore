@@ -22,6 +22,7 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 import { MdAirplanemodeActive, MdHome } from 'react-icons/md';
+import { FaUser } from 'react-icons/fa'
 // import { IconContext } from 'react-icons';
 import { useAuth } from '../useAuth';
 
@@ -73,9 +74,9 @@ export default function NavBar() {
           </GridItem>
 
           <GridItem m={2}>
-            <Button onClick={goToProfile} colorScheme='none' color='#319795'>
+            <Button onClick={goToProfile} variant='outline' color='#319795'>
               <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
-                {auth.user.userName}
+              <Icon as={FaUser} w={5} h={5}/> {auth.user.userName}
               </Text>
             </Button>
           </GridItem>
@@ -85,7 +86,6 @@ export default function NavBar() {
               color='#319795'
               onClick={handleSignOut}
               variant='outline'
-              _hover={{background: 'yellow'}}
             >
               Log Out
             </Button>
