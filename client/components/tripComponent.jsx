@@ -30,6 +30,7 @@ const TripPlanned = ({
 	dates_known,
 	member_id,
 	deleteTripHandler,
+	title,
 }) => {
 	// const { destination, start_date, end_date, place_id, dates_known, member_id } = trip;
 	// const max = props.trips.locationPhotos.length;
@@ -48,20 +49,25 @@ const TripPlanned = ({
 		end_date,
 		place_id,
 		dates_known,
-		member_id
+		member_id,
+		title
 	);
 	return (
 		<>
-			<Box borderWidth="1px" borderRadius="lg">
 				<Grid
-					h="200px"
-					templateRows="repeat(2, 1fr)"
-					templateColumns="repeat(3, 1fr)"
-					gap={4}
+					h="350px"
+					w='300px'
+					templateRows="repeat(4, 1fr)"
+					templateColumns="repeat(1, 1fr)"
 				>
-					<GridItem rowSpan={2} colSpan={1}>
+					<GridItem rowSpan={1} colSpan={1}>
+						<Text textAlign="center" color="gray.800" fontSize="2xl" pt={3} color='teal.500' fontWeight='bold'>
+							{title}
+						</Text>
+					</GridItem>
+					<GridItem rowSpan={1} colSpan={1} py={1}>
 						<Box>
-							<Flex align="center">
+							<Flex justifyContent="center">
 								<Image
 									boxSize="200px"
 									src={photo}
@@ -70,36 +76,24 @@ const TripPlanned = ({
 							</Flex>
 						</Box>
 					</GridItem>
-					<GridItem rowSpan={2} colSpan={1}>
-						<Text fontSize="xl" color="gray.800">
-							Going to:
-						</Text>
-						<Text fontSize="2xl" color="gray.800">
-							{destination}
+					<GridItem rowSpan={1} colSpan={1}>
+						<Text textAlign='center' fontSize="lg" color="gray.800">
+							Destination: {destination}
 						</Text>
 					</GridItem>
 					{(dates_known === 'day' || dates_known === 'month') && (
-						<>
-							<GridItem rowSpan={1} colSpan={1}>
-								<Text fontSize="xl" color="gray.800">
-									Starting
-								</Text>
-								<Text fontSize="2xl" color="gray.800">
-									{new Date(start_date).toLocaleDateString()}
-								</Text>
-							</GridItem>
-							<GridItem rowSpan={1} colSpan={1}>
-								<Text fontSize="xl" color="gray.800">
-									Ending
-								</Text>
-								<Text fontSize="2xl" color="gray.800">
-									{new Date(end_date).toLocaleDateString()}
-								</Text>
-							</GridItem>
-						</>
+					<>
+					<GridItem rowSpan={1} colSpan={1}>
+						<Text textAlign='center' fontSize="lg" color="gray.800">
+							Trip Date:
+						</Text>
+						<Text textAlign='center' fontSize="lg" color="gray.800">
+							{new Date(start_date).toLocaleDateString()} - {new Date(end_date).toLocaleDateString()}
+						</Text>
+					</GridItem>	
+					</>
 					)}
 				</Grid>
-			</Box>
 		</>
 	);
 };

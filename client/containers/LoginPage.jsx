@@ -8,9 +8,7 @@ import {
 	Button,
 	Input,
 	Container,
-	Box,
 	Text,
-	LightMode,
 	Flex,
 	useToast,
 } from '@chakra-ui/react';
@@ -86,70 +84,46 @@ const LoginPage = () => {
 	};
 
 	return (
-		<LightMode>
-			<Box>
-				<Box
-					mb="20px"
-					width="100%"
-					overflow="hidden"
-					border="1px"
-					borderColor="cyan.400"
-					background="cyan.300"
-				>
-					<Text textAlign="center" letterSpacing="2px" mb={2}>
-						Exploration
-					</Text>
-				</Box>
 				<Container
-					border="1px solid silver"
-					mt="40px"
-					mb="40px"
+					// border="1px solid silver"
+					my={2}
 					maxW="300px"
-					py="40px"
-					rounded="5%"
+					rounded="25px"
 				>
 					<Container marginBottom="1px solid silver" justifyContent="column">
 						<form onSubmit={handleUserSubmit}>
 							<FormControl isRequired>
-								<FormLabel>Username:</FormLabel>
+								<FormLabel color='gray.50'>Username:</FormLabel>
 								<Input
 									id="username"
 									onChange={handleInputChange}
 									name="username"
+									color='gray.50'
 								/>
-								<FormHelperText fontSize="12px" id="email-helper-text">
-									Your username
-								</FormHelperText>
 							</FormControl>
 							<FormControl isRequired mt="10px">
-								<FormLabel>Password:</FormLabel>
+								<FormLabel color='gray.50'>Password:</FormLabel>
 								<Input
 									id="password"
 									onChange={handleInputChange}
 									type="password"
 									name="password"
+									color='gray.50'
 								/>
-								<FormHelperText fontSize="12px" id="password-helper-text">
-									The password you used to signup with
-								</FormHelperText>
 							</FormControl>
 							<Button
 								ml="80px"
 								mt={4}
-								colorScheme="cyan"
-								color="white"
+								colorScheme="teal"
+								color="gray.50"
 								type="submit"
 							>
 								Login
 							</Button>
 						</form>
 					</Container>
-					{/* <Flex mt="30px" justifyContent="space-between">
-            <Button colorScheme="teal" mb="10px" mr="10px"><Text fontSize="12px">Login with Facebook</Text></Button>
-            <Button colorScheme="purple"><Text fontSize="12px">Login with Google</Text></Button>
-          </Flex> */}
 					<Container>
-						<Flex justifyContent="space-between" padding={5}>
+						<Flex justifyContent="space-between" padding={5} color='gray.50'>
 							<Text fontSize="12px">Do not have an account?</Text>
 							<NavLink to="/signup">
 								<Text fontSize="12px" textDecoration="underline">
@@ -157,12 +131,8 @@ const LoginPage = () => {
 								</Text>
 							</NavLink>
 						</Flex>
-						{/* <NavLink to="/resetPassword"><Text id="forgotPassword" ml="30px" pt="5px" fontSize="10px">Forgot username and password?</Text></NavLink> */}
 					</Container>
 				</Container>
-			</Box>
-			<Footer mt={3} />
-		</LightMode>
 	);
 };
 export default LoginPage;

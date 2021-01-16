@@ -21,7 +21,8 @@ import {
 // import { RiAddCircleFill } from 'react-icons/ri';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
-import { GrDirections } from 'react-icons/gr';
+import { MdAirplanemodeActive, MdHome } from 'react-icons/md';
+import { FaUser } from 'react-icons/fa'
 // import { IconContext } from 'react-icons';
 import { useAuth } from '../useAuth';
 
@@ -53,46 +54,38 @@ export default function NavBar() {
 
   return (
     <>
-      <Box border='1px' borderColor='teal.100' background='teal.50'>
+      <Box border='1px' borderColor='#c8c8c8' background='#e8e8e8'>
         <Grid templateColumns='repeat(2, 1fr)'>
           <GridItem colSpan={2} m={2}>
             <Link to={{ pathname: '/time/home' }}>
               <Button colorScheme='teal' variant='outline'>
-                <Icon as={GrDirections} w={8} h={8} />
+                <Icon as={MdHome} w={6} h={6}/>
+              </Button>
+            </Link>
+          </GridItem>
+          <GridItem colSpan={2} m={2}>
+            <Link to={{ pathname: '/time/inspiration' }}>
+              <Button colorScheme='teal' color='gray.50'>
                 <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
-                  TIME
+                  <Icon as={MdAirplanemodeActive} w={6} h={6}/> Inspiration
                 </Text>
               </Button>
             </Link>
           </GridItem>
+
           <GridItem m={2}>
-            <Button onClick={goToProfile} colorScheme='none' color='teal.500'>
-              {auth.user.userName}
+            <Button onClick={goToProfile} variant='outline' color='#319795'>
+              <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
+              <Icon as={FaUser} w={5} h={5}/> {auth.user.userName}
+              </Text>
             </Button>
           </GridItem>
-          <GridItem colSpan={2} m={2}>
-            <Link to={{ pathname: '/time/inspiration' }}>
-              <Button colorScheme='none' color='teal.500'>
-                Inspiration
-              </Button>
-            </Link>
-          </GridItem>
-
- 
 
           <GridItem colStart={20} m={2}>
             <Button
-              // m={2}
-              // fontSize={{ base: '15px', md: '18px', lg: '20px' }}
-              // align="right"
-              // iconSpacing={0}
-              colorScheme='none'
-              // variant='solid'
-              // borderRadius="full"
-              // boxShadow='base'
-              // verticalAlign="right"
-              color='gray.400'
+              color='#319795'
               onClick={handleSignOut}
+              variant='outline'
             >
               Log Out
             </Button>
