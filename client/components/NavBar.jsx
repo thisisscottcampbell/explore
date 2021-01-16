@@ -63,11 +63,6 @@ export default function NavBar() {
               </Button>
             </Link>
           </GridItem>
-          <GridItem m={2}>
-            <Button onClick={goToProfile} colorScheme='none' color='teal.500'>
-              {auth.user.userName}
-            </Button>
-          </GridItem>
           <GridItem colSpan={2} m={2}>
             <Link to={{ pathname: '/time/inspiration' }}>
               <Button colorScheme='teal' color='gray.50'>
