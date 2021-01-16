@@ -1,5 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
+import LoginPage from './LoginPage';
 import {
   Button,
   Container,
@@ -12,8 +13,10 @@ import {
 } from "@chakra-ui/react";
 import Footer from "../components/Footer";
 import image from "../assets/images/Bridge.jpg";
+import { useAuth } from '../useAuth';
 
 const HomePage = () => {
+  
   const background = `url(${image})`;
   return (
     <>
@@ -22,14 +25,14 @@ const HomePage = () => {
         backgroundRepeat="no-repeat"
         bgPosition="center bottom"
         bgSize="cover"
-        py={20}
-        pb={350}
+        py={10}
+        pb={40}
       >
         <Container bg="gray.700" opacity='.8' borderRadius='25px'>
         <Stack spacing={8}>
           <Box pb={10} opacity='1'>
             <Text fontSize="4xl" m={2} color="gray.50" textAlign="center">
-              Travel Itineary Made Easy
+              <b>T</b>ravel <b>I</b>tineary <b>M</b>ade <b>E</b>asy
             </Text>
             <Text fontSize="lg" m={2} color="gray.50" textAlign="center">
               Plan your next discovery. 
@@ -43,32 +46,7 @@ const HomePage = () => {
               dream adventure, use TIME to take the stress out of planning and
               keep the joy in traveling!
             </Text>
-
-            <Flex justifyContent="center">
-              <Stack spacing={4} direction="row" align="center" padding="4">
-                <NavLink to="/signup">
-                  <Button
-                    border="2px"
-                    borderColor="teal.500"
-                    colorScheme="teal"
-                    variant="solid"
-                  >
-                    New User
-                  </Button>
-                </NavLink>
-                <NavLink to="/login">
-                  <Button
-                    border="2px"
-                    colorScheme='blue'
-                    background='blue.400'
-                    borderColor='blue.400'
-                    variant="solid"
-                  >
-                    Log In
-                  </Button>
-                </NavLink>
-              </Stack>
-            </Flex>
+            <LoginPage/>
           </Box>
         </Stack>
         </Container>

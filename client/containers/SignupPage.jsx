@@ -193,7 +193,7 @@ const SignupPage = () => {
 					</Container>
 					<Container>
 						<Flex ml="30px" maxW="180px" justifyContent="space-between">
-							<NavLink to="/login">
+							<NavLink to="/">
 								<Text mt="10px" fontSize="12px">
 									I already have an account
 								</Text>
