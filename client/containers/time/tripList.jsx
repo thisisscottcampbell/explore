@@ -30,7 +30,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 	console.log('TRIPS FROM TRIPLIST: ', trips);
 	return (
 		<>
-		<Flex m={5} align='center'>
+		<Flex m={5} align='center' justify='center'>
 				<Grid templateColumns='repeat(3, 1fr)'>
 					{trips.map(
 						({
