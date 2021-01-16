@@ -47,26 +47,27 @@ const ActivitySearch = ({ findActivities, findActivitiesByTerm, trip }) => {
 			<Heading m={2} fontSize="2xl">
 				Search By Term
 			</Heading>
-			<FormControl>
+			<form onSubmit={handleSearchByTerm}>
 				<Input
 					m={2}
 					placeholder="What are you looking for"
 					value={searchByTerm}
 					onChange={handleSelectedSearchByTerm}
 				/>
+			</form>
+			<Button
+				onClick={handleSearchByTerm}
+				colorScheme="blue"
+				size="lg"
+				marginLeft={2}
+			>
+				Search
+			</Button>
 
-				<Button
-					onClick={handleSearchByTerm}
-					colorScheme="blue"
-					size="lg"
-					marginLeft={2}
-				>
-					Search
-				</Button>
-
+			<form onSubmit={handleSearch}>
 				<Select
 					m={2}
-					placeHolder="Search Activities"
+					placeholder="Search Activities"
 					value={searchField}
 					onChange={handleSelectedSearch}
 					background="white"
@@ -79,16 +80,15 @@ const ActivitySearch = ({ findActivities, findActivitiesByTerm, trip }) => {
 					<option value="shopping">Shopping</option>
 					<option value="tours">Tours</option>
 				</Select>
-
-				<Button
-					onClick={handleSearch}
-					colorScheme="blue"
-					size="lg"
-					marginLeft={2}
-				>
-					Search
-				</Button>
-			</FormControl>
+			</form>
+			<Button
+				onClick={handleSearch}
+				colorScheme="blue"
+				size="lg"
+				marginLeft={2}
+			>
+				Search
+			</Button>
 		</>
 	);
 };
