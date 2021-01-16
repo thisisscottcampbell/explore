@@ -129,7 +129,7 @@ const FindActivitiesDrawer = ({
 								findActivitiesByTerm={findActivitiesByTerm}
 								findActivities={findActivities}
 							/>
-							<GridItem colSpan={3}>
+							<GridItem colSpan={2}>
 								{searchResults && (
 									<ActivityList
 										onClose={onClose}
