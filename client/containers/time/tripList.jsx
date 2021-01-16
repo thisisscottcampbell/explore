@@ -30,8 +30,8 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 	console.log('TRIPS FROM TRIPLIST: ', trips);
 	return (
 		<>
-		<Box m={5} align='center' w='1500px'>
-				<Grid templateColumns='repeat(3, 0.3fr)' align='center'>
+		<Flex m={5} align='center'>
+				<Grid templateColumns='repeat(3, 1fr)'>
 					{trips.map(
 						({
 							id,
@@ -44,7 +44,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 							member_id,
 						}) => (
 							<>
-									<Box w='300px' background='#e8e8e8' borderColor='#c8c8c8' border='1px 50%' borderRadius='25px' align='center' pb={3} m={2}>
+									<GridItem w='300px' background='#e8e8e8' borderColor='#c8c8c8' border='1px 50%' borderRadius='25px' align='center' pb={3} m={2}>
 										<TripPlanned
 											key={`trip_${id}`}
 											title={title}
@@ -76,12 +76,12 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 										>
 											Delete Trip
 										</Button>
-									</Box>
+									</GridItem>
 							</>
 						)
 					)}
 				</Grid>
-		</Box>
+		</Flex>
 		</>
 	);
 };
