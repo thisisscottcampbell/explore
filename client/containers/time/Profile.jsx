@@ -15,6 +15,8 @@ import {
   Badge,
   Center,
   Flex,
+  Spacer,
+  HStack
 } from '@chakra-ui/react';
 
 const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
@@ -25,9 +27,9 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
   }, []);
 
   const profileTabs = {
-    "upcoming": trips,
-    "inspiration": savedTrips,
-    "past trips": pastTrips,
+    upcoming: trips,
+    inspiration: savedTrips,
+    'past trips': pastTrips,
   };
 
   // console.log('all trips FROM PROFILE PAGE', trips)
@@ -42,21 +44,24 @@ const Profile = ({ trips, handleFetchState, savedTrips, pastTrips }) => {
           menuItems={Object.keys(profileTabs)}
         />
         <>
-          <Flex>
+          <Center> <HStack spacing ="20px">
             {profileTabs[currentTab] &&
               profileTabs[currentTab].map((trip) => (
-                <ProfileTrip
-                  title={trip.title}
-                  destination={trip.destination}
-                  start_date={trip.start_date}
-                  end_date={trip.end_date}
-                  locationphotos={trip.locationphotos}
-                  member_name='trip.username'
-                  member_id={trip.member_id}
-                  favorite={trip.favorite}
-                />
+                <Flex>
+                  <ProfileTrip
+                    title={trip.title}
+                    destination={trip.destination}
+                    start_date={trip.start_date}
+                    end_date={trip.end_date}
+                    locationphotos={trip.locationphotos}
+                    member_name='trip.username'
+                    member_id={trip.member_id}
+                    favorite={trip.favorite}
+                  />
+                </Flex>
               ))}
-          </Flex>
+              </HStack>
+          </Center>
         </>
       </Box>
       <Footer />

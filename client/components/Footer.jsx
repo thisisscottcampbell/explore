@@ -25,7 +25,7 @@ const Footer = () => (
             rowSpan={1}
             fontSize={{ base: '12px', md: '12px', lg: '16px' }}
           >
-            Our Code
+            Original Code
           </Button>
         </Link>
       </GridItem>
@@ -40,7 +40,7 @@ const Footer = () => (
           textAlign={['left', 'center']}
           fontSize={{ base: '8px', md: '12px', lg: '16px' }}
         >
-          By Scott Campbell, Christy Gomez, Dasha Kondratenko, Jason Lee, &
+          Iteration by Scott Campbell, Christy Gomez, Dasha Kondratenko, Jason Lee, &
           Chris Lung
         </Text>
       </GridItem>

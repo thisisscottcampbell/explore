@@ -65,23 +65,20 @@ export default function NavBar() {
               </Button>
             </Link>
           </GridItem>
+          <GridItem m={2}>
+            <Button onClick={goToProfile} colorScheme='none' color='teal.500'>
+              {auth.user.userName}
+            </Button>
+          </GridItem>
           <GridItem colSpan={2} m={2}>
             <Link to={{ pathname: '/time/inspiration' }}>
               <Button colorScheme='none' color='teal.500'>
-                <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
-                  Inspiration
-                </Text>
+                Inspiration
               </Button>
             </Link>
           </GridItem>
 
-          <GridItem m={2}>
-            <Button onClick={goToProfile} colorScheme='none' color='teal.500'>
-              <Text fontSize={{ base: '0px', md: '18px', lg: '20px' }}>
-                {auth.user.userName}
-              </Text>
-            </Button>
-          </GridItem>
+ 
 
           <GridItem colStart={20} m={2}>
             <Button

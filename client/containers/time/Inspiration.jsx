@@ -15,8 +15,13 @@ import {
   Center,
   Flex,
 } from '@chakra-ui/react';
+import InspirationHeart from '../../components/InspirationHeart';
 
-const Inspiration = ({ handleFetchState, inspirationTrips, handleFavorite }) => {
+const Inspiration = ({
+  handleFetchState,
+  inspirationTrips,
+  handleFavorite,
+}) => {
   useEffect(() => {
     handleFetchState('inspiration');
   }, []);
@@ -25,28 +30,59 @@ const Inspiration = ({ handleFetchState, inspirationTrips, handleFavorite }) => 
   return (
     <>
       <NavBar />
-      <Box>
-        <>
-          <Flex>
-            {inspirationTrips &&
-              inspirationTrips.map((trip) => (
-                <ProfileTrip
-                  key={trip.id}
-                  tripId={trip.id}
-                  title={trip.title}
-                  destination={trip.destination}
-                  start_date={trip.start_date}
-                  end_date={trip.end_date}
-                  locationphotos={trip.locationphotos}
-                  favorite={trip.favorite}
-                  member_name='trip.username'
-                  member_id={trip.member_id}
-                  handleFavorite={handleFavorite}
-                />
-              ))}
-          </Flex>
-        </>
-      </Box>
+
+      <>
+        <Grid
+          templateColumns='repeat(6,1fr)'
+          templateRows='repeat(3,1fr)'
+          gap={2}
+        >
+          {inspirationTrips &&
+            inspirationTrips.map((trip) => (
+              <Box
+                boxSize='m'
+                textAlign="center"
+                border='1px solid silver'
+                mt='40px'
+                mb='40px'
+                maxW='300px'
+                // py='40px'
+                rounded='5%'
+              >
+                <GridItem colSpan={1} justify='center' m={2} bg="cyan.50" rounded="5%">
+                  <ProfileTrip
+                    justify='center'
+                    key={trip.id}
+                    tripId={trip.id}
+                    title={trip.title}
+                    destination={trip.destination}
+                    start_date={trip.start_date}
+                    end_date={trip.end_date}
+                    locationphotos={trip.locationphotos}
+                    favorite={trip.favorite}
+                    member_name='trip.username'
+                    member_id={trip.member_id}
+                    handleFavorite={handleFavorite}
+                  />
+                  <InspirationHeart
+                    key={trip.id}
+                    tripId={trip.id}
+                    title={trip.title}
+                    destination={trip.destination}
+                    start_date={trip.start_date}
+                    end_date={trip.end_date}
+                    locationphotos={trip.locationphotos}
+                    favorite={trip.favorite}
+                    member_name='trip.username'
+                    member_id={trip.member_id}
+                    handleFavorite={handleFavorite}
+                  ></InspirationHeart>{' '}
+                </GridItem>
+              </Box>
+            ))}
+        </Grid>
+      </>
+
       <Footer />
     </>
   );
