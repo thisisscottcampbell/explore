@@ -14,7 +14,12 @@ import {
 	StackDivider,
 	Heading,
 } from '@chakra-ui/react';
-const ActivityList = ({ searchResults, addActivityHandler, onClose }) => {
+const ActivityList = ({
+	searchResults,
+	addActivityHandler,
+	onClose,
+	toggle,
+}) => {
 	return (
 		<>
 			<Box>
@@ -22,6 +27,7 @@ const ActivityList = ({ searchResults, addActivityHandler, onClose }) => {
 					{searchResults.map((activity) => (
 						<Activity
 							addActivityHandler={addActivityHandler}
+							toggle={toggle}
 							activity={activity}
 							onClose={onClose}
 						/>

@@ -83,6 +83,7 @@ const Activity = (props) => {
 										review_count,
 										rating
 									);
+									props.toggle();
 									props.onClose();
 								}}
 								colorScheme="blue"

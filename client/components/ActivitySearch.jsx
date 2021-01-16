@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
 	Button,
@@ -30,20 +30,18 @@ const ActivitySearch = ({ findActivities, findActivitiesByTerm, trip }) => {
 	const handleSearch = (event) => {
 		event.preventDefault();
 		findActivities(trip.location, searchField);
+		setSearchField('');
 	};
 
 	const handleSearchByTerm = (event) => {
 		console.log('handleSearchByTerm event triggered');
 		event.preventDefault();
 		findActivitiesByTerm(trip.location, searchByTerm);
+		setSearchTerm('');
 	};
 
 	return (
 		<>
-			<Heading align="center" color="gray.900" fontSize="2xl" mb="8px">
-				Find Activities
-			</Heading>
-
 			<Heading m={2} fontSize="2xl">
 				Search By Term
 			</Heading>
