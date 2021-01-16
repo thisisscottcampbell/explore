@@ -30,22 +30,8 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 	console.log('TRIPS FROM TRIPLIST: ', trips);
 	return (
 		<>
-			<Box
-				p={5}
-				shadow="md"
-				borderWidth="1px"
-				flex="1"
-				borderRadius="md"
-				mt={10}
-				mb={10}
-				mr={(0, 50, 200)}
-				ml={(0, 50, 200)}
-			>
-				<VStack
-					divider={<StackDivider borderColor="gray.200" />}
-					spacing={4}
-					align="stretch"
-				>
+		<Box m={5} align='center' w='1500px'>
+				<Grid templateColumns='repeat(3, 0.3fr)' align='center'>
 					{trips.map(
 						({
 							id,
@@ -58,15 +44,10 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 							member_id,
 						}) => (
 							<>
-								<Grid key={`trip_grid_${id}`}>
-									<GridItem>
-										<Text textAlign="center" color="gray.800" fontSize="2xl">
-											{title} Created By: {member_id}
-										</Text>
-									</GridItem>
-									<GridItem>
+									<Box w='300px' background='#e8e8e8' borderColor='#c8c8c8' border='1px 50%' borderRadius='25px' align='center' pb={3} m={2}>
 										<TripPlanned
 											key={`trip_${id}`}
+											title={title}
 											destination={destination}
 											start_date={start_date}
 											end_date={end_date}
@@ -74,39 +55,33 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
 											dates_known={dates_known}
 											member_id={member_id}
 										/>
-									</GridItem>
-									<GridItem>
-										<Flex justify="center">
-											{/* <Button m={2} colorScheme="blue" onClick = {()=>console.log('clicked')}> */}
-											<Link
-												to={{
-													pathname: `/time/trip/${member_id}/${id}`,
-													state: { param: `${id}` },
-												}}
-											>
-												<Button type="button" m={2} colorScheme="blue">
-													Explore {destination}
-												</Button>
-											</Link>
-											{/* </Button>  */}
-
-											<Button
-												m={2}
-												id={id}
-												type="button"
-												colorScheme="red"
-												onClick={deleteTripHandler}
-											>
-												Delete trip
+										<Link
+											to={{
+												pathname: `/time/trip/${member_id}/${id}`,
+												state: { param: `${id}` },
+											}}
+										>
+											<Button type="button" m={2} colorScheme="teal" w='200px' color='gray.50'>
+												Explore
 											</Button>
-										</Flex>
-									</GridItem>
-								</Grid>
+										</Link>
+										<Button
+											m={2}
+											id={id}
+											type="button"
+											colorScheme="red"
+											color='gray.50'
+											onClick={deleteTripHandler}
+											w='200px'
+										>
+											Delete Trip
+										</Button>
+									</Box>
 							</>
 						)
 					)}
-				</VStack>
-			</Box>
+				</Grid>
+		</Box>
 		</>
 	);
 };

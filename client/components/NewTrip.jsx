@@ -131,7 +131,7 @@ const NewTripDrawer = (props) => {
 				<DrawerOverlay>
 					<DrawerContent>
 						<DrawerCloseButton />
-						<DrawerHeader background="teal.50" fontSize="2xl">
+						<DrawerHeader background="#e8e8e8" fontSize="2xl">
 							Add Your Adventure
 						</DrawerHeader>
 
@@ -411,7 +411,7 @@ const NewTripDrawer = (props) => {
 							</FormControl>
 
 							<Flex mt={5}>
-								<Button colorScheme="purple" m={1} onClick={onClose}>
+								<Button colorScheme="red" m={1} onClick={onClose}>
 									Cancel
 								</Button>
 								<Button
